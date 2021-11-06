@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47E6C4F127361A53000FAA7D /* EMVideoRecordingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4EF27361A53000FAA7D /* EMVideoRecordingController.swift */; };
+		47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4F027361A53000FAA7D /* EMRecordBottomView.swift */; };
+		47E6C4F627362A28000FAA7D /* EMConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4F527362A28000FAA7D /* EMConfig.swift */; };
 		51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D5659326E5BCD000B29DF6 /* AppDelegate.swift */; };
 		51D5659826E5BCD000B29DF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D5659726E5BCD000B29DF6 /* ViewController.swift */; };
 		51D5659B26E5BCD000B29DF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51D5659926E5BCD000B29DF6 /* Main.storyboard */; };
@@ -21,6 +24,9 @@
 /* Begin PBXFileReference section */
 		0E2BAA88188339BFBB36E804 /* Pods-ElevatorManagementSystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevatorManagementSystem.release.xcconfig"; path = "Target Support Files/Pods-ElevatorManagementSystem/Pods-ElevatorManagementSystem.release.xcconfig"; sourceTree = "<group>"; };
 		13AF4C6D8494B79051CFF9DE /* Pods_ElevatorManagementSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ElevatorManagementSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47E6C4EF27361A53000FAA7D /* EMVideoRecordingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMVideoRecordingController.swift; sourceTree = "<group>"; };
+		47E6C4F027361A53000FAA7D /* EMRecordBottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMRecordBottomView.swift; sourceTree = "<group>"; };
+		47E6C4F527362A28000FAA7D /* EMConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMConfig.swift; sourceTree = "<group>"; };
 		51D5659026E5BCD000B29DF6 /* ElevatorManagementSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElevatorManagementSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51D5659326E5BCD000B29DF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51D5659726E5BCD000B29DF6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +54,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		47E6C4EE27361A53000FAA7D /* VideoRecording */ = {
+			isa = PBXGroup;
+			children = (
+				47E6C4EF27361A53000FAA7D /* EMVideoRecordingController.swift */,
+				47E6C4F027361A53000FAA7D /* EMRecordBottomView.swift */,
+			);
+			path = VideoRecording;
+			sourceTree = "<group>";
+		};
+		47E6C4F4273629EB000FAA7D /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				47E6C4F527362A28000FAA7D /* EMConfig.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		51D5658726E5BCD000B29DF6 = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +92,7 @@
 		51D5659226E5BCD000B29DF6 /* ElevatorManagementSystem */ = {
 			isa = PBXGroup;
 			children = (
+				47E6C4F4273629EB000FAA7D /* Config */,
 				51D565AD26E5FC4A00B29DF6 /* Lib */,
 				51D565A726E5F3E400B29DF6 /* Controller */,
 				51D5659326E5BCD000B29DF6 /* AppDelegate.swift */,
@@ -84,6 +108,7 @@
 		51D565A726E5F3E400B29DF6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				47E6C4EE27361A53000FAA7D /* VideoRecording */,
 				51D565C826E60EE600B29DF6 /* Base */,
 				51D565C526E609DF00B29DF6 /* MainViewController */,
 			);
@@ -255,8 +280,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */,
+				47E6C4F627362A28000FAA7D /* EMConfig.swift in Sources */,
 				51D565CD26E73B7A00B29DF6 /* EMHomeAPI.swift in Sources */,
 				51D5659826E5BCD000B29DF6 /* ViewController.swift in Sources */,
+				47E6C4F127361A53000FAA7D /* EMVideoRecordingController.swift in Sources */,
 				51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */,
 				51D565CA26E60EFB00B29DF6 /* EMBaseViewController.swift in Sources */,
 				51D565C726E60A0100B29DF6 /* EMMainViewController.swift in Sources */,
@@ -416,7 +444,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ylg.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ylg.demos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -439,7 +467,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ylg.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ylg.demos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

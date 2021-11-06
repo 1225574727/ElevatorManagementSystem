@@ -27,7 +27,9 @@ class EMMainViewController: EMBaseViewController{
         super.viewDidLoad()
         
         self.title = "电梯管理系统"
-                
+        
+//        self.view.addSubview(collectionView)
+        
         let textArr = ["电梯管理","录制视频上传","查看历史数据"]
         
         for text in textArr {
@@ -36,6 +38,7 @@ class EMMainViewController: EMBaseViewController{
         }
         
         self.view.addSubview(tableView)
+        
         
         tableView.snp.makeConstraints { (make) in
             make.left.right.top.bottom.equalToSuperview()
@@ -106,10 +109,19 @@ extension EMMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let vc = ViewController()
-        vc.title = msgArray[indexPath.row].text
-        self.navigationController?.pushViewController(vc, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.row == 1 {
+            let vc = EMVideoRecordingController()
+//            vc.title = msgArray[indexPath.row].text
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else{
+            let vc = ViewController()
+            vc.title = msgArray[indexPath.row].text
+            self.navigationController?.pushViewController(vc, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+            
+        }
         
     }
     

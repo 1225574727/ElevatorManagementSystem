@@ -48,5 +48,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>还得用用麦克风才行</string>
+	<key>NSCameraUsageDescription</key>
+	<string>想要访问您的相机录个小视频呢。。</string>
 </dict>
 </plist>

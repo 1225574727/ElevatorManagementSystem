@@ -18,6 +18,7 @@
     },
     {
       "extent" : "full-screen",
+      "filename" : "Default_IPhoneX@3x.png",
       "idiom" : "iphone",
       "minimum-system-version" : "11.0",
       "orientation" : "portrait",
@@ -26,6 +27,7 @@
     },
     {
       "extent" : "full-screen",
+      "filename" : "Default_Normal@2x 2-1.png",
       "idiom" : "iphone",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
@@ -34,6 +36,7 @@
     },
     {
       "extent" : "full-screen",
+      "filename" : "Default_Normal@2x 2.png",
       "idiom" : "iphone",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
@@ -42,6 +45,7 @@
     },
     {
       "extent" : "full-screen",
+      "filename" : "Default_Normal.png",
       "idiom" : "iphone",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
@@ -49,6 +53,7 @@
     },
     {
       "extent" : "full-screen",
+      "filename" : "Default_Normal@2x.png",
       "idiom" : "iphone",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",

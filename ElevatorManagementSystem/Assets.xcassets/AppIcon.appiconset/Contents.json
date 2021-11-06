@@ -26,21 +26,25 @@
       "size" : "40x40"
     },
     {
+      "filename" : "AppIcon60x60@2x-1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
+      "filename" : "AppIcon60x60@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "AppIcon60x60@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
+      "filename" : "AppIcon_1024_Normal.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
