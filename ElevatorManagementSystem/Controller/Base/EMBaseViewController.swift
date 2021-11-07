@@ -17,14 +17,21 @@ class EMBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideBackButtonTitle()
-
+		let appSettings = EMLanguageSetting.shared
+		appSettings.observableLaunguage.onSet { [self] (oldValue, newValue) in
+			print("oldValue:\(oldValue)  newValue:\(newValue)")
+			languageUpdate()
+		}
     }
+	
+	func languageUpdate() {
+		
+	}
     
     func showActivity() {
         hudMB = MBProgressHUD.showAdded(to: self.view, animated: true)
         hudMB?.mode = .indeterminate
         hudMB?.label.text = "正在请求数据..."
-        
     }
     
     func hideActivity() {

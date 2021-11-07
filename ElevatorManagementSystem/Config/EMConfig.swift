@@ -36,3 +36,9 @@ let NavigationBarHeight:CGFloat = (isXDevice ? 88.0 : 64.0)
 let TabBarHeight:CGFloat = (isXDevice ? (49.0+34.0) : 49.0)
 // tabBar高度
 let HOME_INDICATOR_HEIGHT:CGFloat = (isXDevice ? 34.0 : 0)
+
+let EMUserDefault = UserDefaults.standard
+
+func EMLocalizable(_ s: String) -> String {
+	return NSLocalizedString(s, comment: "")
+}

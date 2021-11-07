@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  ElevatorManagementSystem
+
+  Created by liumingfei on 2021/11/6.
+  
+*/
+"change_language" = "Change Language";
+"root_page_title" = "Elevator Management System";
+"elevator_management" = "Elevator Management";
+"video_upload" = "Video Upload";
+"history" = "History";

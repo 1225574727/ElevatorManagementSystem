@@ -25,28 +25,48 @@ class EMMainViewController: EMBaseViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = "电梯管理系统"
-        
-//        self.view.addSubview(collectionView)
-        
-        let textArr = ["电梯管理","录制视频上传","查看历史数据"]
-        
-        for text in textArr {
-            let msgModel = MessageModel(text: text, date: Date())
-            msgArray.append(msgModel)
-        }
-        
-        self.view.addSubview(tableView)
-        
-        
-        tableView.snp.makeConstraints { (make) in
-            make.left.right.top.bottom.equalToSuperview()
-        }
+		
+		self.view.addSubview(tableView)
+		
+		tableView.snp.makeConstraints { (make) in
+			make.left.right.top.bottom.equalToSuperview()
+		}
+
+		languageUpdate()
         
        refreshData()
     }
+	
+	override func languageUpdate() {
+		self.title = EMLocalizable("root_page_title")
+		if let rightBarItem = self.navigationItem.rightBarButtonItem {
+			rightBarItem.title = EMLocalizable("change_language")
+		} else {
+			self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: EMLocalizable("change_language"), style: .plain, target: self, action: #selector(changeLanguage))
+		}
+		let textArr = [
+			EMLocalizable("elevator_management"),
+			EMLocalizable("video_upload"),
+			EMLocalizable("history")
+		]
+
+		msgArray.removeAll()
+		for text in textArr {
+			let msgModel = MessageModel(text: text, date: Date())
+			msgArray.append(msgModel)
+		}
+		tableView.reloadData()
+	}
     
+	@objc func changeLanguage () {
+		
+		if EMLanguageSetting.shared.language == .Chinese {
+			EMLanguageSetting.shared.language = .English
+		} else {
+			EMLanguageSetting.shared.language = .Chinese
+		}
+	}
+	
     func refreshData() {
         
         showActivity()
@@ -60,7 +80,7 @@ class EMMainViewController: EMBaseViewController{
             }
             
         }
-        
+
         
     }
     
@@ -135,7 +155,7 @@ extension EMMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.largeContentTitle = "11"
+//        cell.largeContentTitle = "11"
         cell.backgroundColor = UIColor.red
         return cell
         
