@@ -65,9 +65,6 @@ class EMVideoRecordingController: EMBaseViewController {
         totalTimeLabel.text = "00:00:00"
     }
     
-    
-    
-    
     private func setupAVFoundationSettings() {
 //        后置摄像头相机
         camera = cameraWithPosition(position: AVCaptureDevice.Position.back)
@@ -97,8 +94,6 @@ class EMVideoRecordingController: EMBaseViewController {
         
 //        启动Session会话
         self.captureSession.startRunning()
-        
-        
     }
     
     private func cameraWithPosition(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
@@ -131,7 +126,6 @@ class EMVideoRecordingController: EMBaseViewController {
             make.height.equalTo(20)
         }
 
-        
         let bottomView :EMRecordBottomView = EMRecordBottomView(frame: .zero)
         view.addSubview(bottomView)
         bottomView.callBack = { [weak self] isStart in
@@ -180,7 +174,6 @@ class EMVideoRecordingController: EMBaseViewController {
             let fileUrl: URL? = URL(fileURLWithPath: filePath!)
 //            启动适配编码输出
             fileOut.startRecording(to: fileUrl!, recordingDelegate: self)
-            
         }
     }
     
@@ -234,6 +227,5 @@ extension EMVideoRecordingController: AVCaptureFileOutputRecordingDelegate {
 //        self.navigationController?.pushViewController(playerController, animated: true)
         self.navigationController?.present(playerController, animated: true, completion: nil)
     }
-    
     
 }

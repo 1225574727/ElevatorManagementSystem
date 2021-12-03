@@ -20,8 +20,6 @@ struct ApvModel: HandyJSON {
 
 
 //https://mpcs.suning.com/mpcs/apv/queryAPV.do?appId=1&appVersion=9.5.35&v=v9
-
-
 let EMHomeProvider = MoyaProvider<EMHomeAPI>()
 
 enum EMHomeAPI {

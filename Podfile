@@ -1,6 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 source 'https://github.com/CocoaPods/Specs.git'
- platform :ios, '9.0'
+ platform :ios, '10.0'
 
 target 'ElevatorManagementSystem' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -21,7 +21,6 @@ target 'ElevatorManagementSystem' do
   # 加载 进度条
   pod 'SVProgressHUD'
   pod 'MBProgressHUD'
-  
-  
+  pod 'Alamofire', '~> 5.4'
 
 end

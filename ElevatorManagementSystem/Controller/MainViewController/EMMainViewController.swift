@@ -59,7 +59,10 @@ class EMMainViewController: EMBaseViewController{
 	}
     
 	@objc func changeLanguage () {
-		
+		EMPhotoService.shared.showBottomAlert (resourceType: .media){ res in
+			print("\(res)")
+		}
+		return
 		if EMLanguageSetting.shared.language == .Chinese {
 			EMLanguageSetting.shared.language = .English
 		} else {
@@ -101,9 +104,6 @@ class EMMainViewController: EMBaseViewController{
         collectView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: EMMainViewController.collectionViewCellID)
         return collectView
     }()
-    
-   
-    
     
 }
 
@@ -168,6 +168,7 @@ extension EMMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize.init(width: 200, height: 60)
     }
+	
     
 }
 

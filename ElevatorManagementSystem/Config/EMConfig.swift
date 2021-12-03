@@ -42,3 +42,16 @@ let EMUserDefault = UserDefaults.standard
 func EMLocalizable(_ s: String) -> String {
 	return NSLocalizedString(s, comment: "")
 }
+
+func EMEventAtMain(_ clouse: @escaping ()->()) {
+	// 判断当前线程是否是主线程
+	if Thread.current.isMainThread {
+		// UI 事件
+		clouse()
+	} else {
+		// 切换到 main 线程，处理
+		DispatchQueue.main.async {
+			clouse()
+		}
+	}
+}

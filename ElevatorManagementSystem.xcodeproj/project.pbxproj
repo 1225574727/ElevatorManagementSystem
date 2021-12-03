@@ -18,6 +18,10 @@
 		51D565C726E60A0100B29DF6 /* EMMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D565C626E60A0100B29DF6 /* EMMainViewController.swift */; };
 		51D565CA26E60EFB00B29DF6 /* EMBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D565C926E60EFB00B29DF6 /* EMBaseViewController.swift */; };
 		51D565CD26E73B7A00B29DF6 /* EMHomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D565CC26E73B7A00B29DF6 /* EMHomeAPI.swift */; };
+		6A2C5CA52754CC9500935161 /* EMAlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2C5CA42754CC9500935161 /* EMAlertService.swift */; };
+		6A663CA92759C58B001A3DBD /* EMPhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A663CA82759C58B001A3DBD /* EMPhotoService.swift */; };
+		6A663CAC2759FB6E001A3DBD /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A663CAB2759FB6E001A3DBD /* UIImage+Extension.swift */; };
+		6A663CAF275A0F0B001A3DBD /* EMReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A663CAE275A0F0B001A3DBD /* EMReachabilityService.swift */; };
 		6A987D8327367842002D7BC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A987D8527367842002D7BC4 /* Localizable.strings */; };
 		6A987D8827367DCD002D7BC4 /* EMLanguageSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987D8727367DCD002D7BC4 /* EMLanguageSetting.swift */; };
 		6A987D8A27374919002D7BC4 /* EMObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987D8927374919002D7BC4 /* EMObservable.swift */; };
@@ -43,6 +47,10 @@
 		51D565C926E60EFB00B29DF6 /* EMBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMBaseViewController.swift; sourceTree = "<group>"; };
 		51D565CC26E73B7A00B29DF6 /* EMHomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMHomeAPI.swift; sourceTree = "<group>"; };
 		569A0E194BE18AC5BC06D3CA /* Pods-ElevatorManagementSystem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevatorManagementSystem.debug.xcconfig"; path = "Target Support Files/Pods-ElevatorManagementSystem/Pods-ElevatorManagementSystem.debug.xcconfig"; sourceTree = "<group>"; };
+		6A2C5CA42754CC9500935161 /* EMAlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMAlertService.swift; sourceTree = "<group>"; };
+		6A663CA82759C58B001A3DBD /* EMPhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMPhotoService.swift; sourceTree = "<group>"; };
+		6A663CAB2759FB6E001A3DBD /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		6A663CAE275A0F0B001A3DBD /* EMReachabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMReachabilityService.swift; sourceTree = "<group>"; };
 		6A987D7C27367711002D7BC4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		6A987D7D27367711002D7BC4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		6A987D8427367842002D7BC4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -105,6 +113,7 @@
 		51D5659226E5BCD000B29DF6 /* ElevatorManagementSystem */ = {
 			isa = PBXGroup;
 			children = (
+				6A663CAA2759FB44001A3DBD /* Extension */,
 				6A987D7B2736766E002D7BC4 /* Tools */,
 				47E6C4F4273629EB000FAA7D /* Config */,
 				51D565AD26E5FC4A00B29DF6 /* Lib */,
@@ -159,9 +168,44 @@
 			path = ReqApi;
 			sourceTree = "<group>";
 		};
+		6A2C5CA32754CC6400935161 /* AlertView */ = {
+			isa = PBXGroup;
+			children = (
+				6A2C5CA42754CC9500935161 /* EMAlertService.swift */,
+			);
+			path = AlertView;
+			sourceTree = "<group>";
+		};
+		6A663CA72759C567001A3DBD /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				6A663CA82759C58B001A3DBD /* EMPhotoService.swift */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		6A663CAA2759FB44001A3DBD /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6A663CAB2759FB6E001A3DBD /* UIImage+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		6A663CAD275A0EF5001A3DBD /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				6A663CAE275A0F0B001A3DBD /* EMReachabilityService.swift */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
 		6A987D7B2736766E002D7BC4 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				6A663CAD275A0EF5001A3DBD /* Reachability */,
+				6A663CA72759C567001A3DBD /* Photo */,
+				6A2C5CA32754CC6400935161 /* AlertView */,
 				6A987E8E273A65E2002D7BC4 /* BackgoundUpload */,
 				6A987E8D273A65D4002D7BC4 /* Observable */,
 				6A987E8C273A65BD002D7BC4 /* Language */,
@@ -341,15 +385,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */,
+				6A2C5CA52754CC9500935161 /* EMAlertService.swift in Sources */,
 				47E6C4F627362A28000FAA7D /* EMConfig.swift in Sources */,
 				6A987E92273A6901002D7BC4 /* EMUploadModel.swift in Sources */,
 				51D565CD26E73B7A00B29DF6 /* EMHomeAPI.swift in Sources */,
 				6A987D8827367DCD002D7BC4 /* EMLanguageSetting.swift in Sources */,
+				6A663CA92759C58B001A3DBD /* EMPhotoService.swift in Sources */,
 				51D5659826E5BCD000B29DF6 /* ViewController.swift in Sources */,
 				6A987E90273A682B002D7BC4 /* EMBackgroundService.swift in Sources */,
 				47E6C4F127361A53000FAA7D /* EMVideoRecordingController.swift in Sources */,
+				6A663CAF275A0F0B001A3DBD /* EMReachabilityService.swift in Sources */,
 				6A987D8A27374919002D7BC4 /* EMObservable.swift in Sources */,
 				51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */,
+				6A663CAC2759FB6E001A3DBD /* UIImage+Extension.swift in Sources */,
 				51D565CA26E60EFB00B29DF6 /* EMBaseViewController.swift in Sources */,
 				51D565C726E60A0100B29DF6 /* EMMainViewController.swift in Sources */,
 			);
@@ -513,9 +561,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LC2MMHMX24;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = XL5VT6U5BC;
 				INFOPLIST_FILE = ElevatorManagementSystem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -524,7 +572,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ylg.demos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = YTDevGeneralID_47;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
