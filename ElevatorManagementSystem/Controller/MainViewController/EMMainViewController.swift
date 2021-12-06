@@ -19,24 +19,27 @@ struct MessageModel: HandyJSON {
 class EMMainViewController: EMBaseViewController{
     
     static let tableviewCellID = "kTableviewCellID"
-    static let collectionViewCellID = "kCollectionViewCellID"
 
     var msgArray: [MessageModel] = Array()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		self.automaticallyAdjustsScrollViewInsets = false
+		
 		self.view.addSubview(tableView)
 		
 		tableView.snp.makeConstraints { (make) in
-			make.left.right.top.bottom.equalToSuperview()
+			
+			make.edges.equalToSuperview()
 		}
 
 		languageUpdate()
         
        refreshData()
 		
-		EMPickerService.shared
+		// 初始化pickerView
+		EMPickerService.shared.setup()
     }
 	
 	override func languageUpdate() {
@@ -59,16 +62,7 @@ class EMMainViewController: EMBaseViewController{
 		}
 		tableView.reloadData()
 	}
-    
-	@objc func changeLanguage () {
-
-		if EMLanguageSetting.shared.language == .Chinese {
-			EMLanguageSetting.shared.language = .English
-		} else {
-			EMLanguageSetting.shared.language = .Chinese
-		}
-	}
-	
+    	
     func refreshData() {
         
         showActivity()
@@ -80,10 +74,7 @@ class EMMainViewController: EMBaseViewController{
             if (model != nil) {
                 SVProgressHUD.showSuccess(withStatus: model?.msg)
             }
-            
         }
-
-        
     }
     
     lazy var tableView: UITableView = {
@@ -94,25 +85,12 @@ class EMMainViewController: EMBaseViewController{
         return tableview
     }()
     
-    lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let collectView = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
-        collectView.delegate = self
-        collectView.dataSource = self
-        collectView.backgroundColor = UIColor.white
-        collectView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: EMMainViewController.collectionViewCellID)
-        return collectView
-    }()
-    
 }
 
 
-extension EMMainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
-    
-    
+extension EMMainViewController : UITableViewDataSource, UITableViewDelegate {
     
     //MARK:UITableViewDataSource&& UITableViewDelegate
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: EMMainViewController.tableviewCellID, for: indexPath)
@@ -125,6 +103,14 @@ extension EMMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return msgArray.count
     }
+	
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return 0.01
+	}
+	
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		return UIView.init()
+	}
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -132,43 +118,10 @@ extension EMMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         if indexPath.row == 1 {
             let vc = EMVideoRecordingController()
-//            vc.title = msgArray[indexPath.row].text
             self.navigationController?.pushViewController(vc, animated: true)
-        }else{
-            let vc = ViewController()
-            vc.title = msgArray[indexPath.row].text
-            self.navigationController?.pushViewController(vc, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
-            
         }
-        
     }
-    
-    
-    
-    //MARK:UICollectionViewDataSource&& UICollectionViewDelegate
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-//        cell.largeContentTitle = "11"
-        cell.backgroundColor = UIColor.red
-        return cell
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: 200, height: 60)
-    }
-	
-    
+
 }
 
 

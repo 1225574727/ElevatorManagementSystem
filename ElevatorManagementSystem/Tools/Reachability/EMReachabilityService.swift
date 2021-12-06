@@ -17,36 +17,29 @@ enum EMReachabilityStatus {
 
 class EMReachabilityService: NSObject {
 	
-	static let rlHttpManage = EMReachabilityService()
-	func netWorkReachability(reachabilityStatus: @escaping(EMReachabilityStatus)->Void){
+//	static let shared = EMReachabilityService()
+//	private override init() {}
+	
+	static func netWorkReachability(reachabilityStatus: @escaping(EMReachabilityStatus)->Void){
 		let manager = NetworkReachabilityManager.init()
 		manager!.startListening { (status) in
-
-			//wifi
-			if status == NetworkReachabilityManager.NetworkReachabilityStatus.reachable(.ethernetOrWiFi){
-
-				print("------.wifi")
-				reachabilityStatus(.ethernetOrWiFi)
-
-			}
-			//不可用
-			if status == NetworkReachabilityManager.NetworkReachabilityStatus.notReachable{
-
-				print("------没网")
-				reachabilityStatus(.notReachable)
-
-			}
-			//未知
-			if status == NetworkReachabilityManager.NetworkReachabilityStatus.unknown{
-
-				print("------未知")
-				reachabilityStatus(.unknown)
-			}
-			//蜂窝
+			
+			manager?.stopListening()
 			if status == NetworkReachabilityManager.NetworkReachabilityStatus.reachable(.cellular){
 
-				print("------蜂窝")
 				reachabilityStatus(.wwan)
+			}
+			else if status == NetworkReachabilityManager.NetworkReachabilityStatus.reachable(.ethernetOrWiFi){
+				
+				reachabilityStatus(.ethernetOrWiFi)
+			}
+			else if status == NetworkReachabilityManager.NetworkReachabilityStatus.notReachable{
+
+				reachabilityStatus(.notReachable)
+			}
+			else if status == NetworkReachabilityManager.NetworkReachabilityStatus.unknown{
+
+				reachabilityStatus(.unknown)
 			}
 		}
 	}

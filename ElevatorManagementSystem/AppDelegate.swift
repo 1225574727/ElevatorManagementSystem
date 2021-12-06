@@ -19,14 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 	
-        self.window?.rootViewController = UINavigationController(rootViewController: EMMainViewController())
-        self.window?.makeKeyAndVisible()
+//        self.window?.rootViewController = UINavigationController(rootViewController: EMMainViewController())
+//        self.window?.makeKeyAndVisible()
         
 		// language setting
 		object_setClass(Foundation.Bundle.main, EMBundle.self)
-		
-		// 初始化pickerView
-		EMPickerService.shared.setup()
 		
 		// 本地通知
 		UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]) { (granted, erro) in

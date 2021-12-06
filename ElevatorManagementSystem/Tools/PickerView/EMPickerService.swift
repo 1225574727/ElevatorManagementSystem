@@ -10,7 +10,7 @@ import UIKit
 
 typealias EMPickerHandler = (_ index:Int) -> Void
 
-class EMPickerService: NSObject,UIPickerViewDataSource,UIPickerViewDelegate{
+class EMPickerService: NSObject{
 	
 	static let shared = EMPickerService()
 		
@@ -97,6 +97,9 @@ class EMPickerService: NSObject,UIPickerViewDataSource,UIPickerViewDelegate{
 			self.mainView.isHidden = true
 		}
 	}
+}
+
+extension EMPickerService : UIPickerViewDataSource,UIPickerViewDelegate {
 	
 	//MARK: PickerView dataSource
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {

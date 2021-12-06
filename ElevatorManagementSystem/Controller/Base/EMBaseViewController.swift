@@ -27,6 +27,15 @@ class EMBaseViewController: UIViewController {
 	func languageUpdate() {
 		
 	}
+	
+	@objc func changeLanguage () {
+
+		if EMLanguageSetting.shared.language == .Chinese {
+			EMLanguageSetting.shared.language = .English
+		} else {
+			EMLanguageSetting.shared.language = .Chinese
+		}
+	}
     
     func showActivity() {
         hudMB = MBProgressHUD.showAdded(to: self.view, animated: true)
