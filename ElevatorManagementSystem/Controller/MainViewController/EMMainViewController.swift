@@ -35,6 +35,8 @@ class EMMainViewController: EMBaseViewController{
 		languageUpdate()
         
        refreshData()
+		
+		EMPickerService.shared
     }
 	
 	override func languageUpdate() {
@@ -59,8 +61,9 @@ class EMMainViewController: EMBaseViewController{
 	}
     
 	@objc func changeLanguage () {
-		EMPhotoService.shared.showBottomAlert (resourceType: .media){ res in
-			print("\(res)")
+
+		EMPickerService.shared.showPikcer(items: ["选项一","选项二","选项三","选项四"]) { index in
+			print("\(index)")
 		}
 		return
 		if EMLanguageSetting.shared.language == .Chinese {

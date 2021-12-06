@@ -25,12 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// language setting
 		object_setClass(Foundation.Bundle.main, EMBundle.self)
 		
+		// 初始化pickerView
+		EMPickerService.shared.setup()
+		
 		// 本地通知
 		UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]) { (granted, erro) in
 			if granted {
 			}else{
 			}
 		}
+		
         return true
     }
 	
