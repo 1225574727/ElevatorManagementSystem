@@ -62,10 +62,6 @@ class EMMainViewController: EMBaseViewController{
     
 	@objc func changeLanguage () {
 
-		EMPickerService.shared.showPikcer(items: ["选项一","选项二","选项三","选项四"]) { index in
-			print("\(index)")
-		}
-		return
 		if EMLanguageSetting.shared.language == .Chinese {
 			EMLanguageSetting.shared.language = .English
 		} else {
