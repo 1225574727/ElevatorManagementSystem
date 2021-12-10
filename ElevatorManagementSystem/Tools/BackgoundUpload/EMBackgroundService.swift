@@ -11,6 +11,8 @@ import SwiftyJSON
 /// 文件上传地址
 let uploadFileUrl = "---"
 let uploadUnitSize = 1 * 1024 * 1024
+let EMBoundary = "BoundaryForEMSystem"
+
 class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegate {
 	
 	/// 文件路径
@@ -81,14 +83,36 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	
 	func uploadUnitWith(_ data:Data) {
 		let params = uploadParams()
-		let paramsData = try? JSONSerialization.data(withJSONObject: params, options: [])
+//		let paramsData = try? JSONSerialization.data(withJSONObject: params, options: [])
 		var request = URLRequest(url: URL(string: uploadFileUrl)!)
 		request.httpMethod = "POST"
-		request.httpBody = paramsData
+//		request.httpBody = paramsData
 		/// 请求头设置
-//		let contentType = "multipart/form-data; boundary=\(EMBoundary)"
-//		request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+		let contentType = "multipart/form-data; boundary=\(EMBoundary)"
+		request.setValue(contentType, forHTTPHeaderField: "Content-Type")
 //		request.addValue("text/html,application/json,text/json", forHTTPHeaderField: "Accept")
+		
+		var uploadData: Data = Data.init()
+		
+		let keys = params.allKeys;
+		for key in keys {
+			uploadData.append(String(format:"--%@\r\n",EMBoundary).data(using: .utf8)!)
+			uploadData.append(String(format:"Content-Disposition:form-data;name=\"%@\"\r\n\r\n",key as! String).data(using: .utf8)!)
+			uploadData.append("\(params[key]!)\r\n".data(using: .utf8)!)
+		}
+		// 数据之前要用 --分隔线 来隔开 ，否则后台会解析失败
+		uploadData.append("--\(EMBoundary)".data(using: .utf8)!)
+		
+		uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\("file_name")\"\r\n".data(using: .utf8)!)
+		// 文件类型
+		uploadData.append("Content-Type:\("mp4")\r\n\r\n".data(using: .utf8)!)
+		// 添加文件主体
+		uploadData.append(data)
+		// 使用\r\n来表示这个这个值的结束符
+		uploadData.append("\r\n".data(using: .utf8)!)
+		
+		uploadData.append("--\(EMBoundary)--\r\n".data(using: .utf8)!)
+		
 		let backgroundTask = backgoundSession.uploadTask(with: request, from: data)
 		backgroundTask.resume()
 	}
