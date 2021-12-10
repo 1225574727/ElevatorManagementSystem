@@ -10,3 +10,17 @@
 "elevator_management" = "Elevator Management";
 "video_upload" = "Video Upload";
 "history" = "History";
+
+"alert_tip" = "Tip";
+"alert_cancel" = "Cancel";
+"alert_sure" = "Sure";
+"alert_change_language" = "change language to chiness";
+"alert_net_tip" = "not in 3G/4G/5G upload, connect to wifi, please";
+"alert_net_setting" = "setting";
+"alert_net_close" = "close";
+"alert_upload_success" = "success";
+"alert_upload_continue" = "continue";
+"alert_upload_go_home" = "home";
+"alert_upload_fail" = "failure";
+"alert_upload_fail_continue" = "continue";
+"alert_upload_fail_cancel" = "cancel";

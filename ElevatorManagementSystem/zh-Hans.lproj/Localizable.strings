@@ -10,3 +10,17 @@
 "elevator_management" = "电梯管理";
 "video_upload" = "录制视频上传";
 "history" = "查看历史数据";
+
+"alert_tip" = "提示";
+"alert_cancel" = "取消";
+"alert_sure" = "确定";
+"alert_change_language" = "您将要把语言切换至英语，切换后界面会 全英文展示。";
+"alert_net_tip" = "您设置的不允许在3G/4G/5G网络下上传 内容，需要您链接wifi，或者同意移动网 络上传按钮。";
+"alert_net_setting" = "去设置网络";
+"alert_net_close" = "关闭提示";
+"alert_upload_success" = "已完成";
+"alert_upload_continue" = "继续录制";
+"alert_upload_go_home" = "返回首页";
+"alert_upload_fail" = "上传失败";
+"alert_upload_fail_continue" = "继续上传";
+"alert_upload_fail_cancel" = "取消上传";

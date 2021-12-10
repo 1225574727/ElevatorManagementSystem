@@ -19,7 +19,7 @@ class EMBaseViewController: UIViewController {
         hideBackButtonTitle()
 		let appSettings = EMLanguageSetting.shared
 		appSettings.observableLaunguage.onSet { [self] (oldValue, newValue) in
-			print("oldValue:\(oldValue)  newValue:\(newValue)")
+//			print("oldValue:\(oldValue)  newValue:\(newValue)")
 			languageUpdate()
 		}
     }
@@ -29,12 +29,13 @@ class EMBaseViewController: UIViewController {
 	}
 	
 	@objc func changeLanguage () {
-
+		
 		if EMLanguageSetting.shared.language == .Chinese {
 			EMLanguageSetting.shared.language = .English
 		} else {
 			EMLanguageSetting.shared.language = .Chinese
 		}
+		
 	}
     
     func showActivity() {
