@@ -56,8 +56,16 @@ class EMBaseViewController: UIViewController {
     
     
     func hideBackButtonTitle() {
-
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+//        let navBar = UINavigationBar.appearance()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .bottom, barMetrics: .default)
+        self.navigationController?.navigationBar.shadowImage=UIImage()
+//
+//        self.navigationController?.navigationBar.backgroundColor = .white
+//        self.navigationController?.navigationBar.isTranslucent = false
+        
+        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backButtonItem.tintColor = .B6
+        self.navigationItem.backBarButtonItem = backButtonItem
         
     }
     
