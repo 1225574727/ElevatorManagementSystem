@@ -33,13 +33,8 @@ class EMMainViewController: EMBaseViewController{
 			
 			make.edges.equalToSuperview()
 		}
-
-		languageUpdate()
         
        refreshData()
-		
-		// 初始化pickerView
-		EMPickerService.shared.setup()
     }
 	
 	override func languageUpdate() {

@@ -24,3 +24,11 @@
 "alert_upload_fail" = "上传失败";
 "alert_upload_fail_continue" = "继续上传";
 "alert_upload_fail_cancel" = "取消上传";
+
+"root_manage" = "电梯管理";
+"root_upload" = "图片视频上传";
+"root_history" = "查看历史数据";
+"root_setting" = "系统设置";
+
+"setting_title" = "设置";
+"setting_desc" = "允许3G/4G/5G网络上传";

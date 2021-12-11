@@ -17,12 +17,18 @@ class EMBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideBackButtonTitle()
+		languageUpdate()
 		let appSettings = EMLanguageSetting.shared
 		appSettings.observableLaunguage.onSet { [self] (oldValue, newValue) in
 //			print("oldValue:\(oldValue)  newValue:\(newValue)")
 			languageUpdate()
 		}
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.navigationController?.navigationBar.isHidden = false
+	}
 	
 	func languageUpdate() {
 		

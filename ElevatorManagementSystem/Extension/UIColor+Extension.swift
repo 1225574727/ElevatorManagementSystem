@@ -17,10 +17,15 @@ extension UIColor {
 	/// 用十六进制颜色创建UIColor
 	static func colorFormHex(_ hex: Int) -> UIColor {
 		
+		return UIColor.colorFormHex(hex, alpha: 1.0)
+	}
+	
+	static func colorFormHex(_ hex: Int, alpha: Float) -> UIColor {
+		
 		return UIColor(red: ((CGFloat)((hex & 0xFF0000) >> 16)) / 255.0,
 					 green: ((CGFloat)((hex & 0xFF00) >> 8)) / 255.0,
 					  blue: ((CGFloat)(hex & 0xFF)) / 255.0,
-					 alpha: 1.0)
+					  alpha: CGFloat(alpha))
 	}
 	
 	/// 用十六进制字符串颜色创建UIColor

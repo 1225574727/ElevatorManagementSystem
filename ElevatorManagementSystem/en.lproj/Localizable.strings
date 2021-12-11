@@ -24,3 +24,11 @@
 "alert_upload_fail" = "failure";
 "alert_upload_fail_continue" = "continue";
 "alert_upload_fail_cancel" = "cancel";
+
+"root_manage" = "elevator manage";
+"root_upload" = "source upload";
+"root_history" = "history";
+"root_setting" = "setting";
+
+"setting_title" = "setting";
+"setting_desc" = "allow 3G/4G/5G upload";

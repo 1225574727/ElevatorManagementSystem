@@ -7,6 +7,9 @@
 
 import Foundation
 import Alamofire
+import UIKit
+
+let allowNetCacheKey:String = "AllowNet"
 
 enum EMReachabilityStatus {
 	case notReachable
@@ -42,6 +45,26 @@ class EMReachabilityService: NSObject {
 				reachabilityStatus(.unknown)
 			}
 		}
+	}
+	
+	/// 获取是否允许数据流量上传
+	static func allow_wwan() -> Bool {
+		
+		var rel = true
+		if let cacheStatus = UserDefaults.standard.object(forKey: allowNetCacheKey) {
+			if cacheStatus as! String == "0" {
+				rel = false
+			}
+		} else {
+			UserDefaults.standard.setValue("1", forKey: allowNetCacheKey)
+		}
+		return rel
+	}
+	
+	static func set_allow_wwan(isAllow:Bool) {
+		
+		UserDefaults.standard.setValue(isAllow ? "1" : "0", forKey: allowNetCacheKey)
+		UserDefaults.standard.synchronize()
 	}
 }
 
