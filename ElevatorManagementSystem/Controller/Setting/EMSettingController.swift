@@ -15,6 +15,7 @@ class EMSettingController: EMBaseViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = EMLocalizable("setting_title")
+		self.view.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
 		switchNet.isOn = EMReachabilityService.allow_wwan()
 	}
 	

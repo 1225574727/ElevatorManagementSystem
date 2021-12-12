@@ -13,14 +13,14 @@ class EMBaseViewController: UIViewController {
     
     var hudMB: MBProgressHUD?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+		self.view.backgroundColor = UIColor.colorFormHex(0xffffff)
         hideBackButtonTitle()
 		languageUpdate()
+		
 		let appSettings = EMLanguageSetting.shared
 		appSettings.observableLaunguage.onSet { [self] (oldValue, newValue) in
-//			print("oldValue:\(oldValue)  newValue:\(newValue)")
 			languageUpdate()
 		}
     }
@@ -54,19 +54,14 @@ class EMBaseViewController: UIViewController {
         hudMB?.hide(animated: true)
     }
     
-    
     func hideBackButtonTitle() {
-//        let navBar = UINavigationBar.appearance()
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .bottom, barMetrics: .default)
+		
+		self.navigationController?.navigationBar.barTintColor = .white
         self.navigationController?.navigationBar.shadowImage=UIImage()
-//
-//        self.navigationController?.navigationBar.backgroundColor = .white
-//        self.navigationController?.navigationBar.isTranslucent = false
-        
+	
         let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         backButtonItem.tintColor = .B6
         self.navigationItem.backBarButtonItem = backButtonItem
-        
     }
     
 }

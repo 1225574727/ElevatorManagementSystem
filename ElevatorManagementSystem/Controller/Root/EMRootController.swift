@@ -67,6 +67,10 @@ class EMRootController: EMBaseViewController {
 	@IBAction func userAction(sender:UIButton) {
 		print("\(sender.tag)")
 		switch sender.tag {
+		case 2017:
+			let vc = EMManageController()
+			self.navigationController?.pushViewController(vc, animated: true)
+			break
         case 2019:
             self.navigationController?.pushViewController(EMHistoryMainController(), animated: true)
             break

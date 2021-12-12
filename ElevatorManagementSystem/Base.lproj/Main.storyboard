@@ -374,7 +374,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eha-B7-2xh" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gVy-dk-EEn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="arrow_back" id="gVy-dk-EEn">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -389,6 +389,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow_back" width="24" height="24"/>
         <image name="arrow_right" width="24" height="24"/>
         <image name="em_history" width="50" height="50"/>
         <image name="em_manage" width="50" height="50"/>

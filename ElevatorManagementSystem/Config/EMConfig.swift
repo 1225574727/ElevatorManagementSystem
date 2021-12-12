@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 //设备屏幕尺寸
-let currentMode_width = UIScreen.main.currentMode?.size.width
-let currentMode_height = UIScreen.main.currentMode?.size.height
+let currentMode_width = (UIScreen.main.currentMode?.size.width ?? 375)
+let currentMode_height = (UIScreen.main.currentMode?.size.height ?? 786)
 
 // 判断是否是iPhone X
 // iphoneX iPhoneXs 1125, 2436

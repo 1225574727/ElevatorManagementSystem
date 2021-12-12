@@ -32,3 +32,13 @@
 
 "setting_title" = "setting";
 "setting_desc" = "allow 3G/4G/5G upload";
+
+"manage_title" = "elevator list";
+"manage_create" = "create elevator";
+"manage_edit" = "edit";
+"manage_id" = "elevator id";
+"manage_name" = "elevator name";
+"manage_dis" = "elevator distance";
+"manage_error_id" = "input id, please";
+"manage_error_name" = "input name, please";
+"manage_error_dis" = "input dis, please";

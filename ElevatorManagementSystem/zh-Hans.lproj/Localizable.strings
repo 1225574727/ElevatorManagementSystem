@@ -32,3 +32,17 @@
 
 "setting_title" = "设置";
 "setting_desc" = "允许3G/4G/5G网络上传";
+
+"manage_title" = "电梯列表";
+"manage_create" = "创建电梯";
+"manage_edit" = "编辑";
+"manage_id" = "电梯id";
+"manage_name" = "电梯名称";
+"manage_dis" = "门与手机之间的距离";
+"manage_error_id" = "请输入电梯id";
+"manage_error_name" = "请输入电梯名称";
+"manage_error_dis" = "请输入门与手机之间的距离";
+"manage_eidt_cancel" = "取消";
+"manage_eidt_save" = "保存";
+
+
