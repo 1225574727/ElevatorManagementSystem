@@ -110,28 +110,28 @@ class EMRecordSelectView: UIView {
         let intervalDistance = (self.frame.width - 305) / 5
         recordBtn.snp.makeConstraints { make in
             make.width.equalTo(82)
-            make.height.equalTo(17)
+            make.height.equalTo(56)
             make.centerY.equalToSuperview()
             make.left.equalTo(intervalDistance)
         }
         
         typeBtn.snp.makeConstraints { make in
             make.width.equalTo(82)
-            make.height.equalTo(17)
+            make.height.equalTo(56)
             make.centerY.equalToSuperview()
             make.left.equalTo(recordBtn.snp.right).offset(intervalDistance)
         }
         
         resultBtn.snp.makeConstraints { make in
             make.width.equalTo(82)
-            make.height.equalTo(17)
+            make.height.equalTo(56)
             make.centerY.equalToSuperview()
             make.left.equalTo(typeBtn.snp.right).offset(intervalDistance)
         }
         
         timeBtn.snp.makeConstraints { make in
             make.width.equalTo(59)
-            make.height.equalTo(17)
+            make.height.equalTo(56)
             make.centerY.equalToSuperview()
             make.left.equalTo(resultBtn.snp.right).offset(intervalDistance)
         }

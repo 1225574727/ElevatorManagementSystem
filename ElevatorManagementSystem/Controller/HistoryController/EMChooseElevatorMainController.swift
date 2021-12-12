@@ -93,7 +93,7 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
         if fromType == .fromCheckHistory {
             self.navigationController?.pushViewController(EMChooseRecordController(), animated: true)
         }else {
-            
+            self.navigationController?.pushViewController(EMPicVideoUploadController(), animated: true)
         }
         
         
