@@ -15,9 +15,19 @@ enum EMPicVideoUploadCellType {
     case noteInput
 }
 
-typealias InputCallBack = (_ text:String)->Void
+typealias InputCallBack = (_ text: String) -> Void
+typealias UpdateCellHeight = (_ currentHeightMultiple: Int) -> Void
 
 class EMPicVideoUploadCell: UITableViewCell {
+    
+    var inputCallBack:InputCallBack?
+    var updateCellHeight:UpdateCellHeight?
+    
+    var currentPictureMap :[Int: UIImage] = Dictionary()
+    var currentSelectPicTag = 3000
+    
+    
+
     
     //MARK: category
     private lazy var calibrationLabel: UILabel = {
@@ -48,7 +58,7 @@ class EMPicVideoUploadCell: UITableViewCell {
             btn.layer.cornerRadius = 8
             btn.layer.masksToBounds = true
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-            btn.tag = 100
+            btn.tag = 2021
             btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
         }
         return btn
@@ -66,7 +76,7 @@ class EMPicVideoUploadCell: UITableViewCell {
             btn.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
             btn.layer.cornerRadius = 8
             btn.layer.masksToBounds = true
-            btn.tag = 101
+            btn.tag = 2022
             btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
         }
         return btn
@@ -74,9 +84,272 @@ class EMPicVideoUploadCell: UITableViewCell {
     
     //点击事件
     @objc private func didClickButton(sender:UIButton){
-        EMAlertService.show(title: nil, message: nil, cancelTitle: "取消", otherTitles:["拍摄", "视频"] , style: .actionSheet) { title, index in
-                NSLog("\(index) ---\(title)")
+        
+        NSLog("\(sender.tag)")
+        if sender.tag == 2021 { //选择记录类型
+            EMAlertService.show(title: nil, message: nil, cancelTitle: "取消", otherTitles:["正常检查", "校准后"] , style: .actionSheet) { title, index in
+                    NSLog("\(index) ---\(title)")
+                }
+        }else if sender.tag == 2022 { //零件类别
+            EMAlertService.show(title: nil, message: nil, cancelTitle: "取消", otherTitles:["interlock Device Rollers", "厅门"] , style: .actionSheet) { title, index in
+                    NSLog("\(index) ---\(title)")
+                }
+        }else if sender.tag == 100 { //拍摄视频上传
+            EMPhotoService.shared.showBottomAlert(resourceType: .media) { videoUrl, image in
+                
+                for subView in self.contentView.subviews {
+                    
+                    if subView.isKind(of: UIImageView.self) && subView.tag == 300 {//视频的imageV
+                        let imageV: UIImageView = subView as! UIImageView
+                        imageV.image = image as? UIImage
+                        
+                        for imageSubView in imageV.subviews {
+                            
+                            if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 100 {//视频的点击按钮
+                                let uploadBtn :UIButton = imageSubView as! UIButton
+                                uploadBtn.setImage(UIImage(named: "video_logo"), for: .normal)
+                                uploadBtn.isEnabled = false
+                                
+                            }else if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 200 {//视频的移除按钮
+                                let clearBtn :UIButton = imageSubView as! UIButton
+                                clearBtn.isHidden = false
+                            }
+                        }
+                        
+                    }
+                    
+                }
             }
+
+        }else if sender.tag == 1000 { //1000 拍对应位置照片上传
+            
+            EMPhotoService.shared.showBottomAlert(resourceType: .photo) { _, image in
+               
+                let imageViewCount = self.contentView.subviews.count - 1
+                
+                
+                guard imageViewCount > 0 else {
+                    return
+                }
+                
+                for subView in self.contentView.subviews {
+                    
+                    if subView.isKind(of: UIImageView.self) {//照片的imageV
+                        
+                        let imageV: UIImageView = subView as! UIImageView
+                        
+                        if imageV.image == nil {
+                            
+                            imageV.image = image as? UIImage
+                            
+                            for imageSubView in imageV.subviews {
+                                
+                                if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 1000 {//照片的点击按钮
+                                    let uploadBtn :UIButton = imageSubView as! UIButton
+                                    uploadBtn.isHidden = true
+                                    
+                                }else if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 2000 {//照片的移除按钮
+                                    let clearBtn :UIButton = imageSubView as! UIButton
+                                    clearBtn.isHidden = false
+                                }
+                            }
+                            
+                            self.currentPictureMap.updateValue(image as! UIImage, forKey: subView.tag)
+                            
+
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+                    
+                   
+                }
+                
+                
+                guard imageViewCount < 9 else {//最多只增加到九张图片
+                    return
+                }
+                
+                self.updateCellHeight?((imageViewCount + 1) / 3 + 1)
+                
+                self.createImageViewIndex(index: imageViewCount)
+                
+                
+            }
+        }else if sender.tag == 200 { //删除视频
+
+            for subView in self.contentView.subviews {
+                
+                if subView.isKind(of: UIImageView.self) && subView.tag == 300 {//视频的imageV
+                    let imageV: UIImageView = subView as! UIImageView
+                    imageV.image = nil
+                    
+                    for imageSubView in imageV.subviews {
+                        
+                        if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 100 {//视频的点击按钮
+                            let uploadBtn :UIButton = imageSubView as! UIButton
+                            uploadBtn.setImage(UIImage(named: "upload_action_bg"), for: .normal)
+                            uploadBtn.isEnabled = true
+                            
+                        }else if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 200 {//视频的移除按钮
+                            let clearBtn :UIButton = imageSubView as! UIButton
+                            clearBtn.isHidden = true
+                        }
+                    }
+                    
+                }
+                
+            }
+            
+        }else if sender.tag == 2000  {//删除对应位置图片
+            
+            let imageViewCount = self.contentView.subviews.count - 1
+            
+
+            guard imageViewCount > 0 else {//只有一张图片的情况
+                
+                return
+            }
+            
+            let superView = sender.superview
+
+            
+            var allImageViews: [UIImageView] = Array()
+            for subView in self.contentView.subviews {
+                if subView.isKind(of: UIImageView.self) {
+                    let imageV: UIImageView = subView as! UIImageView
+                    allImageViews.append(imageV)
+                    
+                }
+            }
+            
+            allImageViews.sort {$0.tag < $1.tag}
+            
+            
+            if let imageView = superView, imageView.isKind(of: UIImageView.self) {
+                
+                if imageViewCount == 1 {
+                    let imageV: UIImageView = imageView as! UIImageView
+                    imageV.image = nil
+                    
+                    for imageSubView in imageV.subviews {
+                        
+                        if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 1000 {//照片的点击按钮
+                            let uploadBtn :UIButton = imageSubView as! UIButton
+                            uploadBtn.setImage(UIImage(named: "upload_action_bg"), for: .normal)
+                            uploadBtn.isEnabled = true
+                            
+                        }else if imageSubView.isKind(of: UIButton.self) && imageSubView.tag == 2000 {//照片的移除按钮
+                            let clearBtn :UIButton = imageSubView as! UIButton
+                            clearBtn.isHidden = true
+                        }
+                    }
+                    return
+                }
+                
+                let imageViewIndex = imageView.tag - 3000
+                
+                imageView.removeFromSuperview()
+                
+                allImageViews.remove(at: imageViewIndex)
+                
+                for subView in allImageViews {
+                    
+                    if  let index = allImageViews.firstIndex(of: subView) {
+                        
+                        let horizontalIndex: Int = index % 3
+                        let verticalIndex: Int = index / 3
+                        
+                        let imageViewWidth = (ScreenInfo.Width - 18 * 4) / 3
+
+                        
+                        let masToTop = 10 + (10 + Int(imageViewWidth)) * verticalIndex
+                        let masToLeft = 18 + (18 + Int(imageViewWidth)) * horizontalIndex
+                        
+                        subView.tag = 3000 + index
+                        
+                        subView.snp.remakeConstraints { make in
+                            make.top.equalTo(self.videoTitleLab.snp.bottom).offset(masToTop)
+                            make.left.equalTo(masToLeft)
+                            make.width.height.equalTo(imageViewWidth)
+                        }
+                        
+                    }
+                    
+                    
+                    
+                  
+                }
+                
+            }
+            
+            
+//            EMAlertService.show(title: nil, message: nil, cancelTitle: "取消", otherTitles:["删除图片--\(sender.tag)"] , style: .actionSheet) { title, index in
+//                    NSLog("\(index) ---\(title)")
+//                }
+        }
+        
+    }
+    
+    
+    private func createImageViewIndex(index: Int) {
+        
+        let startUploadTag = 1000
+        let startClearTag = 2000
+        let startImageViewTag = 3000
+        
+        let imagV = UIImageView.init(frame: .zero)
+        imagV.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+        imagV.isUserInteractionEnabled = true
+        imagV.layer.cornerRadius = 8
+        imagV.tag = startImageViewTag + index
+        imagV.layer.masksToBounds = true
+        
+        let uploadBtn = UIButton()
+        uploadBtn.setImage(UIImage(named: "upload_action_bg"), for: .normal)
+        uploadBtn.tag = startUploadTag
+        uploadBtn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+        
+        let closeBtn = UIButton()
+        closeBtn.setImage(UIImage(named: "clear_upload_source"), for: .normal)
+        closeBtn.tag = startClearTag
+        closeBtn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+        closeBtn.isHidden = true
+        
+        contentView.addSubview(imagV)
+        imagV.addSubview(uploadBtn)
+        imagV.addSubview(closeBtn)
+        
+        let imageViewWidth = (ScreenInfo.Width - 18 * 4) / 3
+        
+        let horizontalIndex: Int = index % 3
+        let verticalIndex: Int = index / 3
+        
+        let masToTop = 10 + (10 + Int(imageViewWidth)) * verticalIndex
+        let masToLeft = 18 + (18 + Int(imageViewWidth)) * horizontalIndex
+
+        imagV.snp.makeConstraints { make in
+            make.top.equalTo(self.videoTitleLab.snp.bottom).offset(masToTop)
+            make.left.equalTo(masToLeft)
+            make.width.height.equalTo(imageViewWidth)
+        }
+        uploadBtn.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(70)
+        }
+        closeBtn.snp.makeConstraints { make in
+            make.top.equalTo(6)
+            make.right.equalTo(-6)
+            make.width.height.equalTo(30)
+        }
     }
     
     private func setUpChooseTypeUI(){
@@ -117,7 +390,6 @@ class EMPicVideoUploadCell: UITableViewCell {
     }
 
     //MARK: textInput
-    var inputCallBack:InputCallBack?
 
     var titleName:String = "" {
 
@@ -168,7 +440,7 @@ class EMPicVideoUploadCell: UITableViewCell {
         return lab
     }()
     
-    //MARK: videoUpload
+    //MARK: videoUpload && picUpload
     private lazy var videoTitleLab:UILabel = {
         
         let lab = UILabel.init(frame: .zero)
@@ -176,21 +448,115 @@ class EMPicVideoUploadCell: UITableViewCell {
         lab.font = UIFont.boldSystemFont(ofSize: 14)
         lab.text = "视频："
         return lab
-    }()
-    
-    private lazy var bgImageV: UIImageView = {
         
-        let imagV = UIImageView.init(frame: .zero)
-        imagV.image = UIImage(named: "")
-        imagV.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
-        return imagV
     }()
     
     
+//    private lazy var bgImageV: UIImageView = {
+//
+//        let imagV = UIImageView.init(frame: .zero)
+//        imagV.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+//        imagV.layer.cornerRadius = 8
+//        imagV.layer.masksToBounds = true
+//        return imagV
+//    }()
+//
+//    private lazy var centerBtn: UIButton = {
+//        let btn = UIButton()
+//        btn.setImage(UIImage(named: "upload_action_bg"), for: .normal)
+//        btn.tag = 101
+//        btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+//        return btn
+//    }()
+//
+//    private lazy var clearBtn: UIButton = {
+//        let btn = UIButton()
+//        btn.setImage(UIImage(named: "clear_upload_source"), for: .normal)
+//        btn.tag = 100
+//        btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+//        return btn
+//    }()
+    
+    
+    private func setUpVideoOrPicUploadUI(isPic: Bool){
+        contentView.addSubview(videoTitleLab)
+        videoTitleLab.snp.makeConstraints { make in
+            make.top.equalTo(10)
+            make.left.equalTo(20)
+            make.width.equalTo(161)
+            make.height.equalTo(20)
+        }
+        
+        var needUpLoadCount = 1
+        var startUploadTag = 100
+        var startClearTag = 200
+        var startImageViewTag = 300
+        
 
+        if isPic {
+            videoTitleLab.text = "图片："
+            needUpLoadCount = 1
+            startUploadTag = 1000
+            startClearTag = 2000
+            startImageViewTag = 3000
+
+        }
+        for index in 0..<needUpLoadCount {
+            let imagV = UIImageView.init(frame: .zero)
+            imagV.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+            imagV.isUserInteractionEnabled = true
+            imagV.layer.cornerRadius = 8
+            imagV.tag = startImageViewTag
+            imagV.layer.masksToBounds = true
+            
+            let uploadBtn = UIButton()
+            uploadBtn.setImage(UIImage(named: "upload_action_bg"), for: .normal)
+            uploadBtn.tag = startUploadTag + index
+            uploadBtn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+            
+            let closeBtn = UIButton()
+            closeBtn.setImage(UIImage(named: "clear_upload_source"), for: .normal)
+            closeBtn.tag = startClearTag + index
+            closeBtn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+            closeBtn.isHidden = true
+            
+            contentView.addSubview(imagV)
+            imagV.addSubview(uploadBtn)
+            imagV.addSubview(closeBtn)
+            
+            let imageViewWidth = (ScreenInfo.Width - 18 * 4) / 3
+            
+            let horizontalIndex: Int = index % 3
+            let verticalIndex: Int = index / 3
+            
+            let masToTop = 10 + (10 + Int(imageViewWidth)) * verticalIndex
+            let masToLeft = 18 + (18 + Int(imageViewWidth)) * horizontalIndex
+
+            imagV.snp.makeConstraints { make in
+                make.top.equalTo(self.videoTitleLab.snp.bottom).offset(masToTop)
+                make.left.equalTo(masToLeft)
+                make.width.height.equalTo(imageViewWidth)
+            }
+            uploadBtn.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+                make.width.height.equalTo(70)
+            }
+            closeBtn.snp.makeConstraints { make in
+                make.top.equalTo(6)
+                make.right.equalTo(-6)
+                make.width.height.equalTo(30)
+            }
+            
+        }
+
+       
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.selectionStyle = .none
+        
         if reuseIdentifier == EMPicVideoUploadController.kCategoryCell {
             setupUI(type: .category)
         }else if reuseIdentifier == EMPicVideoUploadController.kTextInputCell {
@@ -213,8 +579,10 @@ class EMPicVideoUploadCell: UITableViewCell {
             setupTextFieldUI()
             break
         case .videoUpload:
+            setUpVideoOrPicUploadUI(isPic: false)
             break
         case .picUpload:
+            setUpVideoOrPicUploadUI(isPic: true)
             break
         case .noteInput:
             break

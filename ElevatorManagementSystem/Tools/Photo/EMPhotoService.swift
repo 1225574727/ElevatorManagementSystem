@@ -10,8 +10,9 @@ import UIKit
 import AVFoundation
 import Photos
 import MobileCoreServices
+import AVKit
 
-typealias PhotoHandler = (_ resource:Any)->Void;
+typealias PhotoHandler = (_ videoUrl: URL?, _ resource:Any)->Void;
 
 enum EMResourceType {
 	case photo
@@ -127,14 +128,29 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			
 			var image : UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
 			image = image.compressImage(maxLength: 100*1024)
-			self.handler!(image)
+			self.handler!(nil, image)
 		} else {
 			
 			let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as! URL
-			self.handler!(videoURL)
+			self.handler!(videoURL,generateVideoScreenshot(videoURL: videoURL))
 		}
 
 		//显示设置的照片
 		self.parent?.dismiss(animated: true, completion: nil)
 	}
+    
+    private func generateVideoScreenshot(videoURL: URL) -> UIImage {
+        //生成视频截图
+       let avAsset = AVAsset(url: videoURL)
+        
+       let generator = AVAssetImageGenerator(asset: avAsset)
+       generator.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(0.0,preferredTimescale: 600)
+        var actualTime:CMTime = CMTimeMake(value: 0,timescale: 0)
+        let imageRef:CGImage = try! generator.copyCGImage(at: time, actualTime: &actualTime)
+        let frameImg = UIImage(cgImage: imageRef)
+        return frameImg
+    }
 }
+
+

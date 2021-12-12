@@ -14,6 +14,9 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     static let kVideoUploadCell = "kVideoUploadCell"
     static let kPicUploadCell = "kPicUploadCell"
     static let kNoteInputCell = "kNoteInputCell"
+    
+    private let oneCellHeight: CGFloat = ( (ScreenInfo.Width - 18 * 4) / 3 + 10 )
+    private var picCellHeightMultiple: Int = 1
 
     final let datas = [
         ["name":EMLocalizable("manage_id")],
@@ -58,11 +61,19 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     
     ///MARK: table view data source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        return 4
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        if indexPath.row == 0 || indexPath.row == 1 {
+            return 110
+        }else if indexPath.row == 2 {
+            return  CGFloat(oneCellHeight + 40)
+        }else if indexPath.row == 3 {
+            return CGFloat(Int(oneCellHeight) * picCellHeightMultiple + 40)
+        }else {
+            return 210
+        }
     }
     
     ///MARK: table view delegate
@@ -76,17 +87,22 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
             let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
             cell.selectionStyle = .none
             return cell
-        }else {
-            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
-            cell.titleName = "门与手机之间的距离："
-            cell.selectionStyle = .none
-            cell.data = "12.03"
-            cell.inputCallBack =  { [weak self] text in
+        }else if indexPath.row == 2{
+            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kVideoUploadCell) as! EMPicVideoUploadCell
+            return cell
+        }else if indexPath.row == 3 {
+            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPicUploadCell) as! EMPicVideoUploadCell
+            cell.updateCellHeight = { [weak self] currentHeightMultiple in
+                
                 guard let self = self else {
                     return
                 }
-                self.em_distance = text
+                self.picCellHeightMultiple = currentHeightMultiple
+                self.tableView.reloadData()
             }
+            return cell
+        }else {
+            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPicUploadCell) as! EMPicVideoUploadCell
             return cell
         }
         
