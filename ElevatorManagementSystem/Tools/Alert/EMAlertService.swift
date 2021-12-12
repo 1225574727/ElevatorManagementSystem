@@ -15,6 +15,8 @@ enum EMAlertUploadType {
 
 class EMAlertService: NSObject {
 	
+	static var proressAlert: EMAlertController?
+	
 	static func show(title: String?=nil, message: String?=nil, cancelTitle: String?=nil,otherTitles:[String]?=nil,style:UIAlertController.Style, closure: @escaping((_ action: UIAlertAction, _ index: Int)->())) {
 		EMEventAtMain {
 			let alertController = UIAlertController.init(title: title, message: message, preferredStyle: style)
@@ -73,4 +75,21 @@ class EMAlertService: NSObject {
 		cAlert.show((UIApplication.shared.keyWindow?.rootViewController)! as UIViewController)
 	}
 
+	/// 进度条相关
+	static func showAlertForProgress() {
+		
+		EMAlertService.proressAlert = EMAlertController.init(progress: "上传中")
+		EMAlertService.proressAlert!.show((UIApplication.shared.keyWindow?.rootViewController)! as UIViewController)
+	}
+	
+	static func setProgress(progress:Float) {
+		
+		EMAlertService.proressAlert!.progress = progress
+	}
+	
+	static func dismissProgress() {
+		EMAlertService.proressAlert!.dismiss(animated: true) {
+			EMAlertService.proressAlert = nil
+		}
+	}
 }

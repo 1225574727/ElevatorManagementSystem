@@ -12,6 +12,7 @@ enum EMAlertType {
 	case EMAlertDefault
 	case EMAlertUpload
 	case EMAlertTipVertical
+	case EMAlertProgress
 }
 
 typealias EMAlertActionHandler = ((_ index: Int) -> Void)
@@ -19,28 +20,14 @@ typealias EMAlertActionHandler = ((_ index: Int) -> Void)
 class EMAlertController: UIViewController {
 	
 	private let buttonHeight = 44.0
-	/*界面元素*/
-	private lazy var alertView:UIView = {
-		let alertLayer = UIView()
-		alertLayer.layer.masksToBounds = false
-		//警告框的初始尺寸为1.2倍
-		alertLayer.transform = CGAffineTransform.init(scaleX: 1.2, y: 1.2)
-		//阴影颜色
-		alertLayer.layer.shadowColor = UIColor.black.cgColor
-		//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使
-		alertLayer.layer.shadowOffset =  CGSize.init(width: 10, height: -10)
-		//阴影半径
-		alertLayer.layer.shadowRadius = 13
-		//阴影透明度
-		alertLayer.layer.shadowOpacity = 0.4
-		return alertLayer
-	}()
 	
 	private lazy var contentView:UIView = {
 		let alertContainer = UIView()
 		alertContainer.backgroundColor = UIColor.white
 		alertContainer.layer.cornerRadius = 8
 		alertContainer.layer.masksToBounds = true
+		alertContainer.transform = CGAffineTransform.init(scaleX: 1.2, y: 1.2)
+
 		return alertContainer
 	}()
 	
@@ -60,7 +47,7 @@ class EMAlertController: UIViewController {
 		let label = UILabel.init()
 		label.numberOfLines = 0
 		label.textColor = UIColor.B3
-//		label.font = UIFont.systemFont(ofSize: 16)
+		label.font = UIFont.systemFont(ofSize: 16)
 		label.textAlignment = NSTextAlignment.left
 		return label
 	}()
@@ -92,6 +79,19 @@ class EMAlertController: UIViewController {
 		return button
 	}()
 	
+	private lazy var progressView: UIProgressView = {
+		
+		let progress = UIProgressView(progressViewStyle: .default)
+		progress.progressTintColor = UIColor.Main
+		progress.trackTintColor = UIColor.colorFormHex(0xd4d4d4)
+		progress.setProgress(0.0, animated: true)
+		for tview in progress.subviews {
+			tview.layer.cornerRadius = 10
+			tview.clipsToBounds = true
+		}
+		return progress
+	}()
+	
 	//防止重复弹出视图
 	private var firstShow:Bool!
 
@@ -104,6 +104,12 @@ class EMAlertController: UIViewController {
 	private var actionHandler:EMAlertActionHandler?
 	private var alertType:EMAlertType = .EMAlertDefault
 	var imageSize:CGSize = CGSize(width: 94, height: 94)
+	
+	var progress:Float = 0 {
+		didSet {
+			progressView.setProgress(progress, animated: true)
+		}
+	}
 	
 	convenience init(title : String, message : String, buttons:[String], image:UIImage,type:EMAlertType = .EMAlertDefault, handler:@escaping EMAlertActionHandler){
 		
@@ -118,6 +124,15 @@ class EMAlertController: UIViewController {
 		self.firstShow = true
 	}
 	
+	convenience init(progress message:String) {
+		
+		self.init()
+		self.modalPresentationStyle = UIModalPresentationStyle.custom
+		self.alertMessage = message
+		self.firstShow = true
+		self.alertType = .EMAlertProgress
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -126,6 +141,25 @@ class EMAlertController: UIViewController {
 			make.centerY.equalToSuperview()
 			make.left.equalToSuperview().offset(20)
 			make.right.equalToSuperview().offset(-20)
+		}
+		
+		if (alertType == .EMAlertProgress) {
+			self.contentView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+			contentView.addSubview(progressView)
+			progressView.snp.makeConstraints { make in
+				make.left.right.top.equalToSuperview().inset(UIEdgeInsets(top: 50, left: 20, bottom: 0, right: 20))
+				make.height.equalTo(20)
+			}
+			
+			messageLabel.text = alertMessage
+			messageLabel.font = UIFont.boldSystemFont(ofSize: 16)
+			contentView.addSubview(self.messageLabel)
+			messageLabel.snp.makeConstraints { make in
+				make.top.equalTo(progressView.snp.bottom).offset(10)
+				make.centerX.equalToSuperview()
+				make.bottom.equalToSuperview().offset(-49)
+			}
+			return
 		}
 		
 		self.contentView.addSubview(self.titleImageView)
@@ -239,8 +273,8 @@ class EMAlertController: UIViewController {
 			self.firstShow = false
 			UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 5.0, options: .curveEaseInOut, animations: {
 				
-				self.alertView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-				self.alertView.alpha = 1
+				self.contentView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+				self.contentView.alpha = 1
 				
 			}, completion: nil)
 			
@@ -255,14 +289,14 @@ class EMAlertController: UIViewController {
 			self.firstShow = false
 			UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 5.0, options: .curveEaseInOut, animations: {
 				
-				self.alertView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-				self.alertView.alpha = 1
+				self.contentView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+				self.contentView.alpha = 1
 				
 			}, completion: nil)
 			
 			UIView.animate(withDuration: 0.2, delay: delay, usingSpringWithDamping: 1.0, initialSpringVelocity: 15.0, options: .curveEaseInOut, animations: {
 
-				self.alertView.alpha = 0
+				self.contentView.alpha = 0
 				self.view.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.0)
 				self.dismiss(animated: false, completion: nil)
 
