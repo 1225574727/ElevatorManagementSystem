@@ -1,5 +1,5 @@
 //
-//  EMHistoryMainController.swift
+//  EMChooseElevatorMainController.swift
 //  ElevatorManagementSystem
 //
 //  Created by ts on 2021/12/11.
@@ -8,15 +8,22 @@
 import Foundation
 import UIKit
 
-class EMHistoryMainController: EMBaseViewController {
+enum EMFromFunctionType {
+    case fromPicVideoUpload
+    case fromCheckHistory
+}
+
+class EMChooseElevatorMainController: EMBaseViewController {
     
     static let kEMHistroyMainCell = "kEMHistroyMainCell"
 
+    var fromType: EMFromFunctionType?
+    
     var historyDataArray: [String] = Array()
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
-        tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMHistoryMainController.kEMHistroyMainCell)
+        tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMChooseElevatorMainController.kEMHistroyMainCell)
         tableview.dataSource = self
         tableview.delegate = self
         tableview.separatorColor = .clear
@@ -42,16 +49,16 @@ class EMHistoryMainController: EMBaseViewController {
     }
 }
 
-extension EMHistoryMainController : UITableViewDataSource, UITableViewDelegate {
+extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDelegate {
     //MARK:UITableViewDataSource&& UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell: EMHistroyMainCell? = tableView.dequeueReusableCell(withIdentifier: EMHistoryMainController.kEMHistroyMainCell) as? EMHistroyMainCell
+        var cell: EMHistroyMainCell? = tableView.dequeueReusableCell(withIdentifier: EMChooseElevatorMainController.kEMHistroyMainCell) as? EMHistroyMainCell
         if cell == nil {
-            cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMHistoryMainController.kEMHistroyMainCell)
+            cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMChooseElevatorMainController.kEMHistroyMainCell)
         }
         
-        cell!.updateCellData(model: RecordModel(timeText: "", titleText: historyDataArray[indexPath.row], checkText: ""), type: .elevatorCell)
+        cell!.updateCellData(model: RecordModel(timeText: "", titleText: historyDataArray[indexPath.section], checkText: ""), type: .elevatorCell)
                 
         return cell!
     }
@@ -83,7 +90,12 @@ extension EMHistoryMainController : UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        self.navigationController?.pushViewController(EMChooseRecordController(), animated: true)
+        if fromType == .fromCheckHistory {
+            self.navigationController?.pushViewController(EMChooseRecordController(), animated: true)
+        }else {
+            
+        }
+        
         
     }
 }

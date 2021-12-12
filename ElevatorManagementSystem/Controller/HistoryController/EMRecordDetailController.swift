@@ -16,7 +16,7 @@ class EMRecordDetailController: EMBaseViewController {
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
-        tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMHistoryMainController.kEMHistroyMainCell)
+        tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMRecordDetailController.kEMRecordDetailCell)
         tableview.dataSource = self
         tableview.delegate = self
         tableview.separatorColor = .clear

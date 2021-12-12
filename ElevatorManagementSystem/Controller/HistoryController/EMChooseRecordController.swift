@@ -8,13 +8,13 @@
 import UIKit
 
 class EMChooseRecordController: EMBaseViewController{
-    static let kEMHistroyMainCell = "kEMHistroyMainCell"
+    static let kEMChooseRecordCell = "kEMChooseRecordCell"
 
     var recordDataArray: [RecordModel] = Array()
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
-        tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMHistoryMainController.kEMHistroyMainCell)
+        tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMChooseRecordController.kEMChooseRecordCell)
         tableview.dataSource = self
         tableview.delegate = self
         tableview.separatorColor = .clear
@@ -122,9 +122,9 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
     //MARK:UITableViewDataSource&& UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell: EMHistroyMainCell? = tableView.dequeueReusableCell(withIdentifier: EMHistoryMainController.kEMHistroyMainCell) as? EMHistroyMainCell
+        var cell: EMHistroyMainCell? = tableView.dequeueReusableCell(withIdentifier: EMChooseRecordController.kEMChooseRecordCell) as? EMHistroyMainCell
         if cell == nil {
-            cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMHistoryMainController.kEMHistroyMainCell)
+            cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMChooseRecordController.kEMChooseRecordCell)
         }
         
         let model = recordDataArray[indexPath.row]

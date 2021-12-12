@@ -71,8 +71,15 @@ class EMRootController: EMBaseViewController {
 			let vc = EMManageController()
 			self.navigationController?.pushViewController(vc, animated: true)
 			break
+        case 2018:
+            let vc = EMChooseElevatorMainController()
+            vc.fromType = .fromPicVideoUpload
+            self.navigationController?.pushViewController(vc, animated: true)
+            break
         case 2019:
-            self.navigationController?.pushViewController(EMHistoryMainController(), animated: true)
+            let vc = EMChooseElevatorMainController()
+            vc.fromType = .fromCheckHistory
+            self.navigationController?.pushViewController(vc, animated: true)
             break
 		case 2020:
 
