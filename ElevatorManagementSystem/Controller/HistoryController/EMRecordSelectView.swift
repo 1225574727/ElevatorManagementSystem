@@ -40,7 +40,7 @@ class EMRecordSelectView: UIView {
         btn.sg.setImage(location: .right, space: 2) { (btn) in
             btn.setImage(UIImage(named: "selected_arrow"), for: .selected)
             btn.setImage(UIImage(named: "deselect_arrow"), for: .normal)
-            btn.setTitle("记录类型", for: .normal)
+            btn.setTitle(EMLocalizable("record_type"), for: .normal)
             btn.setTitleColor(UIColor.B9, for: .normal)
             btn.setTitleColor(UIColor.Main, for: .selected)
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -55,7 +55,7 @@ class EMRecordSelectView: UIView {
         btn.sg.setImage(location: .right, space: 2) { (btn) in
             btn.setImage(UIImage(named: "selected_arrow"), for: .selected)
             btn.setImage(UIImage(named: "deselect_arrow"), for: .normal)
-            btn.setTitle("零件类别", for: .normal)
+            btn.setTitle(EMLocalizable("parts_category"), for: .normal)
             btn.setTitleColor(UIColor.B9, for: .normal)
             btn.setTitleColor(UIColor.Main, for: .selected)
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -70,7 +70,7 @@ class EMRecordSelectView: UIView {
         btn.sg.setImage(location: .right, space: 2) { (btn) in
             btn.setImage(UIImage(named: "selected_arrow"), for: .selected)
             btn.setImage(UIImage(named: "deselect_arrow"), for: .normal)
-            btn.setTitle("结果状态", for: .normal)
+            btn.setTitle(EMLocalizable("result_state"), for: .normal)
             btn.setTitleColor(UIColor.B9, for: .normal)
             btn.setTitleColor(UIColor.Main, for: .selected)
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -85,7 +85,7 @@ class EMRecordSelectView: UIView {
         btn.sg.setImage(location: .right, space: 2) { (btn) in
             btn.setImage(UIImage(named: "selected_arrow"), for: .selected)
             btn.setImage(UIImage(named: "deselect_arrow"), for: .normal)
-            btn.setTitle("时间", for: .normal)
+            btn.setTitle(EMLocalizable("record_time"), for: .normal)
             btn.setTitleColor(UIColor.B9, for: .normal)
             btn.setTitleColor(UIColor.Main, for: .selected)
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 12)

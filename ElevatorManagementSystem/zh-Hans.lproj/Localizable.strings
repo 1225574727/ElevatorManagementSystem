@@ -45,4 +45,13 @@
 "manage_eidt_cancel" = "取消";
 "manage_eidt_save" = "保存";
 
+"choose_elevator" = "选择电梯";
+"choose_record" = "选择记录";
+"check_data" = "查看数据";
+
+"record_type" = "记录类型";
+"parts_category" = "零件类别";
+"result_state" = "结果状态";
+"record_time" = "时间";
+
 

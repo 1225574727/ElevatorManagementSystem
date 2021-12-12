@@ -42,3 +42,12 @@
 "manage_error_id" = "input id, please";
 "manage_error_name" = "input name, please";
 "manage_error_dis" = "input dis, please";
+
+"choose_elevator" = "choose elevator";
+"choose_record" = "choose record";
+"check_data" = "check data";
+
+"record_type" = "type";
+"parts_category" = "category";
+"result_state" = "state";
+"record_time" = "time";
