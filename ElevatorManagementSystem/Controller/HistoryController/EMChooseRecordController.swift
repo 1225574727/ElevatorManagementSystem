@@ -128,7 +128,7 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
         }
         
         let model = recordDataArray[indexPath.row]
-        cell!.updateCellData(model: model)
+        cell!.updateCellData(model: model, type: .chooseRecordCell)
                 
         return cell!
     }
@@ -160,7 +160,7 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        
+        self.navigationController?.pushViewController(EMRecordDetailController(), animated: true)
         
     }
 }

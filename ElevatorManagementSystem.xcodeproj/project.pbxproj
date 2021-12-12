@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4721464427659AD1003792AB /* EMRecordDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4721464327659AD1003792AB /* EMRecordDetailController.swift */; };
+		4721464627659CAD003792AB /* EMCheckDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4721464527659CAD003792AB /* EMCheckDataController.swift */; };
+		4721464827659CE1003792AB /* EMCheckDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4721464727659CE1003792AB /* EMCheckDataCell.swift */; };
 		474586DD2764F12000796950 /* EMRecordSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586D92764F12000796950 /* EMRecordSelectView.swift */; };
 		474586DE2764F12000796950 /* EMChooseRecordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586DA2764F12000796950 /* EMChooseRecordController.swift */; };
 		474586DF2764F12000796950 /* EMHistoryMainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586DB2764F12000796950 /* EMHistoryMainController.swift */; };
@@ -46,6 +49,9 @@
 /* Begin PBXFileReference section */
 		0E2BAA88188339BFBB36E804 /* Pods-ElevatorManagementSystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevatorManagementSystem.release.xcconfig"; path = "Target Support Files/Pods-ElevatorManagementSystem/Pods-ElevatorManagementSystem.release.xcconfig"; sourceTree = "<group>"; };
 		13AF4C6D8494B79051CFF9DE /* Pods_ElevatorManagementSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ElevatorManagementSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4721464327659AD1003792AB /* EMRecordDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMRecordDetailController.swift; sourceTree = "<group>"; };
+		4721464527659CAD003792AB /* EMCheckDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMCheckDataController.swift; sourceTree = "<group>"; };
+		4721464727659CE1003792AB /* EMCheckDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMCheckDataCell.swift; sourceTree = "<group>"; };
 		474586D92764F12000796950 /* EMRecordSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMRecordSelectView.swift; sourceTree = "<group>"; };
 		474586DA2764F12000796950 /* EMChooseRecordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMChooseRecordController.swift; sourceTree = "<group>"; };
 		474586DB2764F12000796950 /* EMHistoryMainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMHistoryMainController.swift; sourceTree = "<group>"; };
@@ -104,10 +110,13 @@
 		474586D82764F12000796950 /* HistoryController */ = {
 			isa = PBXGroup;
 			children = (
-				474586D92764F12000796950 /* EMRecordSelectView.swift */,
-				474586DA2764F12000796950 /* EMChooseRecordController.swift */,
 				474586DB2764F12000796950 /* EMHistoryMainController.swift */,
+				474586DA2764F12000796950 /* EMChooseRecordController.swift */,
+				4721464327659AD1003792AB /* EMRecordDetailController.swift */,
+				4721464527659CAD003792AB /* EMCheckDataController.swift */,
+				474586D92764F12000796950 /* EMRecordSelectView.swift */,
 				474586DC2764F12000796950 /* EMHistroyMainCell.swift */,
+				4721464727659CE1003792AB /* EMCheckDataCell.swift */,
 			);
 			path = HistoryController;
 			sourceTree = "<group>";
@@ -486,8 +495,10 @@
 				474586DD2764F12000796950 /* EMRecordSelectView.swift in Sources */,
 				6A987E92273A6901002D7BC4 /* EMUploadModel.swift in Sources */,
 				6A3E775C2762DF6D003E0593 /* UIColor+Extension.swift in Sources */,
+				4721464427659AD1003792AB /* EMRecordDetailController.swift in Sources */,
 				6A6D35EC2764CADD0018E18B /* EMCreateController.swift in Sources */,
 				51D565CD26E73B7A00B29DF6 /* EMHomeAPI.swift in Sources */,
+				4721464627659CAD003792AB /* EMCheckDataController.swift in Sources */,
 				474586DE2764F12000796950 /* EMChooseRecordController.swift in Sources */,
 				6A3E776A2764633A003E0593 /* EMShadowView.swift in Sources */,
 				6A987D8827367DCD002D7BC4 /* EMLanguageSetting.swift in Sources */,
@@ -503,6 +514,7 @@
 				51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */,
 				6A663CAC2759FB6E001A3DBD /* UIImage+Extension.swift in Sources */,
 				474586E02764F12000796950 /* EMHistroyMainCell.swift in Sources */,
+				4721464827659CE1003792AB /* EMCheckDataCell.swift in Sources */,
 				6A4ECF8D275C520500CE5F9C /* EMPickerService.swift in Sources */,
 				6A6D35EA276496540018E18B /* EMManageController.swift in Sources */,
 				51D565CA26E60EFB00B29DF6 /* EMBaseViewController.swift in Sources */,

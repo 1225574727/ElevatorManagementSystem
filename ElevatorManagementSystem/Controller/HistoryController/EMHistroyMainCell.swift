@@ -26,6 +26,12 @@ enum CheckStyle {
     }
 }
 
+enum EMPageType {
+    case elevatorCell
+    case chooseRecordCell
+    case detailRecordCell
+}
+
 struct RecordModel: HandyJSON {
     var timeText: String?
     var titleText: String?
@@ -59,6 +65,8 @@ class EMHistroyMainCell: UITableViewCell {
         bgContentView.addSubview(titleLabel)
         bgContentView.addSubview(checkLabel)
         bgContentView.addSubview(timeLabel)
+        bgContentView.addSubview(leftDistanceLabel)
+        bgContentView.addSubview(rightDistanceLabel)
 
         bgContentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -84,17 +92,51 @@ class EMHistroyMainCell: UITableViewCell {
             make.right.equalTo(-16)
             make.height.equalTo(22)
         }
+        
+        rightDistanceLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalTo(-16)
+            make.width.equalTo(38)
+            make.height.equalTo(22)
+        }
+        
+        leftDistanceLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalTo(self.rightDistanceLabel.snp.left).offset(-10)
+            make.width.equalTo(38)
+            make.height.equalTo(22)
+        }
+        
+        
+        
     }
     
-    func updateCellData(model: RecordModel) {
-        titleLabel.text = model.titleText
-        timeLabel.text = model.timeText
-        checkLabel.text = model.checkText
+    func updateCellData(model: RecordModel, type: EMPageType) {
+        
+        switch type {
+        case .elevatorCell:
+            self.bgContentView.image = UIImage(named: "manage_bg")
+            titleLabel.text = model.titleText
+            break
+        case .chooseRecordCell:
+            self.bgContentView.image = nil
+            titleLabel.text = model.titleText
+            timeLabel.text = model.timeText
+            checkLabel.text = model.checkText
+            break
+        case .detailRecordCell:
+            self.bgContentView.image = nil
+            titleLabel.text = model.titleText
+            leftDistanceLabel.text = "5mm"
+            rightDistanceLabel.text = "4mm"
+            break
+        }
+        
     }
     
     //MARK:  lazy
-    private lazy var bgContentView:UIView = {
-        let contentV = UIView()
+    private lazy var bgContentView:UIImageView = {
+        let contentV = UIImageView()
         contentV.backgroundColor = UIColor.colorFormHex(0xFDF7F7)
         contentV.layer.cornerRadius = 8
         contentV.layer.masksToBounds = true
@@ -128,6 +170,24 @@ class EMHistroyMainCell: UITableViewCell {
         label.textAlignment = .right
         return label
     }()
+    
+    private lazy var leftDistanceLabel: UILabel = {
+        let label = UILabel.init()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.Green
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var rightDistanceLabel: UILabel = {
+        let label = UILabel.init()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.Main
+        label.textAlignment = .center
+        return label
+    }()
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

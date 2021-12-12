@@ -13,6 +13,11 @@ extension UIColor {
 	static let B3 = UIColor.colorFormHex(0x333333)
 	static let B6 = UIColor.colorFormHex(0x666666)
 	static let B9 = UIColor.colorFormHex(0x999999)
+    static let Green = UIColor.colorFormHex(0x05CD19)
+    static let GrayLine = UIColor.colorFormHex(0xE4E4E4)
+
+    
+
 
 	/// 用十六进制颜色创建UIColor
 	static func colorFormHex(_ hex: Int) -> UIColor {
