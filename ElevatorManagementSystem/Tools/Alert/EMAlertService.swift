@@ -20,7 +20,10 @@ class EMAlertService: NSObject {
 	static func show(title: String?=nil, message: String?=nil, cancelTitle: String?=nil,otherTitles:[String]?=nil,style:UIAlertController.Style, closure: @escaping((_ action: UIAlertAction, _ index: Int)->())) {
 		EMEventAtMain {
 			let alertController = UIAlertController.init(title: title, message: message, preferredStyle: style)
-			
+			if style == .actionSheet {
+				
+				alertController.view.tintColor = UIColor.B3
+			}
 			var titles:[String] = []
 			if cancelTitle != nil {
 				titles.insert(cancelTitle!, at: 0)
@@ -39,6 +42,7 @@ class EMAlertService: NSObject {
 				}
 				alertController.addAction(tAction)
 			}
+						
 			UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
 		}
 	}
@@ -49,11 +53,10 @@ class EMAlertService: NSObject {
 		cAlert.show((UIApplication.shared.keyWindow?.rootViewController)! as UIViewController)
 	}
 	
-	static func showAlertForNet(closure:@escaping EMAlertActionHandler) -> Bool {
+	static func showAlertForNet(closure:@escaping EMAlertActionHandler) {
 		
 		let cAlert = EMAlertController.init(title: EMLocalizable("alert_tip"), message: EMLocalizable("alert_net_tip"), buttons: [EMLocalizable("alert_net_setting"),EMLocalizable("alert_net_close")], image: UIImage.init(named: "alert_tip")!, type: .EMAlertTipVertical,handler: closure)
 		cAlert.show((UIApplication.shared.keyWindow?.rootViewController)! as UIViewController)
-		return true
 	}
 	
 	static func showAlertForUpload(type:EMAlertUploadType, closure:@escaping EMAlertActionHandler) {

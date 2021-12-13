@@ -128,7 +128,7 @@ extension CALayer {
 		get {
 			return UIColor(cgColor: self.borderColor!)
 		} set {
-			self.borderColor = borderUIColor.cgColor
+			self.borderColor = newValue.cgColor
 		}
 	}
 }

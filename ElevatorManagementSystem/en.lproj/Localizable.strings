@@ -47,7 +47,15 @@
 "choose_record" = "choose record";
 "check_data" = "check data";
 
+"upload_title" = "resource upload";
+"upload_record_lab" = "record type";
+"upload_part_lab" = "part type";
+"upload_video_lab" = "video";
+"upload_pic_lab" = "picture";
+"upload_remark_lab" = "remark";
+"upload_remark_placeholder" = "input, please";
 "record_type" = "type";
 "parts_category" = "category";
 "result_state" = "state";
 "record_time" = "time";
+"upload_btn_title" = "upload";

@@ -32,7 +32,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     ///MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "图片视频上传"//EMLocalizable("manage_title")
+        self.title = EMLocalizable("upload_title")
         
         self.automaticallyAdjustsScrollViewInsets = false
         setupUI()
@@ -40,8 +40,6 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     
     /// private
     private func setupUI() {
-        
-       
         
         self.view.addSubview(self.submitBtn)
         self.submitBtn.snp.makeConstraints { make in
@@ -61,7 +59,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     
     ///MARK: table view data source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -102,7 +100,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
             }
             return cell
         }else {
-            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPicUploadCell) as! EMPicVideoUploadCell
+            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kNoteInputCell) as! EMPicVideoUploadCell
             return cell
         }
         
@@ -146,11 +144,11 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     
     lazy var submitBtn:UIButton = {
         let btn = UIButton.init(type: .custom)
-        btn.setTitle(EMLocalizable("manage_create"), for: .normal)
-        btn.setTitleColor(UIColor.colorFormHex(0xffffff), for: .normal)
+        btn.setTitle(EMLocalizable("upload_btn_title"), for: .normal)
+        btn.setTitleColor(UIColor.colorFormHex(0x999999), for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         btn.layer.cornerRadius = 24
-        btn.backgroundColor = UIColor.Main
+        btn.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
         btn.addTarget(self, action: #selector(createAction), for: .touchUpInside)
         return btn
     }()

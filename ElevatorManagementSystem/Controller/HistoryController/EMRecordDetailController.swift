@@ -37,8 +37,6 @@ class EMRecordDetailController: EMBaseViewController {
             make.edges.equalToSuperview()
         }
         
-        
-        
     }
 }
 

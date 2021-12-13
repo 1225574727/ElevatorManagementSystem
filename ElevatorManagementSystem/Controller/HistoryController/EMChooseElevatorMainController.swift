@@ -93,6 +93,21 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
         if fromType == .fromCheckHistory {
             self.navigationController?.pushViewController(EMChooseRecordController(), animated: true)
         }else {
+			if !EMReachabilityService.allow_wwan() {
+				EMReachabilityService.netWorkReachability { status in
+					if status == .wwan {
+						EMAlertService.showAlertForNet { index in
+							if index == 0 {
+								let vc = UIStoryboard(name:"Main", bundle:nil).instantiateViewController(withIdentifier: "setting")
+								self.navigationController?.pushViewController(vc, animated: true)
+							}
+						}
+					} else {
+						self.navigationController?.pushViewController(EMPicVideoUploadController(), animated: true)
+					}
+				}
+				return
+			}
             self.navigationController?.pushViewController(EMPicVideoUploadController(), animated: true)
         }
         

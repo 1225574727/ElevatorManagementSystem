@@ -49,9 +49,16 @@
 "choose_record" = "选择记录";
 "check_data" = "查看数据";
 
+"upload_title" = "图片视频上传";
+"upload_record_lab" = "选择记录类型";
+"upload_part_lab" = "零件类别";
+"upload_video_lab" = "视频";
+"upload_pic_lab" = "图片";
+"upload_remark_lab" = "备注";
+"upload_remark_placeholder" = "请填写";
 "record_type" = "记录类型";
 "parts_category" = "零件类别";
 "result_state" = "结果状态";
 "record_time" = "时间";
-
+"upload_btn_title" = "上传";
 
