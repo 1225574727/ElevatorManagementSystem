@@ -84,7 +84,7 @@ class EMCreateCell: UITableViewCell,UITextFieldDelegate {
 	private lazy var descTip:UILabel = {
 		
 		let lab = UILabel()
-		lab.text = "注：灰色为不可修改项"
+		lab.text = EMLocalizable("manage_remark")
 		lab.font = UIFont.systemFont(ofSize: 12)
 		lab.textColor = UIColor.Main
 		return lab

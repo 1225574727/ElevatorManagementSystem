@@ -44,6 +44,7 @@
 "manage_error_dis" = "请输入门与手机之间的距离";
 "manage_eidt_cancel" = "取消";
 "manage_eidt_save" = "保存";
+"manage_remark" = "注：灰色为不可修改项";
 
 "choose_elevator" = "选择电梯";
 "choose_record" = "选择记录";

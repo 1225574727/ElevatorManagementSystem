@@ -42,6 +42,7 @@
 "manage_error_id" = "input id, please";
 "manage_error_name" = "input name, please";
 "manage_error_dis" = "input dis, please";
+"manage_remark" = "tip: grey not allow change";
 
 "choose_elevator" = "choose elevator";
 "choose_record" = "choose record";

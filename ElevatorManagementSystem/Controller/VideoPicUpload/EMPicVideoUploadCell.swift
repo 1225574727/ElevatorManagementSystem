@@ -373,31 +373,6 @@ class EMPicVideoUploadCell: UITableViewCell {
 		
 	}
 	
-	private func setUpNoticeInputUI() {
-		
-		contentView.addSubview(titleLab)
-		titleLab.text = "\(EMLocalizable("upload_remark_lab"))："
-		titleLab.snp.makeConstraints { make in
-			make.left.equalToSuperview().offset(20)
-			make.top.equalToSuperview().offset(10)
-		}
-		
-		let noticeBg = UIView()
-		noticeBg.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
-		noticeBg.layer.cornerRadius = 8
-		contentView.addSubview(noticeBg)
-		noticeBg.snp.makeConstraints { make in
-			make.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20))
-			make.top.equalTo(titleLab.snp.bottom).offset(10)
-//			make.height.equalTo(170)
-		}
-		
-		noticeBg.addSubview(self.inputText)
-		self.inputText.snp.makeConstraints { make in
-			make.edges.equalToSuperview().inset(UIEdgeInsets(top: 15, left: 10, bottom: 15, right: 10))
-		}
-	}
-	
 	//MARK: textInput
 	
 	var titleName:String = "" {
@@ -459,8 +434,9 @@ class EMPicVideoUploadCell: UITableViewCell {
 		return lab
 	}()
 	
-	private lazy var inputText:EMTextView = {
+	lazy var inputText:EMTextView = {
 		let tv = EMTextView()
+		tv.delegate = self
 		tv.placeholder = EMLocalizable("upload_remark_placeholder")
 		tv.textColor = UIColor.B6
 		tv.font = UIFont.systemFont(ofSize: 14)
@@ -609,6 +585,59 @@ class EMPicVideoUploadCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+}
+
+extension EMPicVideoUploadCell: UITextViewDelegate {
+	
+	private func setUpNoticeInputUI() {
+		
+		contentView.addSubview(titleLab)
+		titleLab.text = "\(EMLocalizable("upload_remark_lab"))："
+		titleLab.snp.makeConstraints { make in
+			make.left.equalToSuperview().offset(20)
+			make.top.equalToSuperview().offset(10)
+		}
+		
+		let noticeBg = UIView()
+		noticeBg.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+		noticeBg.layer.cornerRadius = 8
+		contentView.addSubview(noticeBg)
+		noticeBg.snp.makeConstraints { make in
+			make.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20))
+			make.top.equalTo(titleLab.snp.bottom).offset(10)
+		}
+		
+		noticeBg.addSubview(self.inputText)
+		self.inputText.snp.makeConstraints { make in
+			make.edges.equalToSuperview().inset(UIEdgeInsets(top: 15, left: 10, bottom: 15, right: 10))
+		}
+	}
+	
+	func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+		
+		UIView.animate(withDuration: 0.25) {
+			self.superTableView()?.y = self.superTableView()!.y - 200
+			self.superTableView()?.scrollToRow(at: IndexPath(row: 4, section: 0), at: .top, animated: true)
+		}
+		return true
+	}
+	
+	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+		
+		UIView.animate(withDuration: 0.25) {
+			self.superTableView()?.y = self.superTableView()!.y + 200
+		}
+		return true
+	}
+	
+	func  superTableView() ->  UITableView? {
+			 for  view  in  sequence(first:  self .superview, next: { $0?.superview }) {
+				 if  let  tableView = view  as?  UITableView  {
+					 return  tableView
+				 }
+			 }
+			 return  nil
+		 }
 }
 
 extension EMPicVideoUploadCell :UITextFieldDelegate {
