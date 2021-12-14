@@ -41,7 +41,7 @@ class EMBaseViewController: UIViewController {
 		} else {
 			EMLanguageSetting.shared.language = .Chinese
 		}
-		
+		EMLanguageSetting.saveLanguageSetting()
 	}
     
     func showActivity() {

@@ -14,8 +14,9 @@ class EMLanguageSetting: NSObject {
 	static let shared: EMLanguageSetting = {
 		let languageSetting: EMLanguageSetting
 		
-		if let cacheData = EMUserDefault.object(forKey: kLauguageSettingKey) as? Data, let defaultSettings = try? NSKeyedUnarchiver.unarchiveObject(with: cacheData) as? EMLanguageSetting {
-			languageSetting = defaultSettings
+		if let cacheData = EMUserDefault.object(forKey: kLauguageSettingKey) as? String {
+			languageSetting = EMLanguageSetting()
+			languageSetting.language = cacheData == "EN" ? .English : .Chinese
 		} else {
 			languageSetting = EMLanguageSetting()
 		}
@@ -23,8 +24,12 @@ class EMLanguageSetting: NSObject {
 	}()
 	
 	static func saveLanguageSetting() {
-		let data = NSKeyedArchiver.archivedData(withRootObject: EMLanguageSetting.shared);
-		EMUserDefault.set(data, forKey: kLauguageSettingKey)
+		var cacheLanguage:String = "ZH"
+		if EMLanguageSetting.shared.language == .English {
+			cacheLanguage = "EN"
+		}
+		
+		EMUserDefault.set(cacheLanguage, forKey: kLauguageSettingKey)
 	}
 	
 	enum Language: String {
@@ -54,6 +59,7 @@ class EMLanguageSetting: NSObject {
 			observableLaunguage.value = newValue
 		}
 	}
+	
 	override init() {
 		let language:Language = .Chinese
 		observableLaunguage = EMObservable(language)
