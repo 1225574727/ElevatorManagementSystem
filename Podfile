@@ -21,4 +21,6 @@ target 'ElevatorManagementSystem' do
   pod 'Alamofire', '~> 5.4'
   # 加载 进度条
   pod 'SVProgressHUD', '~> 2.2.5'
+  # keychain 存储
+  pod 'KeychainSwift', '~> 19.0'
 end
