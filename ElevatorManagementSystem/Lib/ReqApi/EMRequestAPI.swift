@@ -10,6 +10,7 @@ import Moya
 import HandyJSON
 import UIKit
 import SwiftyJSON
+import MBProgressHUD
 
 struct ApvModel: HandyJSON {
     var code: String?
@@ -18,60 +19,45 @@ struct ApvModel: HandyJSON {
     var msg: String?
 }
 
+let EMRequestProvider = MoyaProvider<EMRequestAPI>(plugins:[EMRequestLoadingPlugin(true)])
 
-//https://mpcs.suning.com/mpcs/apv/queryAPV.do?appId=1&appVersion=9.5.35&v=v9
-let EMHomeProvider = MoyaProvider<EMHomeAPI>()
+let EMReqeustWithoutActivityProvider = MoyaProvider<EMRequestAPI>(plugins:[EMRequestLoadingPlugin(false)])
 
-enum EMHomeAPI {
-    //版本请求
-    case fmHomeData(appId: String, appVersion: String, version: String)
-    
-    //搜索热门
-    case searchHot
-
+enum EMRequestAPI {
+	//通用请求
+	case defaultRequest(url: String, params:[String: Any])
 }
 
-extension EMHomeAPI: TargetType {
+extension EMRequestAPI: TargetType {
     
     var baseURL: URL {
         switch self {
-        case .fmHomeData(let appId, let appVersion, let version):
+		case .defaultRequest(_, _):
             return URL(string: "https://mpcs.suning.com")!
-
-        case .searchHot:
-            return URL(string: "http://app.u17.com/v3/appV3_3/ios/phone")!
         }
     }
     
     var path: String {
         switch self {
-        case .fmHomeData(let appId, let appVersion, let version):
-            return "/mpcs/apv/queryAPV.do"
-        case .searchHot:
-            return "search/hotkeywordsnew"
+		case .defaultRequest(let path, _):
+			return path
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fmHomeData(let appId, let appVersion, let version):
-            return .get
-        case .searchHot:
-            return .get
+		case .defaultRequest(_, _):
+			return .post
         }
     }
     
     var task: Task {
-        var parameters = [String: String]()
+        var parameters = [String: Any]()
         
         switch self {
-        case .fmHomeData(let appId, let appVersion, let version):
-            parameters["appId"] = appId
-            parameters["appVersion"] = appVersion
-            parameters["v"] = version
-        default:break
+		case .defaultRequest(_, let params):
+			parameters = params
         }
-        
         return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
     }
     
@@ -83,7 +69,6 @@ extension EMHomeAPI: TargetType {
         return nil
     }
 }
-
 
 extension MoyaProvider {
     @discardableResult
@@ -115,7 +100,53 @@ extension MoyaProvider {
     }
 }
 
+class EMRequestLoadingPlugin: PluginType {
+	
+	var isShow: Bool
+	init(_ show:Bool = true) {
+		isShow = show
+	}
+	
+	var hudMB: MBProgressHUD?
+	
+	func showActivity() {
+		EMEventAtMain {
+			let rootController = UIApplication.shared.keyWindow?.rootViewController
+			guard let parent = rootController else {
+				print("rootViewController is nil")
+				return
+			}
+			self.hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+			self.hudMB?.mode = .indeterminate
+			self.hudMB?.label.text = "正在请求数据..."
+		}
+}
+	
+	func hideActivity() {
+		EMEventAtMain {
+			self.hudMB?.hide(animated: true)
+		}
+	}
 
+	func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
+		var tRequest = request
+		tRequest.timeoutInterval = 60
+		return tRequest
+	}
+	
+	func willSend(_ request: RequestType, target: TargetType) {
 
+		if isShow {
+			showActivity()
+		}
+	}
+	
+	func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
+		
+		if isShow {
+			hideActivity()
+		}
+	}
+}
 
 

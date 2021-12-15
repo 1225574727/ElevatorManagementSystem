@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SVProgressHUD
 
 class EMRootController: EMBaseViewController {
 	
@@ -24,6 +25,8 @@ class EMRootController: EMBaseViewController {
 		
 		// 初始化pickerView
 		EMPickerService.shared.setup()
+		
+		refreshData()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +59,20 @@ class EMRootController: EMBaseViewController {
 		changeLanuageBtn.setAttributedTitle(att, for: .normal)
 	}
 	
+//	var progress:Float = 0
+//	@objc func addTimer() {
+//		if (progress >= 1) {
+//			EMAlertService.dismissProgress()
+//			progress = 0.0
+//			return
+//		}
+//		progress += 0.1
+//		EMAlertService.setProgress(progress: progress)
+//		perform(#selector(addTimer), with: nil, afterDelay: 1)
+//	}
+	
 	@IBAction override func changeLanguage() {
+		
 		EMAlertService.showAlertForLanguage { index in
 			if index == 1 {
 				super.changeLanguage()
@@ -88,6 +104,17 @@ class EMRootController: EMBaseViewController {
 			break
 		default: break
 			
+		}
+	}
+	
+	/// MARK: test
+	func refreshData() {
+		
+		EMRequestProvider.request(.defaultRequest(url:"/mpcs/apv/queryAPV.do", params: ["appId":"1", "appVersion":"9.5.0", "v":"v9"]), model: ApvModel.self) { model in
+			
+			if (model != nil) {
+				SVProgressHUD.showSuccess(withStatus: model?.msg)
+			}
 		}
 	}
 }
