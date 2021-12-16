@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 //设备屏幕尺寸
 let currentMode_width = (UIScreen.main.currentMode?.size.width ?? 375)
@@ -54,4 +55,17 @@ func EMEventAtMain(_ clouse: @escaping ()->()) {
 			clouse()
 		}
 	}
+}
+
+func videoInfo(_ url: URL) -> [String:String] {
+	
+	let asset = AVURLAsset(url: url)
+	let videoTracks = asset.tracks(withMediaType: .video)
+	let videoTrack:AVAssetTrack = videoTracks[0]
+	let trackDimensions = videoTrack.naturalSize
+	
+	//视频总时长
+	let duration:CMTime = asset.duration
+	let durationNum:Int = Int(duration.value) / Int(duration.timescale)
+	return ["width":"\(trackDimensions.width)","height":"\(trackDimensions.height)","rate":"\(videoTrack.nominalFrameRate)","bps":"\(videoTrack.estimatedDataRate)","size":"\(videoTrack.totalSampleDataLength)","duration":"\(durationNum)"]
 }
