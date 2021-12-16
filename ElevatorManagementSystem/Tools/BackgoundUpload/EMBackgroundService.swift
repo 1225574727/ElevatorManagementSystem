@@ -13,6 +13,11 @@ let uploadFileUrl = "---"
 let uploadUnitSize = 1 * 1024 * 1024
 let EMBoundary = "BoundaryForEMSystem"
 
+enum EMUploadResult {
+  case success(path: String)
+  case error(Error)
+}
+
 class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegate {
 	
 	/// 文件路径
@@ -32,6 +37,18 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	var progress:Float = 0.0
 	
 	var model:EMUploadModel!
+	
+	fileprivate var progressHandler:((CGFloat)->())?
+	fileprivate var completeHandler:((EMUploadResult)->())?
+	
+	func upload(url:String, progressHandler:@escaping ((CGFloat)->()), completeHandler:@escaping ((EMUploadResult)->())) {
+		
+		self.progressHandler = progressHandler
+		self.completeHandler = completeHandler
+		let uploadModel = EMUploadModel();
+		uploadModel.resFilePath = uploadFileUrl + url;
+		startUploadFile(model: uploadModel)
+	}
 	
 	/// 初始化backgoundSession
 	func setupBackgroundSession() {
@@ -55,16 +72,14 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 			print("\(String(describing: model.resFilePath))：文件不存在")
 			return
 		}
-		filePath = model.resFilePath
+//		filePath = model.resFilePath
 		
 		perfectFileModel(model)
 		
 		setupBackgroundSession()
 		
 		//开始上传文件
-		if fileExist(filePath) {
-			startUploadFile()
-		}
+		startUploadFile()
 	}
 	
 	func perfectFileModel(_ model:EMUploadModel) {
@@ -75,8 +90,9 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		self.model.totalCount = totalCount
 	}
 	
-	func startUploadFile() {
+	private func startUploadFile() {
 		model.status = .EMUploading
+//		model.resFilePath  = filePath
 		/// 上传代码
 		uploadUnitWith(Data.init())
 	}
@@ -134,6 +150,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		let currentProgress:Float = Float((Int(totalBytesSent)+model.uploadCount*uploadUnitSize) / model.totalCount)
 		progress = Float(currentProgress)
 		
+		progressHandler?(CGFloat(progress))
 		print("\(currentProgress)%")
 	}
 	
@@ -144,6 +161,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		if model.uploadCount == model.totalCount {
 			model.status = .EMUploaded
 			//此处可能返回后台保存视频的地址
+			self.completeHandler?(.success(path: "upload_url"))
 			
 			//所有文件上传完毕后，释放创建的会话（在结束task后）
 			backgoundSession.finishTasksAndInvalidate()
@@ -183,11 +201,12 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		//上传结束后其他操作
 		if error != nil{
 			print("上传error--->\(error!)")
+			self.completeHandler?(.error(error!))
 			
 		}else{
-			/// 任务数+1
+			//任务数+1
 			model.uploadCount += 1
-			/// 获取token
+			//获取token
 			if model.token.isEmpty {
 				if let resultData = response as Data?{
 					
