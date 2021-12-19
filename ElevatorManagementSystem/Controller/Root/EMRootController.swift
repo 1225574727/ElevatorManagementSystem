@@ -17,6 +17,7 @@ class EMRootController: EMBaseViewController {
 	@IBOutlet weak var uploadLab:UILabel!
 	@IBOutlet weak var historyLab:UILabel!
 	@IBOutlet weak var settingLab:UILabel!
+	@IBOutlet weak var listLab:UILabel!
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.automaticallyAdjustsScrollViewInsets = false
@@ -40,6 +41,7 @@ class EMRootController: EMBaseViewController {
 		managerLab.text = EMLocalizable("root_manage")
 		uploadLab.text = EMLocalizable("root_upload")
 		historyLab.text = EMLocalizable("root_history")
+		listLab.text = EMLocalizable("root_list")
 		settingLab.text = EMLocalizable("root_setting")
 	}
 	
@@ -100,6 +102,11 @@ class EMRootController: EMBaseViewController {
 		case 2020:
 
 			let vc = UIStoryboard(name:"Main", bundle:nil).instantiateViewController(withIdentifier: "setting")
+			self.navigationController?.pushViewController(vc, animated: true)
+			break
+		case 2021:
+
+			let vc = EMUploadListController()
 			self.navigationController?.pushViewController(vc, animated: true)
 			break
 		default: break

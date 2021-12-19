@@ -24,10 +24,14 @@
 "alert_upload_fail" = "failure";
 "alert_upload_fail_continue" = "continue";
 "alert_upload_fail_cancel" = "cancel";
+"alert_upload_list" = "upload list";
+"alert_upload_sure" = "sure";
+"alert_upload_content" = "uploading, open list";
 
 "root_manage" = "elevator manage";
 "root_upload" = "source upload";
 "root_history" = "history";
+"root_list" = "upload list";
 "root_setting" = "setting";
 
 "setting_title" = "setting";
@@ -60,3 +64,8 @@
 "result_state" = "state";
 "record_time" = "time";
 "upload_btn_title" = "upload";
+
+"upload_list_title" = "upload list";
+"upload_list_status_loading" = "uploading";
+"upload_list_waitting" = "waitting";
+"upload_list_title" = "upload continue";

@@ -24,10 +24,14 @@
 "alert_upload_fail" = "上传失败";
 "alert_upload_fail_continue" = "继续上传";
 "alert_upload_fail_cancel" = "取消上传";
+"alert_upload_list" = "打开上传列表";
+"alert_upload_sure" = "我知道了";
+"alert_upload_content" = "提交成功，正在上传中";
 
 "root_manage" = "电梯管理";
 "root_upload" = "图片视频上传";
 "root_history" = "查看历史数据";
+"root_list" = "上传列表";
 "root_setting" = "系统设置";
 
 "setting_title" = "设置";
@@ -63,3 +67,8 @@
 "record_time" = "时间";
 "upload_btn_title" = "上传";
 
+"upload_list_title" = "上传列表";
+"upload_list_status_loading" = "上传中";
+"upload_list_waitting" = "等待上传";
+"upload_list_title" = "继续上传";
+"upload_list_cancel" = "取消上传";

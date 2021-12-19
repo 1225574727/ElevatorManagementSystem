@@ -59,6 +59,16 @@ class EMAlertService: NSObject {
 		cAlert.show((UIApplication.shared.keyWindow?.rootViewController)! as UIViewController)
 	}
 	
+	static func showAlertForUploading(closure:@escaping EMAlertActionHandler) {
+
+		let imageName:String = "alert_success"
+		let buttons:[String] = [EMLocalizable("alert_upload_list"), EMLocalizable("alert_upload_sure")]
+		let content: String = EMLocalizable("alert_upload_content")
+		let cAlert = EMAlertController.init(title: content, message: "", buttons: buttons, image: UIImage.init(named: imageName)!, type: .EMAlertUpload,handler: closure)
+		cAlert.imageSize = CGSize(width: 175, height: 175)
+		cAlert.show((UIApplication.shared.keyWindow?.rootViewController)! as UIViewController)
+	}
+	
 	static func showAlertForUpload(type:EMAlertUploadType, closure:@escaping EMAlertActionHandler) {
 
 		var imageName:String
