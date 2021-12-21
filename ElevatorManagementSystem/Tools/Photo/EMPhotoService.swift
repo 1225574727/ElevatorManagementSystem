@@ -50,7 +50,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		
 		self.resourceType = resourceType
 		self.handler = handler
-		EMAlertService.show(title: nil, message: nil, cancelTitle: "取消", otherTitles:[resourceType == .photo ? "相机" : "拍摄", "选择\(resourceType == .photo ? "图片":"视频")"] , style: .actionSheet) { _, index in
+		EMAlertService.show(title: nil, message: nil, cancelTitle: EMLocalizable("picker_cancel"), otherTitles:[EMLocalizable(resourceType == .photo ? "picker_take_photo" : "picker_take_video"), EMLocalizable(resourceType == .photo ? "picker_select_photo":"picker_select_video")] , style: .actionSheet) { _, index in
 			switch (index) {
 			case 1:
 				self.takeCamera()
@@ -82,7 +82,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 					}
 				} else {
 					
-					EMAlertService.show(title: "温馨提示", message: "app需要授权使用您的相机", cancelTitle: "确认", otherTitles: nil
+					EMAlertService.show(title: EMLocalizable("alert_tip"), message: EMLocalizable("system_allow_camera"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: nil
 										, style: .alert) { _, index in
 					}
 				}
@@ -99,7 +99,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			switch status {
 			case .notDetermined,.restricted,.denied:
 				EMEventAtMain {
-					EMAlertService.show(title: "温馨提示", message: "app需要授权使用您的相册", cancelTitle: "确认", otherTitles: nil
+					EMAlertService.show(title: EMLocalizable("alert_tip"), message: EMLocalizable("system_allow_photo"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: nil
 										, style: .alert) { _, index in
 					}
 				}

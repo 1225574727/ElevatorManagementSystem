@@ -6,66 +6,80 @@
   
 */
 "change_language" = "Change Language";
-"root_page_title" = "Elevator Management System";
+
+"root_page_title" = "Manage Equipment";
 "elevator_management" = "Elevator Management";
 "video_upload" = "Video Upload";
 "history" = "History";
 
-"alert_tip" = "Tip";
+"alert_tip" = "Warning!";
 "alert_cancel" = "Cancel";
-"alert_sure" = "Sure";
-"alert_change_language" = "change language to chiness";
-"alert_net_tip" = "not in 3G/4G/5G upload, connect to wifi, please";
-"alert_net_setting" = "setting";
-"alert_net_close" = "close";
-"alert_upload_success" = "success";
-"alert_upload_continue" = "continue";
-"alert_upload_go_home" = "home";
-"alert_upload_fail" = "failure";
-"alert_upload_fail_continue" = "continue";
-"alert_upload_fail_cancel" = "cancel";
-"alert_upload_list" = "upload list";
-"alert_upload_sure" = "sure";
-"alert_upload_content" = "uploading, open list";
+"alert_sure" = "Confirm";
+"alert_change_language" = "Switching to Chinese Version.";
+"alert_net_tip" = "It is not allowed to upload data in the existing network setting (via 3G/4G/ 5G). Do you want to continue?";
+"alert_net_setting" = "Go to Network Settings";
+"alert_net_close" = "Close";
+"alert_upload_success" = "Done!";
+"alert_upload_continue" = "Continue with Another Inspection Order";
+"alert_upload_go_home" = "Home";
+"alert_upload_fail" = "The upload failed!";
+"alert_upload_fail_continue" = "Continue Data Upload";
+"alert_upload_fail_cancel" = "Cancel Data Upload";
+"alert_upload_list" = "Continue with Another Inspection Order";
+"alert_upload_sure" = "Home";
+"alert_upload_content" = "Done!";
+"alert_process_content" = "Uploading";
 
-"root_manage" = "elevator manage";
-"root_upload" = "source upload";
-"root_history" = "history";
+"root_manage" = "Manage Equipment";
+"root_upload" = "Upload Inspection Data";
+"root_history" = "Check Inspection Results";
 "root_list" = "upload list";
-"root_setting" = "setting";
+"root_setting" = "Settings";
 
-"setting_title" = "setting";
-"setting_desc" = "allow 3G/4G/5G upload";
+"setting_title" = "Settings";
+"setting_desc" = "Enable Data uploading via mobile data";
 
-"manage_title" = "elevator list";
-"manage_create" = "create elevator";
-"manage_edit" = "edit";
-"manage_id" = "elevator id";
-"manage_name" = "elevator name";
-"manage_dis" = "elevator distance";
+"manage_title" = "Equipment List";
+"manage_create" = "Create Equipment";
+"manage_edit" = "Edit";
+"manage_id" = "Equipment ID";
+"manage_name" = "Equipment Name";
+"manage_dis" = "Distance to the Inspection Target";
+"manage_create_submit" = "Create";
 "manage_error_id" = "input id, please";
 "manage_error_name" = "input name, please";
 "manage_error_dis" = "input dis, please";
-"manage_remark" = "tip: grey not allow change";
+"manage_eidt_save" = "Save";
+"manage_eidt_cancel" = "Cancel";
+"manage_remark" = "Non-editable Fields in Grey.";
 
-"choose_elevator" = "choose elevator";
+"choose_elevator" = "Select an Equipment";
 "choose_record" = "choose record";
 "check_data" = "check data";
 
-"upload_title" = "resource upload";
-"upload_record_lab" = "record type";
-"upload_part_lab" = "part type";
-"upload_video_lab" = "video";
-"upload_pic_lab" = "picture";
-"upload_remark_lab" = "remark";
-"upload_remark_placeholder" = "input, please";
+"upload_title" = "Upload Inspection Data";
+"upload_record_lab" = "Select a Type for Inspection Record";
+"upload_part_lab" = "Part Type";
+"upload_video_lab" = "Video";
+"upload_pic_lab" = "Image";
+"upload_remark_lab" = "Comment";
+"upload_remark_placeholder" = "Please fill in any details or your comments here.";
+"upload_btn_title" = "Upload";
+
 "record_type" = "type";
 "parts_category" = "category";
 "result_state" = "state";
 "record_time" = "time";
-"upload_btn_title" = "upload";
 
 "upload_list_title" = "upload list";
 "upload_list_status_loading" = "uploading";
 "upload_list_waitting" = "waitting";
 "upload_list_title" = "upload continue";
+
+"picker_take_photo" = "Camera";
+"picker_select_photo" = "Select Images";
+"picker_take_video" = "Record a Video";
+"picker_select_video" = "Select a Video";
+"picker_cancel" = "Cancel";
+
+"system_allow_camera" = "App require use camera";

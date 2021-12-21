@@ -91,7 +91,7 @@ class EMAlertService: NSObject {
 	/// 进度条相关
 	static func showAlertForProgress() {
 		
-		EMAlertService.proressAlert = EMAlertController.init(progress: "上传中")
+		EMAlertService.proressAlert = EMAlertController.init(progress: EMLocalizable("alert_process_content"))
 		EMAlertService.proressAlert!.show((UIApplication.shared.keyWindow?.rootViewController)! as UIViewController)
 	}
 	

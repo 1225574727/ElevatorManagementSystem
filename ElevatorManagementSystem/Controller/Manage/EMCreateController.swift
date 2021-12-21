@@ -325,7 +325,7 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 	
 	lazy var submitBtn:UIButton = {
 		let btn = UIButton.init(type: .custom)
-		btn.setTitle(createType == .edit ? EMLocalizable("manage_eidt_save"):EMLocalizable("manage_create"), for: .normal)
+		btn.setTitle(createType == .edit ? EMLocalizable("manage_eidt_save"):EMLocalizable("manage_create_submit"), for: .normal)
 		btn.setTitleColor(UIColor.colorFormHex(0xffffff), for: .normal)
 		btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
 		btn.layer.cornerRadius = 24

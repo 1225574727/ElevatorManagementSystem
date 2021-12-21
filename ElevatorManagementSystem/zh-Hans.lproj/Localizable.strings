@@ -27,6 +27,7 @@
 "alert_upload_list" = "打开上传列表";
 "alert_upload_sure" = "我知道了";
 "alert_upload_content" = "提交成功，正在上传中";
+"alert_process_content" = "上传中";
 
 "root_manage" = "电梯管理";
 "root_upload" = "图片视频上传";
@@ -46,6 +47,7 @@
 "manage_error_id" = "请输入电梯id";
 "manage_error_name" = "请输入电梯名称";
 "manage_error_dis" = "请输入门与手机之间的距离";
+"manage_create_submit" = "创建";
 "manage_eidt_cancel" = "取消";
 "manage_eidt_save" = "保存";
 "manage_remark" = "注：灰色为不可修改项";
@@ -72,3 +74,13 @@
 "upload_list_waitting" = "等待上传";
 "upload_list_title" = "继续上传";
 "upload_list_cancel" = "取消上传";
+
+"picker_take_photo" = "相机";
+"picker_select_photo" = "选择图片";
+"picker_take_video" = "拍摄";
+"picker_select_video" = "选择视频";
+"picker_cancel" = "取消";
+
+"system_allow_camera" = "app需要授权使用您的相机";
+"system_allow_photo" = "app需要授权使用您的相册";
+
