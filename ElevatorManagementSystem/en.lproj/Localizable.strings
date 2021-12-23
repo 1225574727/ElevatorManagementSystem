@@ -33,7 +33,7 @@
 "root_manage" = "Manage Equipment";
 "root_upload" = "Upload Inspection Data";
 "root_history" = "Check Inspection Results";
-"root_list" = "upload list";
+"root_list" = "Upload List";
 "root_setting" = "Settings";
 
 "setting_title" = "Settings";
@@ -71,10 +71,14 @@
 "result_state" = "state";
 "record_time" = "time";
 
-"upload_list_title" = "upload list";
-"upload_list_status_loading" = "uploading";
-"upload_list_waitting" = "waitting";
-"upload_list_title" = "upload continue";
+"upload_list_title" = "Upload List";
+"upload_list_section_loading" = "Uploading";
+"upload_list_section_waitting" = "Waiting";
+"upload_list_status_loading" = "Uploading";
+"upload_list_status_waitting" = "Waiting";
+"upload_list_status_continue" = "Continue";
+"upload_list_cancel" = "Cancel";
+
 
 "picker_take_photo" = "Camera";
 "picker_select_photo" = "Select Images";

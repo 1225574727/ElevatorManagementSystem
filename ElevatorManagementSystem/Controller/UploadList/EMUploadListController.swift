@@ -27,14 +27,14 @@ class EMUploadListCell: UITableViewCell {
 				statusButton.backgroundColor = UIColor.clear
 				break
 			case .waiting:
-				statusButton.setTitle(EMLocalizable("upload_list_waitting"), for: .normal)
+				statusButton.setTitle(EMLocalizable("upload_list_status_waitting"), for: .normal)
 				statusButton.isEnabled = false
 				statusButton.setTitleColor(UIColor.B3, for: .normal)
 				statusButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
 				statusButton.backgroundColor = UIColor.clear
 				break
 			case .failure:
-				statusButton.setTitle(EMLocalizable("upload_list_title"), for: .normal)
+				statusButton.setTitle(EMLocalizable("upload_list_status_continue"), for: .normal)
 				statusButton.isEnabled = true
 				statusButton.setTitleColor(UIColor.white, for: .normal)
 				statusButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
@@ -66,7 +66,7 @@ class EMUploadListCell: UITableViewCell {
 		statusButton.snp.makeConstraints { make in
 			make.centerY.equalTo(titleLab)
 			make.right.equalToSuperview().offset(-20)
-			make.width.equalTo(EMLanguageSetting.shared.language ==  .Chinese ? 68:130)
+			make.width.equalTo(68)
 			make.height.equalTo(26)
 		}
 		
@@ -80,7 +80,7 @@ class EMUploadListCell: UITableViewCell {
 		cancelBtn.snp.makeConstraints { make in
 			make.right.equalToSuperview().offset(-20)
 			make.top.equalTo(statusButton.snp.bottom).offset(20)
-			make.width.equalTo(EMLanguageSetting.shared.language ==  .Chinese ? 68:130)
+			make.width.equalTo(68)
 			make.height.equalTo(26)
 		}
 
@@ -221,7 +221,7 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 		let titleLab = UILabel(frame: .zero)
 		titleLab.textColor = UIColor.B3
 		titleLab.font = UIFont.boldSystemFont(ofSize: 16)
-		titleLab.text = EMLocalizable(section == 0 ? "upload_list_status_loading" : "upload_list_waitting")
+		titleLab.text = EMLocalizable(section == 0 ? "upload_list_section_loading" : "upload_list_section_waitting")
 		headView.addSubview(titleLab)
 		titleLab.snp.makeConstraints { make in
 			make.left.equalToSuperview().offset(20)

@@ -416,6 +416,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="descLab" destination="cL3-UR-8Jt" id="UTl-Hp-nZa"/>
                         <outlet property="switchNet" destination="2Qc-aq-S06" id="WQq-Y7-Xhv"/>
                     </connections>
                 </viewController>

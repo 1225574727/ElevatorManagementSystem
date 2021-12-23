@@ -70,10 +70,13 @@
 "upload_btn_title" = "上传";
 
 "upload_list_title" = "上传列表";
+"upload_list_section_loading" = "上传中";
+"upload_list_section_waitting" = "等待上传";
 "upload_list_status_loading" = "上传中";
-"upload_list_waitting" = "等待上传";
-"upload_list_title" = "继续上传";
+"upload_list_status_waitting" = "等待上传";
+"upload_list_status_continue" = "继续上传";
 "upload_list_cancel" = "取消上传";
+
 
 "picker_take_photo" = "相机";
 "picker_select_photo" = "选择图片";

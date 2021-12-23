@@ -11,11 +11,14 @@ import UIKit
 class EMSettingController: EMBaseViewController {
 	
 	@IBOutlet weak var switchNet:UISwitch!
+	@IBOutlet weak var descLab:UILabel!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = EMLocalizable("setting_title")
 		self.view.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+		
+		descLab.text = EMLocalizable("setting_desc")
 		switchNet.isOn = EMReachabilityService.allow_wwan()
 	}
 	
