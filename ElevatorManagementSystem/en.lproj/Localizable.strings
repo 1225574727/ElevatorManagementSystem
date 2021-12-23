@@ -53,9 +53,10 @@
 "manage_eidt_cancel" = "Cancel";
 "manage_remark" = "Non-editable Fields in Grey.";
 
-"choose_elevator" = "Select an Equipment";
-"choose_record" = "choose record";
-"check_data" = "check data";
+"choose_elevator_title" = "Select an Equipment";
+"choose_record_title" = "Select an Inspection Record";
+"choose_floor_title" = "Select a Floor";
+"check_data_title" = "Check Inspection Results";
 
 "upload_title" = "Upload Inspection Data";
 "upload_record_lab" = "Select a Type for Inspection Record";

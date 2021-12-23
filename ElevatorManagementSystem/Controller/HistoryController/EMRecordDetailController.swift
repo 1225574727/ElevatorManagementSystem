@@ -26,7 +26,7 @@ class EMRecordDetailController: EMBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = EMLocalizable("choose_record")
+        self.title = EMLocalizable("choose_floor_title")
         
         historyDataArray.append("楼层一")
         historyDataArray.append("楼层二")

@@ -52,9 +52,10 @@
 "manage_eidt_save" = "保存";
 "manage_remark" = "注：灰色为不可修改项";
 
-"choose_elevator" = "选择电梯";
-"choose_record" = "选择记录";
-"check_data" = "查看数据";
+"choose_elevator_title" = "选择电梯";
+"choose_record_title" = "选择记录";
+"choose_floor_title" = "选择楼层";
+"check_data_title" = "查看数据";
 
 "upload_title" = "图片视频上传";
 "upload_record_lab" = "选择记录类型";

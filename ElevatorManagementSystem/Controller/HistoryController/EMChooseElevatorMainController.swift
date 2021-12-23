@@ -33,7 +33,7 @@ class EMChooseElevatorMainController: EMBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = EMLocalizable("choose_elevator")
+        self.title = EMLocalizable("choose_elevator_title")
         
         historyDataArray.append("一号电梯")
         historyDataArray.append("二号电梯")
