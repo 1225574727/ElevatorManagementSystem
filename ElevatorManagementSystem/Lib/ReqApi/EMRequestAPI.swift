@@ -131,7 +131,7 @@ class EMRequestLoadingPlugin: PluginType {
 		var tRequest = request
 		tRequest.timeoutInterval = 60
 //		tRequest.headers.update(.contentType("application/json"))
-		tRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//		tRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 		return tRequest
 	}
 	
