@@ -347,6 +347,7 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 		return btn
 	}()
 	
+	//MARK: event
 	@objc func didHandler() {
 		view.endEditing(true)
 	}
@@ -359,7 +360,7 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 		}
 		let success = inputCheck()
 		if success {
-			self.navigationController?.popViewController(animated: true)
+			createElevator()
 			return
 		}
 	}
@@ -367,5 +368,17 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 	@objc func cancelAction() {
 		print("取消")
 		self.navigationController?.popViewController(animated: true)
+	}
+	
+	//request
+	func createElevator() {
+	
+		EMRequestProvider.request(.defaultRequest(url:"/equipment/insertEquipment", params: ["equipmentId":em_id, "doorDistance":em_distance,"name":em_name,"createPerson":PCDDeviceService.deviceUUID]), model: EMBaseModel.self) { model in
+			
+			if (model != nil) {
+				
+			}
+//			self.navigationController?.popViewController(animated: true)
+		}
 	}
 }

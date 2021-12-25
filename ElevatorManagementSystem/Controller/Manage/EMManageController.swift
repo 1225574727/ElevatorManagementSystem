@@ -82,6 +82,8 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 		
 		self.automaticallyAdjustsScrollViewInsets = false
 		setupUI()
+		
+		fetchData()
 	}
 	
 	/// private
@@ -143,5 +145,15 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 	@objc func createAction() {
 		let vc = EMCreateController()
 		self.navigationController?.pushViewController(vc, animated: true)
+	}
+	
+	func fetchData() {
+		
+		EMRequestProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"10"]), model: EMBaseModel.self) { model in
+			
+			if (model != nil) {
+//				SVProgressHUD.showSuccess(withStatus: model?.msg)
+			}
+		}
 	}
 }

@@ -27,7 +27,6 @@ class EMRootController: EMBaseViewController {
 		// 初始化pickerView
 		EMPickerService.shared.setup()
 		
-		refreshData()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -114,14 +113,4 @@ class EMRootController: EMBaseViewController {
 		}
 	}
 	
-	/// MARK: test
-	func refreshData() {
-		
-		EMRequestProvider.request(.defaultRequest(url:"/mpcs/apv/queryAPV.do", params: ["appId":"1", "appVersion":"9.5.0", "v":"v9"]), model: ApvModel.self) { model in
-			
-			if (model != nil) {
-				SVProgressHUD.showSuccess(withStatus: model?.msg)
-			}
-		}
-	}
 }

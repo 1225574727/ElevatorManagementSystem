@@ -12,10 +12,9 @@ import UIKit
 import SwiftyJSON
 import MBProgressHUD
 
-struct ApvModel: HandyJSON {
+struct EMBaseModel: HandyJSON {
     var code: String?
     var data: [String: String]?
-    var api: String?
     var msg: String?
 }
 
@@ -33,7 +32,7 @@ extension EMRequestAPI: TargetType {
     var baseURL: URL {
         switch self {
 		case .defaultRequest(_, _):
-            return URL(string: "https://mpcs.suning.com")!
+            return URL(string: "http://39.100.152.16:5100/elevator-app")!
         }
     }
     
@@ -131,6 +130,8 @@ class EMRequestLoadingPlugin: PluginType {
 	func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
 		var tRequest = request
 		tRequest.timeoutInterval = 60
+//		tRequest.headers.update(.contentType("application/json"))
+		tRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 		return tRequest
 	}
 	
