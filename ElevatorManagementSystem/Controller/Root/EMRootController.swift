@@ -82,7 +82,7 @@ class EMRootController: EMBaseViewController {
 		}
 	}
 	@IBAction func userAction(sender:UIButton) {
-		print("\(sender.tag)")
+//		print("\(sender.tag)")
 		switch sender.tag {
 		case 2017:
 			let vc = EMManageController()

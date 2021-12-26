@@ -13,6 +13,12 @@ typealias ManageEditHandler = () -> Void
 class EMManageCell: UITableViewCell {
 	
 	var editHandler:ManageEditHandler?
+	var data:EMListItemEntity? {
+		didSet {
+			self.titleLab.text = data?.name ?? "--"
+		}
+	}
+	
 	private lazy var titleLab:UILabel = {
 		
 		let lab = UILabel.init(frame: .zero)
@@ -75,13 +81,23 @@ class EMManageCell: UITableViewCell {
 class EMManageController: EMBaseViewController,UITableViewDataSource,UITableViewDelegate {
 
 	final let CellIdentifier = "ManageCell"
+	
+	var datas:[EMListItemEntity]?
+	
 	///MARK: life cycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = EMLocalizable("manage_title")
 		
 		self.automaticallyAdjustsScrollViewInsets = false
+		
+		fetchData()
+
 		setupUI()
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
 		
 		fetchData()
 	}
@@ -105,16 +121,17 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 	
 	///MARK: table view data source
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 6
+		return datas?.count ?? 0
 	}
 	
 	///MARK: table view delegate
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell:EMManageCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier) as! EMManageCell
+		cell.data = self.datas?[indexPath.row]
 		cell.editHandler =  {
 			let vc = EMCreateController()
 			vc.createType = .edit
-			vc.editData = ["id":"12345678","name":"x号电梯","distance":"12.00"]
+			vc.editData = self.datas?[indexPath.row]
 			self.navigationController?.pushViewController(vc, animated: true)
 		}
 		return cell
@@ -149,10 +166,13 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 	
 	func fetchData() {
 		
-		EMRequestProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"10"]), model: EMBaseModel.self) { model in
+		EMReqeustWithoutActivityProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"10"]), model: EMListEntity.self) { model in
 			
 			if (model != nil) {
-//				SVProgressHUD.showSuccess(withStatus: model?.msg)
+				self.datas = model!.data!
+				EMEventAtMain {
+					self.tableView.reloadData()
+				}
 			}
 		}
 	}

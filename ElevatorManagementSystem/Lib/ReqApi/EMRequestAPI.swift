@@ -14,7 +14,6 @@ import MBProgressHUD
 
 struct EMBaseModel: HandyJSON {
     var code: String?
-    var data: [String: String]?
     var msg: String?
 }
 

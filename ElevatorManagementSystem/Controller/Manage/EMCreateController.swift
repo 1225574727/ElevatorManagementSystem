@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SVProgressHUD
 
 typealias InputHanlder = (_ text:String)->Void
 
@@ -187,7 +188,13 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 	]
 	
 	var createType:EMCreateType = .create
-	var editData:Dictionary<String, Any>?
+	var editData:EMListItemEntity? {
+		didSet {
+			em_id = editData?.equipmentId ?? ""
+			em_name = editData?.name ?? ""
+			em_distance = editData?.doorDistance ?? ""
+		}
+	}
 	
 	var em_id = ""
 	var em_name = ""
@@ -252,14 +259,14 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 			var content = ""
 			switch indexPath.row {
 			case 0:
-				cell.placeholder = data["id"] as? String
+				cell.placeholder = data.equipmentId
 				cell.showDescTip = true
 				break
 			case 1:
-				content = data["name"] as! String
+				content = data.name ?? ""
 				break
 			case 2:
-				content = data["distance"] as! String
+				content = data.doorDistance ?? ""
 				break
 			default: break
 			}
@@ -353,14 +360,14 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 	}
 	
 	@objc func createAction() {
-		print("提交电梯")
+
 		if createType == .edit {
-			self.navigationController?.popViewController(animated: true)
+			submitElevator(.edit)
 			return
 		}
 		let success = inputCheck()
 		if success {
-			createElevator()
+			submitElevator(.create)
 			return
 		}
 	}
@@ -371,14 +378,15 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 	}
 	
 	//request
-	func createElevator() {
+	func submitElevator(_ type:EMCreateType) {
 	
-		EMRequestProvider.request(.defaultRequest(url:"/equipment/insertEquipment", params: ["equipmentId":em_id, "doorDistance":em_distance,"name":em_name,"createPerson":PCDDeviceService.deviceUUID]), model: EMBaseModel.self) { model in
+		EMRequestProvider.request(.defaultRequest(url:type == .edit ? "/equipment/updateEquipment" : "/equipment/insertEquipment", params: ["equipmentId":em_id, "doorDistance":em_distance,"name":em_name,"createPerson":PCDDeviceService.deviceUUID]), model: EMBaseModel.self) { model in
 			
-			if (model != nil) {
-				
+			if (model?.code == "200") {
+
+				self.navigationController?.popViewController(animated: true)
 			}
-//			self.navigationController?.popViewController(animated: true)
+			SVProgressHUD.showSuccess(withStatus:model?.msg)
 		}
 	}
 }
