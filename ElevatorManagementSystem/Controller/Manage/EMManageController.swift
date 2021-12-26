@@ -166,10 +166,15 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 	
 	func fetchData() {
 		
-		EMReqeustWithoutActivityProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"10"]), model: EMListEntity.self) { model in
+		EMReqeustWithoutActivityProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"10"]), model: EMListEntity.self) { [weak self] model in
 			
-			if (model != nil) {
-				self.datas = model!.data!
+            guard let self = self else {
+                return
+            }
+            
+            if let model = model, let dataArray = model.data {
+                
+                self.datas = dataArray
 				EMEventAtMain {
 					self.tableView.reloadData()
 				}

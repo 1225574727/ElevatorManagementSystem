@@ -17,6 +17,7 @@
 		474586DF2764F12000796950 /* EMChooseElevatorMainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586DB2764F12000796950 /* EMChooseElevatorMainController.swift */; };
 		474586E02764F12000796950 /* EMHistroyMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586DC2764F12000796950 /* EMHistroyMainCell.swift */; };
 		474586E22764F13600796950 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586E12764F13600796950 /* UIButton+Extension.swift */; };
+		47AF4C812778A3A9009D0973 /* EMHistoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AF4C802778A3A9009D0973 /* EMHistoryEntity.swift */; };
 		47E6C4F127361A53000FAA7D /* EMVideoRecordingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4EF27361A53000FAA7D /* EMVideoRecordingController.swift */; };
 		47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4F027361A53000FAA7D /* EMRecordBottomView.swift */; };
 		47E6C4F627362A28000FAA7D /* EMConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4F527362A28000FAA7D /* EMConfig.swift */; };
@@ -64,6 +65,7 @@
 		474586DB2764F12000796950 /* EMChooseElevatorMainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMChooseElevatorMainController.swift; sourceTree = "<group>"; };
 		474586DC2764F12000796950 /* EMHistroyMainCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMHistroyMainCell.swift; sourceTree = "<group>"; };
 		474586E12764F13600796950 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		47AF4C802778A3A9009D0973 /* EMHistoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMHistoryEntity.swift; sourceTree = "<group>"; };
 		47E6C4EF27361A53000FAA7D /* EMVideoRecordingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMVideoRecordingController.swift; sourceTree = "<group>"; };
 		47E6C4F027361A53000FAA7D /* EMRecordBottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMRecordBottomView.swift; sourceTree = "<group>"; };
 		47E6C4F527362A28000FAA7D /* EMConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMConfig.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				6A36C91B27781D2A00FF2961 /* EMListEntity.swift */,
+				47AF4C802778A3A9009D0973 /* EMHistoryEntity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				4721464D2765C397003792AB /* EMPicVideoUploadCell.swift in Sources */,
 				51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */,
 				4721464B2765C108003792AB /* EMPicVideoUploadController.swift in Sources */,
+				47AF4C812778A3A9009D0973 /* EMHistoryEntity.swift in Sources */,
 				6A663CAC2759FB6E001A3DBD /* UIImage+Extension.swift in Sources */,
 				474586E02764F12000796950 /* EMHistroyMainCell.swift in Sources */,
 				4721464827659CE1003792AB /* EMCheckDataCell.swift in Sources */,

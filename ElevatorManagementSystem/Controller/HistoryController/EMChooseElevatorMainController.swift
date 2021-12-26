@@ -19,7 +19,7 @@ class EMChooseElevatorMainController: EMBaseViewController {
 
     var fromType: EMFromFunctionType?
     
-    var historyDataArray: [String] = Array()
+    var historyDataArray: [EMListItemEntity] = Array()
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
@@ -35,18 +35,33 @@ class EMChooseElevatorMainController: EMBaseViewController {
         super.viewDidLoad()
         self.title = EMLocalizable("choose_elevator_title")
         
-        historyDataArray.append("一号电梯")
-        historyDataArray.append("二号电梯")
-        historyDataArray.append("三号电梯")
-        
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         
         
+        fetchEquipmentListData()
+    }
+    
+    func fetchEquipmentListData() {
+        
+        EMRequestProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"20"]), model: EMListEntity.self) { model in
+            
+            if let model = model, let dataArray = model.data {
+                
+                self.historyDataArray = dataArray
+                EMEventAtMain {
+                    self.tableView.reloadData()
+                }
+                
+            }
+        }
         
     }
+    
+   
+
 }
 
 extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDelegate {
@@ -57,8 +72,8 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
         if cell == nil {
             cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMChooseElevatorMainController.kEMHistroyMainCell)
         }
-        
-        cell!.updateCellData(model: RecordModel(timeText: "", titleText: historyDataArray[indexPath.section], checkText: ""), type: .elevatorCell)
+        let model: EMListItemEntity = historyDataArray[indexPath.section]
+        cell!.updateCellData(model: RecordModel(timeText: "", titleText:model.name , checkText: ""), type: .elevatorCell)
                 
         return cell!
     }
@@ -91,7 +106,11 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
         tableView.deselectRow(at: indexPath, animated: true)
         
         if fromType == .fromCheckHistory {
-            self.navigationController?.pushViewController(EMChooseRecordController(), animated: true)
+            let model: EMListItemEntity = historyDataArray[indexPath.section]
+            let vc = EMChooseRecordController()
+            vc.itemEntity = model
+            
+            self.navigationController?.pushViewController(vc, animated: true)
         }else {
 			if !EMReachabilityService.allow_wwan() {
 				EMReachabilityService.netWorkReachability { status in

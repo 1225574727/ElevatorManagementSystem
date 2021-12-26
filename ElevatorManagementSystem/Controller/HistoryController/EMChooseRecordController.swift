@@ -11,6 +11,7 @@ class EMChooseRecordController: EMBaseViewController{
     static let kEMChooseRecordCell = "kEMChooseRecordCell"
 
     var recordDataArray: [RecordModel] = Array()
+    var itemEntity: EMListItemEntity?
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
@@ -22,10 +23,19 @@ class EMChooseRecordController: EMBaseViewController{
         return tableview
     }()
     
-    lazy var bgImageV: UIImageView = {
+    lazy var emptyBgImageV: UIImageView = {
         let imageV = UIImageView()
         imageV.image = UIImage(named: "empty_record")
         return imageV
+    }()
+    
+    lazy var emptyTipLabel: UILabel = {
+        let label = UILabel()
+        label.text = EMLocalizable("no_more_record")
+        label.textAlignment = .center
+        label.textColor = .B6
+        label.font = UIFont.systemFont(ofSize: 18)
+        return label
     }()
     
     lazy var recordSelectView: EMRecordSelectView = {
@@ -85,7 +95,8 @@ class EMChooseRecordController: EMBaseViewController{
         
         self.view.addSubview(recordSelectView)
         self.view.addSubview(tableView)
-        self.view.addSubview(bgImageV)
+        self.view.addSubview(emptyBgImageV)
+        self.view .addSubview(emptyTipLabel)
         self.view.addSubview(recordResultView)
 
         
@@ -95,10 +106,15 @@ class EMChooseRecordController: EMBaseViewController{
             make.top.equalTo(NavigationBarHeight)
         }
         
-        bgImageV.snp.makeConstraints { make in
+        emptyBgImageV.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.width.height.equalTo(166)
             make.top.equalTo(50 + NavigationBarHeight)
+        }
+        
+        emptyTipLabel.snp.makeConstraints { make in
+            make.right.left.equalToSuperview()
+            make.top.equalTo(emptyBgImageV.snp.bottom).offset(4)
         }
         
         tableView.snp.makeConstraints { (make) in
@@ -113,7 +129,46 @@ class EMChooseRecordController: EMBaseViewController{
         }
         
         recordResultView.isHidden = true
-        bgImageV.isHidden = true
+        emptyBgImageV.isHidden = true
+        emptyTipLabel.isHidden = true
+        
+        fetchData()
+    }
+    
+    func showEmptyView() {
+        emptyBgImageV.isHidden = false
+        emptyTipLabel.isHidden = false
+
+        recordResultView.isHidden = true
+        tableView.isHidden = true
+        recordSelectView.isHidden = true
+    }
+    
+    func fetchData() {
+        
+        guard itemEntity != nil else {
+            showEmptyView()
+            return
+        }
+        
+        let equipmentId = itemEntity?.equipmentId ?? ""
+        
+        EMRequestProvider.request(.defaultRequest(url:"/order/getEquipmentOrderList", params: ["pageNumber":"1","pageSize":"10","equipmentId":equipmentId,"recordTypeId":"1","componentTypeId":"1"]), model: EMHistoryEntity.self) { [weak self] model in
+            
+            guard let self = self else {
+                return
+            }
+            if let model = model, let data = model.data {
+                
+                guard data.count > 0 else {
+                    self.showEmptyView()
+                    return
+                }
+
+            }   else {
+                self.showEmptyView()
+            }
+        }
         
     }
 }

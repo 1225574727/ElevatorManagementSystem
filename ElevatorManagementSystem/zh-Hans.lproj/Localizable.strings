@@ -56,6 +56,8 @@
 "choose_record_title" = "选择记录";
 "choose_floor_title" = "选择楼层";
 "check_data_title" = "查看数据";
+"no_more_record" = "暂时没有更多记录";
+"no_more_floorRecord" = "暂时没有更多楼层记录";
 
 "upload_title" = "图片视频上传";
 "upload_record_lab" = "选择记录类型";

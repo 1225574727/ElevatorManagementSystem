@@ -71,6 +71,8 @@
 "parts_category" = "category";
 "result_state" = "state";
 "record_time" = "time";
+"no_more_record" = "No more records yet";
+"no_more_floorRecord" = "No more floor records yet";
 
 "upload_list_title" = "Upload List";
 "upload_list_section_loading" = "Uploading";
