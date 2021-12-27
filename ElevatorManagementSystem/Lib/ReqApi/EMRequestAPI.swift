@@ -56,7 +56,7 @@ extension EMRequestAPI: TargetType {
 		case .defaultRequest(_, let params):
 			parameters = params
         }
-        return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+        return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
     }
     
     var sampleData: Data {
@@ -64,7 +64,7 @@ extension EMRequestAPI: TargetType {
     }
     
     var headers: [String : String]? {
-        return nil
+		return ["Content-Type":"application/json; charset=utf-8"]
     }
 }
 
@@ -129,7 +129,7 @@ class EMRequestLoadingPlugin: PluginType {
 	func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
 		var tRequest = request
 		tRequest.timeoutInterval = 60
-//		tRequest.headers.update(.contentType("application/json"))
+//		tRequest.headers.update(.contentType("application/json; charset=utf-8"))
 //		tRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 		return tRequest
 	}

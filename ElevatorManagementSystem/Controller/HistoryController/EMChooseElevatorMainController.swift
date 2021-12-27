@@ -46,7 +46,7 @@ class EMChooseElevatorMainController: EMBaseViewController {
     
     func fetchEquipmentListData() {
         
-        EMRequestProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"20"]), model: EMListEntity.self) { model in
+		EMRequestProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: [:]), model: EMListEntity.self) { model in
             
             if let model = model, let dataArray = model.data {
                 

@@ -279,7 +279,10 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 			cell.placeholder = "0.00"
 		}
 		cell.inputHandler =  {
-			text in
+			[weak self] text in
+			guard let self = self else {
+				return
+			}
 			switch indexPath.row {
 			case 0:
 				self.em_id = text
@@ -293,7 +296,6 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 			default:
 				break
 			}
-			print("\(indexPath.row)--\(text)")
 		}
 		return cell
 	}
@@ -380,7 +382,11 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 	//request
 	func submitElevator(_ type:EMCreateType) {
 	
-		EMRequestProvider.request(.defaultRequest(url:type == .edit ? "/equipment/updateEquipment" : "/equipment/insertEquipment", params: ["equipmentId":em_id, "doorDistance":em_distance,"name":em_name,"createPerson":PCDDeviceService.deviceUUID]), model: EMBaseModel.self) { model in
+		EMRequestProvider.request(.defaultRequest(url:type == .edit ? "/equipment/updateEquipment" : "/equipment/insertEquipment", params: ["equipmentId":em_id, "doorDistance":em_distance,"name":em_name,"createPerson":PCDDeviceService.deviceUUID]), model: EMBaseModel.self) {[weak self] model in
+			
+			guard let self = self else {
+				return;
+			}
 			
 			if (model?.code == "200") {
 

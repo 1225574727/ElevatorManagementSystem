@@ -91,7 +91,7 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 		
 		self.automaticallyAdjustsScrollViewInsets = false
 		
-		fetchData()
+		fetchData(true)
 
 		setupUI()
 	}
@@ -99,7 +99,7 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		fetchData()
+		fetchData(false)
 	}
 	
 	/// private
@@ -164,9 +164,10 @@ class EMManageController: EMBaseViewController,UITableViewDataSource,UITableView
 		self.navigationController?.pushViewController(vc, animated: true)
 	}
 	
-	func fetchData() {
+	func fetchData(_ isInit: Bool) {
 		
-		EMReqeustWithoutActivityProvider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: ["pageNumber":"1", "pageSize":"10"]), model: EMListEntity.self) { [weak self] model in
+		let provider = isInit ? EMRequestProvider : EMReqeustWithoutActivityProvider
+		provider.request(.defaultRequest(url:"/equipment/getEquipmentList", params: [:]), model: EMListEntity.self) { [weak self] model in
 			
             guard let self = self else {
                 return

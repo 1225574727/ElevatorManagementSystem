@@ -10,7 +10,7 @@ import UIKit
 class EMChooseRecordController: EMBaseViewController{
     static let kEMChooseRecordCell = "kEMChooseRecordCell"
 
-    var recordDataArray: [RecordModel] = Array()
+    var recordDataArray: [EMHistoryItemEntity] = Array()
     var itemEntity: EMListItemEntity?
     
     lazy var tableView: UITableView = {
@@ -89,9 +89,9 @@ class EMChooseRecordController: EMBaseViewController{
         self.view.backgroundColor = UIColor.white
         self.title = EMLocalizable("choose_record_title")
 
-        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
-        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
-        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
+//        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
+//        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
+//        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
         
         self.view.addSubview(recordSelectView)
         self.view.addSubview(tableView)
@@ -153,7 +153,7 @@ class EMChooseRecordController: EMBaseViewController{
         
         let equipmentId = itemEntity?.equipmentId ?? ""
         
-        EMRequestProvider.request(.defaultRequest(url:"/order/getEquipmentOrderList", params: ["pageNumber":"1","pageSize":"10","equipmentId":equipmentId,"recordTypeId":"1","componentTypeId":"1"]), model: EMHistoryEntity.self) { [weak self] model in
+        EMRequestProvider.request(.defaultRequest(url:"/order/getEquipmentOrderList", params: ["pageNumber":"1","pageSize":"10","equipmentId":equipmentId]), model: EMHistoryEntity.self) { [weak self] model in//,"recordTypeId":"1","componentTypeId":"1"
             
             guard let self = self else {
                 return
@@ -164,7 +164,8 @@ class EMChooseRecordController: EMBaseViewController{
                     self.showEmptyView()
                     return
                 }
-
+				self.recordDataArray = data
+				self.tableView.reloadData()
             }   else {
                 self.showEmptyView()
             }
@@ -183,8 +184,8 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
         }
         
         let model = recordDataArray[indexPath.row]
-        cell!.updateCellData(model: model, type: .chooseRecordCell)
-                
+		cell!.updateCellData(model: RecordModel(timeText: model.createDate, titleText:"记录：\(indexPath.section + 1)" , checkText: CheckStyle.afterCalibration.checkText), type: .chooseRecordCell)
+		
         return cell!
     }
     
