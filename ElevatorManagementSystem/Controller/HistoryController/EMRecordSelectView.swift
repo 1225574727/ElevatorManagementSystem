@@ -148,7 +148,7 @@ class EMRecordSelectView: UIView {
                 self.typeBtn.isSelected = false
                 self.resultBtn.isSelected = false
                 self.timeBtn.isSelected = false
-                type = .part
+                type = .record
                 isSelected = self.recordBtn.isSelected
                 break
             case 101:
@@ -204,9 +204,14 @@ class EMRecordResultView: UIView {
     private var currentDateCom: DateComponents = Calendar.current.dateComponents([.year, .month, .day],   from: Date())
     
     var backDate: ((Date) -> Void)?
-
     
-    var msgArray: [String] = Array()
+    var selectCallBack: ((_ type: SeletType, _ item: EMChooseTypeItemEntity) -> Void)?
+    
+    var msgArray: [EMChooseTypeItemEntity] = []
+    
+    var currentSelectType: SeletType = .record
+    
+    var selectView: EMRecordSelectView?
 
     
     lazy var tableView: UITableView = {
@@ -247,13 +252,13 @@ class EMRecordResultView: UIView {
         
         self.backgroundColor = .white
         
-        self.msgArray = [
-            EMLocalizable("elevator_management"),
-            EMLocalizable("video_upload"),
-            EMLocalizable("history"),
-            EMLocalizable("video_upload"),
-            EMLocalizable("history")
-        ]
+//        self.msgArray = [
+//            EMLocalizable("elevator_management"),
+//            EMLocalizable("video_upload"),
+//            EMLocalizable("history"),
+//            EMLocalizable("video_upload"),
+//            EMLocalizable("history")
+//        ]
         
         self.addSubview(tableView)
         self.addSubview(datePicker)
@@ -299,6 +304,24 @@ class EMRecordResultView: UIView {
         }
     }
     
+    func reloadRecordViewData(view: EMRecordSelectView, type: SeletType, dataArray: [EMChooseTypeItemEntity]?){
+        
+        selectView = view
+        
+        currentSelectType = type
+        
+        if dataArray != nil {
+            
+            self.msgArray = dataArray!
+            
+            self.msgArray.insert(EMChooseTypeItemEntity(color: nil, judgeType: nil, number: nil, sysCategory: nil, sysId: nil, sysValue: "不限", updateDate: nil), at: 0)
+            
+            EMEventAtMain {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     //点击事件
     @objc private func didClickButton(sender:UIButton){
         let dateString = String(format: "%02ld-%02ld-%02ld", self.datePicker.selectedRow(inComponent: 0) + (self.currentDateCom.year!), self.datePicker.selectedRow(inComponent: 1) + 1, self.datePicker.selectedRow(inComponent: 2) + 1)
@@ -323,7 +346,8 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
         
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: EMRecordResultView.kEMRecordResultViewCell, for: indexPath)
         
-        cell.textLabel?.text = msgArray[indexPath.row]
+        let model: EMChooseTypeItemEntity = msgArray[indexPath.row]
+        cell.textLabel?.text = model.sysValue
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
         cell.textLabel?.textColor = UIColor.B3
@@ -332,7 +356,7 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return msgArray.count
+        return msgArray.count 
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -354,6 +378,44 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let model: EMChooseTypeItemEntity = msgArray[indexPath.row]
+        
+        var defalutValue: String = "记录类型"
+        
+        let btnStyle: UIControl.State =  .normal
+        
+        if currentSelectType == .record {
+            defalutValue = "记录类型"
+            
+            let selectValue = indexPath.row == 0 ? defalutValue : model.sysValue
+
+            if selectView != nil {
+                selectView?.recordBtn.setTitle(selectValue, for: btnStyle)
+                selectView?.recordBtn.isSelected = false
+            }
+        }else if currentSelectType == .part {
+            defalutValue = "零件类别"
+            
+            let selectValue = indexPath.row == 0 ? defalutValue : model.sysValue
+
+            if selectView != nil {
+                selectView?.typeBtn.setTitle(selectValue, for: btnStyle)
+                selectView?.typeBtn.isSelected = false
+            }
+        }else if currentSelectType == .result {
+            defalutValue = "结果状态"
+            
+            let selectValue = indexPath.row == 0 ? defalutValue : model.sysValue
+
+            if selectView != nil {
+                selectView?.resultBtn.setTitle(selectValue, for: btnStyle)
+                selectView?.resultBtn.isSelected = false
+            }
+        }
+        
+       
+        selectCallBack?(currentSelectType, model)
         
         
     }

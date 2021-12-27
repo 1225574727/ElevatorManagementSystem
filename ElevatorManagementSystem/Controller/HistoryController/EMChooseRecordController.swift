@@ -13,6 +13,8 @@ class EMChooseRecordController: EMBaseViewController{
     var recordDataArray: [EMHistoryItemEntity] = Array()
     var itemEntity: EMListItemEntity?
     
+    var requestParam: [String :String] = Dictionary()
+    
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
         tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMChooseRecordController.kEMChooseRecordCell)
@@ -45,32 +47,11 @@ class EMChooseRecordController: EMBaseViewController{
                 return
             }
             if isSelected {
-                self.recordResultView.chooseDatePicker(isSelected: type == .time)
-                UIView.animate(withDuration: 0.25) {
-                    self.recordResultView.isHidden = false
-                    self.recordResultView.snp.removeConstraints()
-                    self.recordResultView.snp.remakeConstraints { make in
-                        make.left.right.equalToSuperview()
-                        make.height.equalTo(250)
-                        make.top.equalTo(self.recordSelectView.snp.bottom)
-                    }
-                    self.view.layoutIfNeeded()
-                } completion: { isComplete in
-                    self.recordResultView.reloadDatePicker()
-                }
+                self.loadRecordResultView(type: type)
+
             }else {
                 
-                UIView.animate(withDuration: 0.25) {
-                    self.recordResultView.snp.removeConstraints()
-                    self.recordResultView.snp.remakeConstraints { make in
-                        make.left.right.equalToSuperview()
-                        make.height.equalTo(0)
-                        make.top.equalTo(self.recordSelectView.snp.bottom)
-                    }
-                    self.view.layoutIfNeeded()
-                    self.recordResultView.isHidden = true
-                } completion: { isComplete in
-                }
+                self.hideResultView()
 
             }
             
@@ -80,6 +61,33 @@ class EMChooseRecordController: EMBaseViewController{
     
     lazy var recordResultView: EMRecordResultView = {
         let view = EMRecordResultView.init(frame: CGRect(x: 0, y: 0, width: self.view.width, height: 150))
+        view.selectCallBack = { [weak self] (type, itemEntity) in
+            guard let self = self else {
+                return
+            }
+            
+            if type == .record {
+                
+                if let sysId = itemEntity.sysId {
+                    self.requestParam.updateValue(sysId, forKey: "recordTypeId")
+                }else{
+                    self.requestParam.removeValue(forKey: "recordTypeId")
+                }
+            }
+            if type == .part,let sysId = itemEntity.sysId{
+                if let sysId = itemEntity.sysId {
+                    self.requestParam.updateValue(sysId, forKey: "componentTypeId")
+                }else{
+                    self.requestParam.removeValue(forKey: "componentTypeId")
+                }
+            }
+            
+
+            self.sendGetEquipmentOrderListRquest()
+           
+            self.hideResultView()
+            
+        }
         return view
     }()
     
@@ -135,6 +143,67 @@ class EMChooseRecordController: EMBaseViewController{
         fetchData()
     }
     
+    func hideResultView() {
+        UIView.animate(withDuration: 0.25) {
+            self.recordResultView.snp.removeConstraints()
+            self.recordResultView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.height.equalTo(0)
+                make.top.equalTo(self.recordSelectView.snp.bottom)
+            }
+            self.view.layoutIfNeeded()
+            self.recordResultView.isHidden = true
+        } completion: { isComplete in
+        }
+    }
+    
+    func loadRecordResultView(type: SeletType) {
+        
+        var requestType: EMPubType = .records
+        switch type {
+        case .record:
+            requestType = .records
+            break
+        case .part:
+            requestType = .part
+            break
+        case .result:
+            requestType = .status
+            break
+        case .time:
+            break
+        }
+        
+        EMPubRequestService.fetchPubType(requestType) {[weak self] entity in
+            guard let self = self else {
+                return
+            }
+            if let dataArray = entity.data {
+                
+                self.recordResultView.reloadRecordViewData( view: self.recordSelectView, type: type, dataArray: dataArray)
+                
+                let height = type == .time ? 250 : (dataArray.count + 1)*50
+                
+                self.recordResultView.chooseDatePicker(isSelected: type == .time)
+                
+                UIView.animate(withDuration: 0.25) {
+                    self.recordResultView.isHidden = false
+                    self.recordResultView.snp.removeConstraints()
+                    self.recordResultView.snp.remakeConstraints { make in
+                        make.left.right.equalToSuperview()
+                        make.height.equalTo(height)
+                        make.top.equalTo(self.recordSelectView.snp.bottom)
+                    }
+                    self.view.layoutIfNeeded()
+                } completion: { isComplete in
+                    self.recordResultView.reloadDatePicker()
+                }
+            }
+            
+        }
+      
+    }
+    
     func showEmptyView() {
         emptyBgImageV.isHidden = false
         emptyTipLabel.isHidden = false
@@ -152,8 +221,17 @@ class EMChooseRecordController: EMBaseViewController{
         }
         
         let equipmentId = itemEntity?.equipmentId ?? ""
+        requestParam.updateValue("1", forKey: "pageNumber")
+        requestParam.updateValue("10", forKey: "pageSize")
+        requestParam.updateValue(equipmentId, forKey: "equipmentId")
+
+        sendGetEquipmentOrderListRquest()
         
-        EMRequestProvider.request(.defaultRequest(url:"/order/getEquipmentOrderList", params: ["pageNumber":"1","pageSize":"10","equipmentId":equipmentId]), model: EMHistoryEntity.self) { [weak self] model in//,"recordTypeId":"1","componentTypeId":"1"
+    }
+    
+    func sendGetEquipmentOrderListRquest() {
+        
+        EMRequestProvider.request(.defaultRequest(url:"/order/getEquipmentOrderList", params: requestParam), model: EMHistoryEntity.self) { [weak self] model in//,"recordTypeId":"1","componentTypeId":"1"
             
             guard let self = self else {
                 return
@@ -164,13 +242,12 @@ class EMChooseRecordController: EMBaseViewController{
                     self.showEmptyView()
                     return
                 }
-				self.recordDataArray = data
-				self.tableView.reloadData()
+                self.recordDataArray = data
+                self.tableView.reloadData()
             }   else {
                 self.showEmptyView()
             }
         }
-        
     }
 }
 
