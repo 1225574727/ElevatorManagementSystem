@@ -67,10 +67,10 @@
 "upload_remark_placeholder" = "Please fill in any details or your comments here.";
 "upload_btn_title" = "Upload";
 
-"record_type" = "type";
-"parts_category" = "category";
-"result_state" = "state";
-"record_time" = "time";
+"record_type" = "Inspection Record";
+"parts_category" = "Part Type";
+"result_state" = "Result Status";
+"record_time" = "Time";
 "no_more_record" = "No more records yet";
 "no_more_floorRecord" = "No more floor records yet";
 

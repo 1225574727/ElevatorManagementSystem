@@ -381,12 +381,12 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
         
         let model: EMChooseTypeItemEntity = msgArray[indexPath.row]
         
-        var defalutValue: String = "记录类型"
+        var defalutValue: String = EMLocalizable("record_type")
         
         let btnStyle: UIControl.State =  .normal
         
         if currentSelectType == .record {
-            defalutValue = "记录类型"
+            defalutValue = EMLocalizable("record_type")
             
             let selectValue = indexPath.row == 0 ? defalutValue : model.sysValue
 
@@ -395,7 +395,7 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
                 selectView?.recordBtn.isSelected = false
             }
         }else if currentSelectType == .part {
-            defalutValue = "零件类别"
+            defalutValue = EMLocalizable("parts_category")
             
             let selectValue = indexPath.row == 0 ? defalutValue : model.sysValue
 
@@ -404,7 +404,7 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
                 selectView?.typeBtn.isSelected = false
             }
         }else if currentSelectType == .result {
-            defalutValue = "结果状态"
+            defalutValue = EMLocalizable("result_state")
             
             let selectValue = indexPath.row == 0 ? defalutValue : model.sysValue
 

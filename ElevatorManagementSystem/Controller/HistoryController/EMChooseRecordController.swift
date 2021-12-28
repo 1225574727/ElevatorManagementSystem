@@ -221,8 +221,8 @@ class EMChooseRecordController: EMBaseViewController{
         }
         
         let equipmentId = itemEntity?.equipmentId ?? ""
-        requestParam.updateValue("1", forKey: "pageNumber")
-        requestParam.updateValue("10", forKey: "pageSize")
+//        requestParam.updateValue("1", forKey: "pageNumber")
+//        requestParam.updateValue("10", forKey: "pageSize")
         requestParam.updateValue(equipmentId, forKey: "equipmentId")
 
         sendGetEquipmentOrderListRquest()
