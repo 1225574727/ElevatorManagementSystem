@@ -203,7 +203,7 @@ class EMRecordResultView: UIView {
     
     private var currentDateCom: DateComponents = Calendar.current.dateComponents([.year, .month, .day],   from: Date())
     
-    var backDate: ((Date) -> Void)?
+    var backDate: ((String) -> Void)?
     
     var selectCallBack: ((_ type: SeletType, _ item: EMChooseTypeItemEntity) -> Void)?
     
@@ -213,7 +213,6 @@ class EMRecordResultView: UIView {
     
     var selectView: EMRecordSelectView?
 
-    
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
         tableview.register(UITableViewCell.self, forCellReuseIdentifier: EMRecordResultView.kEMRecordResultViewCell)
@@ -226,18 +225,23 @@ class EMRecordResultView: UIView {
         return tableview
     }()
     
-    lazy var datePicker: UIPickerView = {
-        let picker = UIPickerView()
-        picker.delegate = self
-        picker.dataSource = self
+    lazy var datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+		picker.datePickerMode = .date
+		picker.locale = Locale(identifier: EMLanguageSetting.shared.language == .Chinese ? "zh_CN":"EN")
+		if #available(iOS 13.4, *) {
+			picker.preferredDatePickerStyle = .wheels
+		} else {
+			// Fallback on earlier versions
+		}
         picker.backgroundColor = UIColor.clear
         picker.clipsToBounds = true
         return picker
     }()
-    
+
     lazy var sureBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("确认选择", for: .normal)
+        btn.setTitle(EMLocalizable("record_time_conform"), for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = .Main
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
@@ -246,50 +250,57 @@ class EMRecordResultView: UIView {
         btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
         return btn
     }()
+	
+	lazy var resetBtn: UIButton = {
+		let btn = UIButton()
+		btn.setTitle(EMLocalizable("record_time_reset"), for: .normal)
+		btn.setTitleColor(.Main, for: .normal)
+		btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+		btn.layer.cornerRadius = 24
+		btn.layer.borderColor = UIColor.Main.cgColor
+		btn.layer.borderWidth = 1.0
+		btn.layer.masksToBounds = true
+		btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+		return btn
+	}()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         self.backgroundColor = .white
-        
-//        self.msgArray = [
-//            EMLocalizable("elevator_management"),
-//            EMLocalizable("video_upload"),
-//            EMLocalizable("history"),
-//            EMLocalizable("video_upload"),
-//            EMLocalizable("history")
-//        ]
         
         self.addSubview(tableView)
         self.addSubview(datePicker)
+		self.addSubview(resetBtn)
         self.addSubview(sureBtn)
         datePicker.snp.makeConstraints { make in
             make.left.right.top.equalToSuperview()
             make.height.equalTo(150)
         }
         
+		resetBtn.snp.makeConstraints { make in
+			make.left.equalTo(20)
+			make.height.equalTo(48)
+			make.bottom.equalTo(-26)
+		}
+		
         sureBtn.snp.makeConstraints { make in
-            make.left.equalTo(20)
+			make.left.equalTo(resetBtn.snp.right).offset(10)
             make.right.equalTo(-20)
             make.height.equalTo(48)
             make.bottom.equalTo(-26)
+			make.width.equalTo(resetBtn)
         }
-        
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        
-       
-
-        
     }
     
     func reloadDatePicker() {
-        self.datePicker.selectRow(11, inComponent: 1, animated: true)
-        self.datePicker.selectRow(10, inComponent: 2, animated: true)
-        self.datePicker.selectRow(2021, inComponent: 0, animated: false)
+//        self.datePicker.selectRow(11, inComponent: 1, animated: true)
+//        self.datePicker.selectRow(10, inComponent: 2, animated: true)
+//        self.datePicker.selectRow(2021, inComponent: 0, animated: false)
     }
     
     func chooseDatePicker(isSelected: Bool) -> Void {
@@ -314,7 +325,7 @@ class EMRecordResultView: UIView {
             
             self.msgArray = dataArray!
             
-            self.msgArray.insert(EMChooseTypeItemEntity(color: nil, judgeType: nil, number: nil, sysCategory: nil, sysId: nil, sysValue: "不限", updateDate: nil), at: 0)
+            self.msgArray.insert(EMChooseTypeItemEntity(color: nil, judgeType: nil, number: nil, sysCategory: nil, sysId: nil, sysValue: EMLocalizable("record_type_default"), updateDate: nil), at: 0)
             
             EMEventAtMain {
                 self.tableView.reloadData()
@@ -324,12 +335,12 @@ class EMRecordResultView: UIView {
     
     //点击事件
     @objc private func didClickButton(sender:UIButton){
-        let dateString = String(format: "%02ld-%02ld-%02ld", self.datePicker.selectedRow(inComponent: 0) + (self.currentDateCom.year!), self.datePicker.selectedRow(inComponent: 1) + 1, self.datePicker.selectedRow(inComponent: 2) + 1)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
+		print("\(dateFormatter.string(from: datePicker.date))")
         /// 直接回调显示
         if self.backDate != nil {
-            self.backDate!(dateFormatter.date(from: dateString) ?? Date())
+			self.backDate!(dateFormatter.string(from: datePicker.date))
         }
     }
     
@@ -422,56 +433,56 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
 
 }
 
-extension EMRecordResultView: UIPickerViewDelegate,UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 3
-    }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return 20
-        } else if component == 1 {
-            return 12
-        } else {
-            let year: Int = pickerView.selectedRow(inComponent: 0) + currentDateCom.year!
-            let month: Int = pickerView.selectedRow(inComponent: 1) + 1
-            let days: Int = howManyDays(inThisYear: year, withMonth: month)
-            return days
-        }
-    }
-    private func howManyDays(inThisYear year: Int, withMonth month: Int) -> Int {
-        if (month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) || (month == 10) || (month == 12) {
-            return 31
-        }
-        if (month == 4) || (month == 6) || (month == 9) || (month == 11) {
-            return 30
-        }
-        if (year % 4 == 1) || (year % 4 == 2) || (year % 4 == 3) {
-            return 28
-        }
-        if year % 400 == 0 {
-            return 29
-        }
-        if year % 100 == 0 {
-            return 28
-        }
-        return 29
-    }
-    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return ScreenInfo.Width / 3
-    }
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 50
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return "\((currentDateCom.year! - 10) + row)\("年")"
-        } else if component == 1 {
-            return "\(row + 1)\("月")"
-        } else {
-            return "\(row + 1)\("日")"
-        }
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            pickerView.reloadComponent(2)
-    }
-}
+//extension EMRecordResultView: UIPickerViewDelegate,UIPickerViewDataSource {
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        return 3
+//    }
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        if component == 0 {
+//            return 20
+//        } else if component == 1 {
+//            return 12
+//        } else {
+//            let year: Int = pickerView.selectedRow(inComponent: 0) + currentDateCom.year!
+//            let month: Int = pickerView.selectedRow(inComponent: 1) + 1
+//            let days: Int = howManyDays(inThisYear: year, withMonth: month)
+//            return days
+//        }
+//    }
+//    private func howManyDays(inThisYear year: Int, withMonth month: Int) -> Int {
+//        if (month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) || (month == 10) || (month == 12) {
+//            return 31
+//        }
+//        if (month == 4) || (month == 6) || (month == 9) || (month == 11) {
+//            return 30
+//        }
+//        if (year % 4 == 1) || (year % 4 == 2) || (year % 4 == 3) {
+//            return 28
+//        }
+//        if year % 400 == 0 {
+//            return 29
+//        }
+//        if year % 100 == 0 {
+//            return 28
+//        }
+//        return 29
+//    }
+//    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+//        return ScreenInfo.Width / 3
+//    }
+//    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+//        return 50
+//    }
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        if component == 0 {
+//            return "\((currentDateCom.year! - 10) + row)\("年")"
+//        } else if component == 1 {
+//            return "\(row + 1)\("月")"
+//        } else {
+//            return "\(row + 1)\("日")"
+//        }
+//    }
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//            pickerView.reloadComponent(2)
+//    }
+//}

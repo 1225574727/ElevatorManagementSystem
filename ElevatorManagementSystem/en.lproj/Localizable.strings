@@ -71,6 +71,9 @@
 "parts_category" = "Part Type";
 "result_state" = "Result Status";
 "record_time" = "Time";
+"record_type_default" = "All";
+"record_time_conform" = "Confirm";
+"record_time_reset" = "Reset";
 "no_more_record" = "No more records yet";
 "no_more_floorRecord" = "No more floor records yet";
 
