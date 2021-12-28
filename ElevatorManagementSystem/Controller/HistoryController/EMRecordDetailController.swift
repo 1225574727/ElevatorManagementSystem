@@ -2,7 +2,7 @@
 //  EMRecordDetailController.swift
 //  ElevatorManagementSystem
 //
-//  Created by 姚李刚 on 2021/12/12.
+//  Created by ylg on 2021/12/12.
 //
 
 import Foundation

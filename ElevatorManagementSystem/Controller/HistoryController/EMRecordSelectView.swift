@@ -247,6 +247,7 @@ class EMRecordResultView: UIView {
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         btn.layer.cornerRadius = 24
         btn.layer.masksToBounds = true
+        btn.tag = 2021
         btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
         return btn
     }()
@@ -260,6 +261,7 @@ class EMRecordResultView: UIView {
 		btn.layer.borderColor = UIColor.Main.cgColor
 		btn.layer.borderWidth = 1.0
 		btn.layer.masksToBounds = true
+        btn.tag = 2022
 		btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
 		return btn
 	}()
@@ -308,10 +310,12 @@ class EMRecordResultView: UIView {
             tableView.isHidden = true
             datePicker.isHidden = false
             sureBtn.isHidden = false
+            resetBtn.isHidden = false
         }else {
             tableView.isHidden = false
             datePicker.isHidden = true
             sureBtn.isHidden = true
+            resetBtn.isHidden = true
         }
     }
     
@@ -335,12 +339,54 @@ class EMRecordResultView: UIView {
     
     //点击事件
     @objc private func didClickButton(sender:UIButton){
+        
+        let intervalDistance = (self.frame.width - 305) / 5
+
+        if sender.tag == 2022 {//重置
+            if self.backDate != nil {
+                self.backDate!("")
+                if selectView != nil {
+                    selectView?.timeBtn.setTitle(EMLocalizable("record_time"), for: .normal)
+                    selectView?.timeBtn.isSelected = false
+                    
+                    selectView?.timeBtn.snp.remakeConstraints { make in
+                        make.width.equalTo(59)
+                        make.height.equalTo(56)
+                        make.centerY.equalToSuperview()
+                        make.left.equalTo(selectView!.resultBtn.snp.right).offset(intervalDistance)
+                    }
+                    
+                    selectView?.timeBtn.sg.setImage(location: .right, space: 2) { (btn) in
+                    }
+                }
+            }
+            return
+        }
+        
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-		print("\(dateFormatter.string(from: datePicker.date))")
+        dateFormatter.dateFormat = "YYYY.MM.dd"
+        let timeStr: String = dateFormatter.string(from: datePicker.date)
+		print("\(timeStr)")
         /// 直接回调显示
         if self.backDate != nil {
-			self.backDate!(dateFormatter.string(from: datePicker.date))
+			self.backDate!(timeStr)
+            if selectView != nil {
+                selectView?.timeBtn.setTitle(timeStr, for: .normal)
+                selectView?.timeBtn.isSelected = false
+                
+                selectView?.timeBtn.snp.remakeConstraints { make in
+                    make.width.equalTo(102)
+                    make.height.equalTo(56)
+                    make.centerY.equalToSuperview()
+                    make.left.equalTo(selectView!.resultBtn.snp.right).offset(0)
+                }
+                
+                selectView?.timeBtn.sg.setImage(location: .right, space: 0) { (btn) in
+                    
+                }
+                
+                
+            }
         }
     }
     

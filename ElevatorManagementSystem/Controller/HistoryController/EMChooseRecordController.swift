@@ -60,7 +60,19 @@ class EMChooseRecordController: EMBaseViewController{
     }()
     
     lazy var recordResultView: EMRecordResultView = {
+        
         let view = EMRecordResultView.init(frame: CGRect(x: 0, y: 0, width: self.view.width, height: 150))
+        
+        view.backDate = { [weak self] date in
+            
+            guard let self = self else {
+                return
+            }
+            
+            self.hideResultView()
+
+            
+        }
         view.selectCallBack = { [weak self] (type, itemEntity) in
             guard let self = self else {
                 return

@@ -18,6 +18,9 @@
 		474586E02764F12000796950 /* EMHistroyMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586DC2764F12000796950 /* EMHistroyMainCell.swift */; };
 		474586E22764F13600796950 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586E12764F13600796950 /* UIButton+Extension.swift */; };
 		47AF4C812778A3A9009D0973 /* EMHistoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AF4C802778A3A9009D0973 /* EMHistoryEntity.swift */; };
+		47D0E48D277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E48C277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift */; };
+		47D0E48F277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E48E277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift */; };
+		47D0E491277B60E400A9D158 /* EMPicVideoUploadCell+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E490277B60E400A9D158 /* EMPicVideoUploadCell+Data.swift */; };
 		47E6C4F127361A53000FAA7D /* EMVideoRecordingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4EF27361A53000FAA7D /* EMVideoRecordingController.swift */; };
 		47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4F027361A53000FAA7D /* EMRecordBottomView.swift */; };
 		47E6C4F627362A28000FAA7D /* EMConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6C4F527362A28000FAA7D /* EMConfig.swift */; };
@@ -68,6 +71,9 @@
 		474586DC2764F12000796950 /* EMHistroyMainCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMHistroyMainCell.swift; sourceTree = "<group>"; };
 		474586E12764F13600796950 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		47AF4C802778A3A9009D0973 /* EMHistoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMHistoryEntity.swift; sourceTree = "<group>"; };
+		47D0E48C277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EMPicVideoUploadCell+VPOpreation.swift"; sourceTree = "<group>"; };
+		47D0E48E277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EMPicVideoUploadCell+UI.swift"; sourceTree = "<group>"; };
+		47D0E490277B60E400A9D158 /* EMPicVideoUploadCell+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EMPicVideoUploadCell+Data.swift"; sourceTree = "<group>"; };
 		47E6C4EF27361A53000FAA7D /* EMVideoRecordingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMVideoRecordingController.swift; sourceTree = "<group>"; };
 		47E6C4F027361A53000FAA7D /* EMRecordBottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMRecordBottomView.swift; sourceTree = "<group>"; };
 		47E6C4F527362A28000FAA7D /* EMConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMConfig.swift; sourceTree = "<group>"; };
@@ -128,6 +134,9 @@
 			children = (
 				4721464A2765C108003792AB /* EMPicVideoUploadController.swift */,
 				4721464C2765C397003792AB /* EMPicVideoUploadCell.swift */,
+				47D0E48E277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift */,
+				47D0E48C277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift */,
+				47D0E490277B60E400A9D158 /* EMPicVideoUploadCell+Data.swift */,
 			);
 			path = VideoPicUpload;
 			sourceTree = "<group>";
@@ -558,11 +567,13 @@
 				6A494570276EABAB00EF497A /* EMUploadListController.swift in Sources */,
 				4721464627659CAD003792AB /* EMCheckDataController.swift in Sources */,
 				6AB364C32769DE0F007BAC7A /* PCDDeviceService.swift in Sources */,
+				47D0E48F277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift in Sources */,
 				6A36C9212779BE4C00FF2961 /* EMChooseTypeEntity.swift in Sources */,
 				474586DE2764F12000796950 /* EMChooseRecordController.swift in Sources */,
 				6A3E776A2764633A003E0593 /* EMShadowView.swift in Sources */,
 				6A987D8827367DCD002D7BC4 /* EMLanguageSetting.swift in Sources */,
 				6A663CA92759C58B001A3DBD /* EMPhotoService.swift in Sources */,
+				47D0E48D277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift in Sources */,
 				6A987E90273A682B002D7BC4 /* EMBackgroundService.swift in Sources */,
 				47E6C4F127361A53000FAA7D /* EMVideoRecordingController.swift in Sources */,
 				474586E22764F13600796950 /* UIButton+Extension.swift in Sources */,
@@ -574,6 +585,7 @@
 				6A3E775E2762DF9A003E0593 /* UIView+Extension.swift in Sources */,
 				6A3E77612762E96A003E0593 /* EMAlertController.swift in Sources */,
 				4721464D2765C397003792AB /* EMPicVideoUploadCell.swift in Sources */,
+				47D0E491277B60E400A9D158 /* EMPicVideoUploadCell+Data.swift in Sources */,
 				51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */,
 				4721464B2765C108003792AB /* EMPicVideoUploadController.swift in Sources */,
 				47AF4C812778A3A9009D0973 /* EMHistoryEntity.swift in Sources */,
