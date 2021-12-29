@@ -97,8 +97,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		uploadUnitWith(Data.init())
 	}
 	
-	func uploadUnitWith(
-		_ data:Data) {
+	func uploadUnitWith(_ data:Data) {
 		let params = uploadParams()
 //		let paramsData = try? JSONSerialization.data(withJSONObject: params, options: [])
 		var request = URLRequest(url: URL(string: uploadFileUrl)!)

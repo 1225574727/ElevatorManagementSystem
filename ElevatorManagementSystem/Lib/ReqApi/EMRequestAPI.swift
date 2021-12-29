@@ -31,7 +31,7 @@ extension EMRequestAPI: TargetType {
     var baseURL: URL {
         switch self {
 		case .defaultRequest(_, _):
-            return URL(string: "http://39.100.152.16:5100/elevator-app")!
+            return URL(string: PCDBaseURL)!
         }
     }
     

@@ -37,7 +37,6 @@ extension UIImage {
 		while data.count > tempMaxLength && data.count != lastDataLength {
 			lastDataLength = data.count
 			let ratio: CGFloat = CGFloat(tempMaxLength) / CGFloat(data.count)
-			print("Ratio =", ratio)
 			let size: CGSize = CGSize(width: Int(resultImage.size.width * sqrt(ratio)),
 									  height: Int(resultImage.size.height * sqrt(ratio)))
 			UIGraphicsBeginImageContext(size)

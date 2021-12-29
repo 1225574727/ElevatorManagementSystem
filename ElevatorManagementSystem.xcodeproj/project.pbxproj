@@ -34,6 +34,8 @@
 		6A36C91C27781D2B00FF2961 /* EMListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C91B27781D2A00FF2961 /* EMListEntity.swift */; };
 		6A36C91F27782B0100FF2961 /* EMPubRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C91E27782B0100FF2961 /* EMPubRequestService.swift */; };
 		6A36C9212779BE4C00FF2961 /* EMChooseTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C9202779BE4C00FF2961 /* EMChooseTypeEntity.swift */; };
+		6A36C932277AE77D00FF2961 /* EMPicUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C931277AE77D00FF2961 /* EMPicUploadService.swift */; };
+		6A36C938277AF7C300FF2961 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C937277AF7C300FF2961 /* Data+Extension.swift */; };
 		6A3E775C2762DF6D003E0593 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E775B2762DF6D003E0593 /* UIColor+Extension.swift */; };
 		6A3E775E2762DF9A003E0593 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E775D2762DF9A003E0593 /* UIView+Extension.swift */; };
 		6A3E77612762E96A003E0593 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E77602762E96A003E0593 /* EMAlertController.swift */; };
@@ -90,6 +92,8 @@
 		6A36C91B27781D2A00FF2961 /* EMListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMListEntity.swift; sourceTree = "<group>"; };
 		6A36C91E27782B0100FF2961 /* EMPubRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMPubRequestService.swift; sourceTree = "<group>"; };
 		6A36C9202779BE4C00FF2961 /* EMChooseTypeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMChooseTypeEntity.swift; sourceTree = "<group>"; };
+		6A36C931277AE77D00FF2961 /* EMPicUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMPicUploadService.swift; sourceTree = "<group>"; };
+		6A36C937277AF7C300FF2961 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		6A3E775B2762DF6D003E0593 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		6A3E775D2762DF9A003E0593 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		6A3E77602762E96A003E0593 /* EMAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMAlertController.swift; sourceTree = "<group>"; };
@@ -273,6 +277,14 @@
 			path = PubRequest;
 			sourceTree = "<group>";
 		};
+		6A36C930277AE76300FF2961 /* PicUpload */ = {
+			isa = PBXGroup;
+			children = (
+				6A36C931277AE77D00FF2961 /* EMPicUploadService.swift */,
+			);
+			path = PicUpload;
+			sourceTree = "<group>";
+		};
 		6A3E776227632A3B003E0593 /* EMAlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +349,7 @@
 				6A663CAB2759FB6E001A3DBD /* UIImage+Extension.swift */,
 				6A3E775B2762DF6D003E0593 /* UIColor+Extension.swift */,
 				6A3E775D2762DF9A003E0593 /* UIView+Extension.swift */,
+				6A36C937277AF7C300FF2961 /* Data+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -361,6 +374,7 @@
 		6A987D7B2736766E002D7BC4 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				6A36C930277AE76300FF2961 /* PicUpload */,
 				6A36C91D27782AE400FF2961 /* PubRequest */,
 				6AB364C12769DDF4007BAC7A /* Device */,
 				6A4ECF8B275C51EB00CE5F9C /* Picker */,
@@ -584,6 +598,8 @@
 				6A987D8A27374919002D7BC4 /* EMObservable.swift in Sources */,
 				6A3E775E2762DF9A003E0593 /* UIView+Extension.swift in Sources */,
 				6A3E77612762E96A003E0593 /* EMAlertController.swift in Sources */,
+				6A36C932277AE77D00FF2961 /* EMPicUploadService.swift in Sources */,
+				6A36C938277AF7C300FF2961 /* Data+Extension.swift in Sources */,
 				4721464D2765C397003792AB /* EMPicVideoUploadCell.swift in Sources */,
 				47D0E491277B60E400A9D158 /* EMPicVideoUploadCell+Data.swift in Sources */,
 				51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */,

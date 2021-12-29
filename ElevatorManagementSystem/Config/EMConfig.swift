@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import AVFoundation
 
+let PCDBaseURL = "http://39.100.152.16:5100/elevator-app"
+
 //设备屏幕尺寸
 let currentMode_width = (UIScreen.main.currentMode?.size.width ?? 375)
 let currentMode_height = (UIScreen.main.currentMode?.size.height ?? 786)
