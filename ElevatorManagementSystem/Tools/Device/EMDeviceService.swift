@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import KeychainSwift
 
-class PCDDeviceService {
+class EMDeviceService {
 	private static let keychain = KeychainSwift()
 
 	/// 设备别名

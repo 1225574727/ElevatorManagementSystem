@@ -28,10 +28,6 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	
 	/// 服务器返回数据
 	var response: NSMutableData!
-//	var tag: String!
-	
-	/// 服务器返回json
-//	var relJson:JSON!
 	
 	/// 上传进度
 	var progress:Float = 0.0
@@ -41,13 +37,25 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	fileprivate var progressHandler:((CGFloat)->())?
 	fileprivate var completeHandler:((EMUploadResult)->())?
 	
-	func upload(url:String, progressHandler:@escaping ((CGFloat)->()), completeHandler:@escaping ((EMUploadResult)->())) {
+	func upload() {
+		upload { _ in
+			
+		} completeHandler: { _ in
+			
+		}
+	}
+	
+	func upload(progressHandler:@escaping ((CGFloat)->()), completeHandler:@escaping ((EMUploadResult)->())) {
 		
-		self.progressHandler = progressHandler
-		self.completeHandler = completeHandler
-		let uploadModel = EMUploadModel();
-		uploadModel.resFilePath = uploadFileUrl + url;
-		startUploadFile(model: uploadModel)
+		if let loadingModel = EMUploadManager.shared.loadingModel {
+			self.model = loadingModel
+			self.progressHandler = progressHandler
+			self.completeHandler = completeHandler
+			startUploadFile()
+		} else {
+			debugPrint("上传任务为空")
+		}
+
 	}
 	
 	/// 初始化backgoundSession
@@ -66,47 +74,27 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		backgoundSession = URLSession(configuration: configration, delegate: self, delegateQueue: OperationQueue.main)
 	}
 	
-	func startUploadFile(model: EMUploadModel) {
-		
-		if fileExist(model.resFilePath) == false {
-			print("\(String(describing: model.resFilePath))：文件不存在")
-			return
-		}
-//		filePath = model.resFilePath
-		
-		perfectFileModel(model)
+	private func startUploadFile() {
 		
 		setupBackgroundSession()
-		
-		//开始上传文件
-		startUploadFile()
-	}
-	
-	func perfectFileModel(_ model:EMUploadModel) {
-		self.model = model
-		let totalSize = fileSizeAt(model.resFilePath)
-		let totalCount = Int(UInt(totalSize))/uploadUnitSize + (Int(UInt(totalSize))%uploadUnitSize == 0 ? 0 : 1)
-		self.model.totalSize = totalSize
-		self.model.totalCount = totalCount
-	}
-	
-	private func startUploadFile() {
+
 		model.status = .EMUploading
-//		model.resFilePath  = filePath
 		/// 上传代码
-		uploadUnitWith(Data.init())
+		uploadUnitWith()
 	}
 	
-	func uploadUnitWith(_ data:Data) {
+	func uploadUnitWith() {
+		
+		let handle:FileHandle = try! FileHandle.init(forReadingFrom: URL(fileURLWithPath: filePath))
+		handle.seek(toFileOffset: UInt64(model.uploadCount*uploadUnitSize))
+		let unitData = handle.readData(ofLength: uploadUnitSize)
+		
 		let params = uploadParams()
-//		let paramsData = try? JSONSerialization.data(withJSONObject: params, options: [])
 		var request = URLRequest(url: URL(string: uploadFileUrl)!)
 		request.httpMethod = "POST"
-//		request.httpBody = paramsData
 		/// 请求头设置
 		let contentType = "multipart/form-data; boundary=\(EMBoundary)"
 		request.setValue(contentType, forHTTPHeaderField: "Content-Type")
-//		request.addValue("text/html,application/json,text/json", forHTTPHeaderField: "Accept")
 		
 		var uploadData: Data = Data.init()
 		
@@ -119,25 +107,25 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		// 数据之前要用 --分隔线 来隔开 ，否则后台会解析失败
 		uploadData.append("--\(EMBoundary)".data(using: .utf8)!)
 		
-		uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\("file_name")\"\r\n".data(using: .utf8)!)
+		uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(unitData.MD5().hexString()).tmp\"\r\n".data(using: .utf8)!)
 		// 文件类型
-		uploadData.append("Content-Type:\("mp4")\r\n\r\n".data(using: .utf8)!)
+		uploadData.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
 		// 添加文件主体
-		uploadData.append(data)
+		uploadData.append(unitData)
 		// 使用\r\n来表示这个这个值的结束符
 		uploadData.append("\r\n".data(using: .utf8)!)
 		
 		uploadData.append("--\(EMBoundary)--\r\n".data(using: .utf8)!)
 		
-		let backgroundTask = backgoundSession.uploadTask(with: request, from: data)
+		let backgroundTask = backgoundSession.uploadTask(with: request, from: uploadData)
 		backgroundTask.resume()
 	}
 	
 	func uploadParams() -> NSDictionary {
 		let dict: NSMutableDictionary = NSMutableDictionary.init()
-		dict["unitSize"] = uploadUnitSize
+//		dict["unitSize"] = uploadUnitSize
 		dict["fileSize"] = model.totalSize
-		dict["extension"] = URL(fileURLWithPath: model.resFilePath).pathExtension
+//		dict["extension"] = URL(fileURLWithPath: model.resFilePath).pathExtension
 		dict["upload_count"] = model.uploadCount
 		dict["token"] = model.token
 		return dict
@@ -160,6 +148,8 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		
 		if model.uploadCount == model.totalCount {
 			model.status = .EMUploaded
+			// 此任务完成进行下一个任务
+			EMUploadManager.shared.completeTask()
 			//此处可能返回后台保存视频的地址
 			self.completeHandler?(.success(path: "upload_url"))
 			
@@ -169,7 +159,6 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 			if((appDelegate.handler) != nil) {
 				// 执行上传完成delegate
 				let  handelerComp  = appDelegate.handler
-				appDelegate.handler = nil
 				handelerComp!()
 			}
 
@@ -177,10 +166,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 			//清空上次后台返回的数据
 			self.response = nil
 			//继续下一片上传
-			let handle:FileHandle = try! FileHandle.init(forReadingFrom: URL(fileURLWithPath: filePath))
-			handle.seek(toFileOffset: UInt64(model.uploadCount*uploadUnitSize))
-			let unitData = handle.readData(ofLength: uploadUnitSize)
-			uploadUnitWith(unitData)
+			uploadUnitWith()
 		}
 	}
 	
@@ -202,26 +188,17 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		if error != nil{
 			print("上传error--->\(error!)")
 			self.completeHandler?(.error(error!))
-			
+			model.status = .EMUploadFailed
 		}else{
 			//任务数+1
 			model.uploadCount += 1
-			//获取token
-			if model.token.isEmpty {
-				if let resultData = response as Data?{
-					
-					let relJson = try? JSON(data: resultData)
-					print("上传成功--->\(relJson!)")
-					model.token = relJson!["token"].string
-				}
-			}
 		}
 	}
 
 	/// 文件相关处理
-	func fileExist(_ filePath: String) -> Bool {
-		return FileManager.default.fileExists(atPath: filePath)
-	}
+//	func fileExist(_ filePath: String) -> Bool {
+//		return FileManager.default.fileExists(atPath: filePath)
+//	}
 	
 	class func deleteFiles(filePaths:[String]) {
 		for filePath in filePaths {
@@ -229,15 +206,15 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		}
 	}
 	
-	func fileSizeAt(_ filePath: String) -> UInt64 {
-		let manager:FileManager = FileManager.default
-		if fileExist(filePath) {
-			let attr = try? manager.attributesOfItem(atPath: filePath)
-			let size = attr?[FileAttributeKey.size] as! UInt64
-			return size
-		}
-		return 0
-	}
+//	func fileSizeAt(_ filePath: String) -> UInt64 {
+//		let manager:FileManager = FileManager.default
+//		if fileExist(filePath) {
+//			let attr = try? manager.attributesOfItem(atPath: filePath)
+//			let size = attr?[FileAttributeKey.size] as! UInt64
+//			return size
+//		}
+//		return 0
+//	}
 }
 
 

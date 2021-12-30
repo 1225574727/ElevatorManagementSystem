@@ -382,7 +382,7 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 	//request
 	func submitElevator(_ type:EMCreateType) {
 	
-		EMRequestProvider.request(.defaultRequest(url:type == .edit ? "/equipment/updateEquipment" : "/equipment/insertEquipment", params: ["equipmentId":em_id, "doorDistance":em_distance,"name":em_name,"createPerson":PCDDeviceService.deviceUUID]), model: EMBaseModel.self) {[weak self] model in
+		EMRequestProvider.request(.defaultRequest(url:type == .edit ? "/equipment/updateEquipment" : "/equipment/insertEquipment", params: ["equipmentId":em_id, "doorDistance":em_distance,"name":em_name,"createPerson":EMDeviceService.deviceUUID]), model: EMBaseModel.self) {[weak self] model in
 			
 			guard let self = self else {
 				return;

@@ -18,7 +18,7 @@ extension Data {
 		return t
 	}
 	
-	mutating func MD5() -> Data {
+	func MD5() -> Data {
 		let da = Data.init(count: Int(CC_MD5_DIGEST_LENGTH))
 		let unsafe = [UInt8](self)
 		return da.withUnsafeBytes { (bytes) -> Data in

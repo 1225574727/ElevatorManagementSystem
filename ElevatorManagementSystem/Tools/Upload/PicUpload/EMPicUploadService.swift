@@ -12,9 +12,16 @@ import SwiftyJSON
 
 let uploadUrl = PCDBaseURL + "/upload/public/uploadImageMuch"
 
+struct EMPicUploadResponse : HandyJSON {
+	
+	var code: String?
+	var msg: String?
+	var data:[String]?
+}
+
 class EMPicUploadService {
 	
-	static func uploadUnitWith(_ images:[UIImage]) {
+	static func uploadUnitWith(_ images:[UIImage], clouser:@escaping (EMPicUploadResponse?)->Void) {
 	
 		guard images.count > 0 else {
 			return
@@ -31,7 +38,7 @@ class EMPicUploadService {
 
 		for image in images {
 			
-			if var data = image.pngData() {
+			if let data = image.pngData() {
 				
 				uploadData.append("--\(EMBoundary)\r\n".data(using: .utf8)!)
 				//filename必须要有文件后缀，否则后端报错！！！
@@ -55,12 +62,12 @@ class EMPicUploadService {
 				print(error!)
 			}else{
 //				let str = String(data: data!, encoding: String.Encoding.utf8)
-				
+
 				if data != nil {
-					let rel = JSON(data!)
-					print("上传完毕：\(rel)")
+					let json = JSON(data!)
+					let model = JSONDeserializer<EMPicUploadResponse>.deserializeFrom(json: json.description)
+					clouser(model)
 				}
-				
 			}
 		}
 		

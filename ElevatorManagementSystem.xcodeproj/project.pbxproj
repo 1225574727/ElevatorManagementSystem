@@ -36,6 +36,7 @@
 		6A36C9212779BE4C00FF2961 /* EMChooseTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C9202779BE4C00FF2961 /* EMChooseTypeEntity.swift */; };
 		6A36C932277AE77D00FF2961 /* EMPicUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C931277AE77D00FF2961 /* EMPicUploadService.swift */; };
 		6A36C938277AF7C300FF2961 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C937277AF7C300FF2961 /* Data+Extension.swift */; };
+		6A36C93E277D49AA00FF2961 /* EMUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A36C93D277D49AA00FF2961 /* EMUploadManager.swift */; };
 		6A3E775C2762DF6D003E0593 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E775B2762DF6D003E0593 /* UIColor+Extension.swift */; };
 		6A3E775E2762DF9A003E0593 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E775D2762DF9A003E0593 /* UIView+Extension.swift */; };
 		6A3E77612762E96A003E0593 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E77602762E96A003E0593 /* EMAlertController.swift */; };
@@ -55,7 +56,7 @@
 		6A987D8A27374919002D7BC4 /* EMObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987D8927374919002D7BC4 /* EMObservable.swift */; };
 		6A987E90273A682B002D7BC4 /* EMBackgroundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987E8F273A682B002D7BC4 /* EMBackgroundService.swift */; };
 		6A987E92273A6901002D7BC4 /* EMUploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987E91273A6901002D7BC4 /* EMUploadModel.swift */; };
-		6AB364C32769DE0F007BAC7A /* PCDDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB364C22769DE0F007BAC7A /* PCDDeviceService.swift */; };
+		6AB364C32769DE0F007BAC7A /* EMDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB364C22769DE0F007BAC7A /* EMDeviceService.swift */; };
 		A720F44DEA552B2CC72E13E0 /* Pods_ElevatorManagementSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AF4C6D8494B79051CFF9DE /* Pods_ElevatorManagementSystem.framework */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		6A36C9202779BE4C00FF2961 /* EMChooseTypeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMChooseTypeEntity.swift; sourceTree = "<group>"; };
 		6A36C931277AE77D00FF2961 /* EMPicUploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMPicUploadService.swift; sourceTree = "<group>"; };
 		6A36C937277AF7C300FF2961 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		6A36C93D277D49AA00FF2961 /* EMUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMUploadManager.swift; sourceTree = "<group>"; };
 		6A3E775B2762DF6D003E0593 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		6A3E775D2762DF9A003E0593 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		6A3E77602762E96A003E0593 /* EMAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMAlertController.swift; sourceTree = "<group>"; };
@@ -116,7 +118,7 @@
 		6A987D8927374919002D7BC4 /* EMObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMObservable.swift; sourceTree = "<group>"; };
 		6A987E8F273A682B002D7BC4 /* EMBackgroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMBackgroundService.swift; sourceTree = "<group>"; };
 		6A987E91273A6901002D7BC4 /* EMUploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMUploadModel.swift; sourceTree = "<group>"; };
-		6AB364C22769DE0F007BAC7A /* PCDDeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCDDeviceService.swift; sourceTree = "<group>"; };
+		6AB364C22769DE0F007BAC7A /* EMDeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMDeviceService.swift; sourceTree = "<group>"; };
 		B3ABE2A88A57E5C73F6465B8 /* Pods-ElevatorManagementSystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevatorManagementSystem.release.xcconfig"; path = "Target Support Files/Pods-ElevatorManagementSystem/Pods-ElevatorManagementSystem.release.xcconfig"; sourceTree = "<group>"; };
 		BA96119891B7CDE6AF21BCA6 /* Pods-ElevatorManagementSystem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevatorManagementSystem.debug.xcconfig"; path = "Target Support Files/Pods-ElevatorManagementSystem/Pods-ElevatorManagementSystem.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -285,6 +287,16 @@
 			path = PicUpload;
 			sourceTree = "<group>";
 		};
+		6A36C93B277D496900FF2961 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				6A36C93D277D49AA00FF2961 /* EMUploadManager.swift */,
+				6A987E8E273A65E2002D7BC4 /* VideoUpload */,
+				6A36C930277AE76300FF2961 /* PicUpload */,
+			);
+			path = Upload;
+			sourceTree = "<group>";
+		};
 		6A3E776227632A3B003E0593 /* EMAlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,14 +386,13 @@
 		6A987D7B2736766E002D7BC4 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				6A36C930277AE76300FF2961 /* PicUpload */,
+				6A36C93B277D496900FF2961 /* Upload */,
+				6A663CA72759C567001A3DBD /* Photo */,
 				6A36C91D27782AE400FF2961 /* PubRequest */,
 				6AB364C12769DDF4007BAC7A /* Device */,
 				6A4ECF8B275C51EB00CE5F9C /* Picker */,
 				6A663CAD275A0EF5001A3DBD /* Reachability */,
-				6A663CA72759C567001A3DBD /* Photo */,
 				6A2C5CA32754CC6400935161 /* Alert */,
-				6A987E8E273A65E2002D7BC4 /* BackgoundUpload */,
 				6A987E8D273A65D4002D7BC4 /* Observable */,
 				6A987E8C273A65BD002D7BC4 /* Language */,
 			);
@@ -415,19 +426,19 @@
 			path = Observable;
 			sourceTree = "<group>";
 		};
-		6A987E8E273A65E2002D7BC4 /* BackgoundUpload */ = {
+		6A987E8E273A65E2002D7BC4 /* VideoUpload */ = {
 			isa = PBXGroup;
 			children = (
 				6A987E8F273A682B002D7BC4 /* EMBackgroundService.swift */,
 				6A987E91273A6901002D7BC4 /* EMUploadModel.swift */,
 			);
-			path = BackgoundUpload;
+			path = VideoUpload;
 			sourceTree = "<group>";
 		};
 		6AB364C12769DDF4007BAC7A /* Device */ = {
 			isa = PBXGroup;
 			children = (
-				6AB364C22769DE0F007BAC7A /* PCDDeviceService.swift */,
+				6AB364C22769DE0F007BAC7A /* EMDeviceService.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -568,6 +579,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A36C93E277D49AA00FF2961 /* EMUploadManager.swift in Sources */,
 				47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */,
 				6A2C5CA52754CC9500935161 /* EMAlertService.swift in Sources */,
 				474586DF2764F12000796950 /* EMChooseElevatorMainController.swift in Sources */,
@@ -580,7 +592,7 @@
 				51D565CD26E73B7A00B29DF6 /* EMRequestAPI.swift in Sources */,
 				6A494570276EABAB00EF497A /* EMUploadListController.swift in Sources */,
 				4721464627659CAD003792AB /* EMCheckDataController.swift in Sources */,
-				6AB364C32769DE0F007BAC7A /* PCDDeviceService.swift in Sources */,
+				6AB364C32769DE0F007BAC7A /* EMDeviceService.swift in Sources */,
 				47D0E48F277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift in Sources */,
 				6A36C9212779BE4C00FF2961 /* EMChooseTypeEntity.swift in Sources */,
 				474586DE2764F12000796950 /* EMChooseRecordController.swift in Sources */,

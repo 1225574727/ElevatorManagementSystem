@@ -159,9 +159,67 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     }
     
     @objc func createAction() {
-        print("提交电梯")
-       
+		
+		// 记录类型、零件类别必填
+		
+		if (true) { // if pics 图片上传
+			EMPicUploadService.uploadUnitWith([UIImage.init(named: "empty_record")!, UIImage.init(named: "home_head_bg")!]) { response in
+				
+				if response?.code == "200" { //图片上传成功
+					
+					//视频上传成功，上传表单信息
+					if let array = response?.data {
+						let imageString = array.joined(separator: ",")
+						self.uploadInfo(images: imageString)
+					}
+					
+				}
+			}
+		} else {
+			self.uploadInfo(images: nil)
+		}
+		
     }
+	
+	func uploadInfo(images:String?) {
+		
+		var params = ["deviceMac":EMDeviceService.deviceUUID,"deviceModel":EMDeviceService.deviceModel,"recordTypeId":"1","componentTypeId":"2","equipmentId":"id00001","doorDistance":"12.23","remark":"备注1111"]
+		if let images = images {
+			params["imageUrl"] = images
+		}
+		
+		/*
+		 if videoURL {
+		 let videoInfo = videoInfo(videoURL)
+		  params["videoResolution"] = "\(videoInfo["width"])/\(videoInfo["height"])",
+		 params["videoFrameRate"] = videoInfo["rate"],
+		 params["videoBitrate"] = videoInfo["bps"]
+		 }
+		 */
+		EMRequestProvider.request(.defaultRequest(url: "/order/insertEquipment", params:params), model: EMBaseModel.self) { model in
+			
+			if (model?.code == "200") {
+				
+				if (true) {// if have video path
+					//获取记录id
+					if let recordID = model?.data as? String {
+						
+						let formatter = DateFormatter()
+						formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+						let dateString = formatter.string(from: Date())
+						
+						let videoUploadModel = EMUploadModel.init(token: recordID, path: "videoPath", timer: dateString)
+						EMUploadManager.shared.addTarget(videoUploadModel)
+					}
+				}
+				
+				debugPrint("上传成功")
+			} else {
+				debugPrint("上传失败")
+			}
+		}
+		
+	}
     
     @objc func cancelAction() {
         print("取消")

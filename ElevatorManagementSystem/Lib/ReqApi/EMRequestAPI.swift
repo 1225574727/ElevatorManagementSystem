@@ -15,6 +15,7 @@ import MBProgressHUD
 struct EMBaseModel: HandyJSON {
     var code: String?
     var msg: String?
+	var data: Any?
 }
 
 let EMRequestProvider = MoyaProvider<EMRequestAPI>(plugins:[EMRequestLoadingPlugin(true)])
