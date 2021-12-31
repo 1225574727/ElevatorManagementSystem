@@ -269,7 +269,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 		
         if let videoUrl = self.videoURL {
              let videoInfo = videoInfo(videoUrl)
-            params["videoResolution"] = "\(videoInfo["width"])/\(videoInfo["height"])"
+             params["videoResolution"] = "\(videoInfo["width"])/\(videoInfo["height"])"
              params["videoFrameRate"] = videoInfo["rate"]
              params["videoBitrate"] = videoInfo["bps"]
 		 }

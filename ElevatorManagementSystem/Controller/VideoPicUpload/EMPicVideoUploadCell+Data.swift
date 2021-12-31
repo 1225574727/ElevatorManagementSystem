@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 //用于数据处理
+//处理记录类型和零件类别
 extension EMPicVideoUploadCell {
     
     
@@ -65,4 +66,70 @@ extension EMPicVideoUploadCell {
         }
     
 }
+
+//处理门与手机之间的距离输入
+extension EMPicVideoUploadCell :UITextFieldDelegate {
+    
+    
+    ///MARK: textField delegate
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if let handler = inputCallBack {
+            handler(textField.text ?? "")
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if string.count == 0{
+            return true
+        }
+        // 被替换字符串的range 即将键入或者粘贴的string
+        let checkStr = (textField.text as NSString?)?.replacingCharacters(in: range, with: string)
+        let regex = "^\\-?([1-9]\\d*|0)(\\.\\d{0,2})?$"
+        return self.isValid(checkStr: checkStr!, regex: regex)
+    }
+    
+    func isValid(checkStr:String, regex:String) ->Bool {
+        
+        let predicte = NSPredicate(format:"SELF MATCHES %@", regex)
+        return predicte.evaluate(with: checkStr)
+    }
+}
+
+//处理备注信息
+extension EMPicVideoUploadCell: UITextViewDelegate {
+    
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        
+        UIView.animate(withDuration: 0.25) {
+            self.superTableView()?.y = self.superTableView()!.y - 200
+            self.superTableView()?.scrollToRow(at: IndexPath(row: 4, section: 0), at: .top, animated: true)
+        }
+        return true
+    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        
+        self.remarkInputCallBack?(textView.text)
+        
+        UIView.animate(withDuration: 0.25) {
+            self.superTableView()?.y = self.superTableView()!.y + 200
+        }
+        return true
+    }
+    
+    func  superTableView() ->  UITableView? {
+             for  view  in  sequence(first:  self .superview, next: { $0?.superview }) {
+                 if  let  tableView = view  as?  UITableView  {
+                     return  tableView
+                 }
+             }
+             return  nil
+         }
+}
+
+
 
