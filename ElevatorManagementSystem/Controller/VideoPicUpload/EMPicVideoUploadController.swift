@@ -17,6 +17,28 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     
     private let oneCellHeight: CGFloat = ( (ScreenInfo.Width - 18 * 4) / 3 + 10 )
     private var picCellHeightMultiple: Int = 1
+    
+    var equipmentId: String?
+    //用户输入数据
+    //选择记录类型
+    var recordTypeId: String?
+    
+    //零件类别
+    var componentTypeId: String?
+    
+    //门与手机之间的距离
+    var doorDistance: String?
+    
+    //图片
+    var imageArray: [UIImage]?
+    
+    //视频
+    var videoURL: URL?
+    
+    //备注
+    var remark: String?
+    
+
 
     final let datas = [
         ["name":EMLocalizable("manage_id")],
@@ -79,14 +101,49 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
         
         if indexPath.row == 0 {
             let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kCategoryCell) as! EMPicVideoUploadCell
+            cell.selectRecordPartCallBack = { [weak self](sysId, type) in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                if type == .records {
+                    
+                    self.recordTypeId = sysId
+                    
+                }else {
+                    
+                    self.componentTypeId = sysId
+                    
+                }
+                
+            }
             cell.selectionStyle = .none
             return cell
         }else if indexPath.row == 1 {
             let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
+            cell.inputCallBack = { [weak self] textString in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                self.doorDistance = textString
+                
+            }
             cell.selectionStyle = .none
             return cell
         }else if indexPath.row == 2{
             let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kVideoUploadCell) as! EMPicVideoUploadCell
+            cell.videoSelectCallBack = {[weak self] videoUrl in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                self.videoURL = videoUrl
+                
+            }
             return cell
         }else if indexPath.row == 3 {
             let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPicUploadCell) as! EMPicVideoUploadCell
@@ -98,9 +155,29 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                 self.picCellHeightMultiple = currentHeightMultiple
                 self.tableView.reloadData()
             }
+            
+            cell.imageSelectCallBack = { [weak self] dataArray in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                self.imageArray = dataArray
+                
+            }
             return cell
         }else {
             let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kNoteInputCell) as! EMPicVideoUploadCell
+            
+            cell.remarkInputCallBack = { [weak self] textString in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                self.remark = textString
+                
+            }
             return cell
         }
         
@@ -162,8 +239,8 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 		
 		// 记录类型、零件类别必填
 		
-		if (true) { // if pics 图片上传
-			EMPicUploadService.uploadUnitWith([UIImage.init(named: "empty_record")!, UIImage.init(named: "home_head_bg")!]) { response in
+        if let imageArr = self.imageArray { // if pics 图片上传
+            EMPicUploadService.uploadUnitWith(imageArr) { response in
 				
 				if response?.code == "200" { //图片上传成功
 					
@@ -183,20 +260,21 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 	
 	func uploadInfo(images:String?) {
 		
-		var params = ["deviceMac":EMDeviceService.deviceUUID,"deviceModel":EMDeviceService.deviceModel,"recordTypeId":"1","componentTypeId":"2","equipmentId":"id00001","doorDistance":"12.23","remark":"备注1111"]
+        var params = ["deviceMac":EMDeviceService.deviceUUID,"deviceModel":EMDeviceService.deviceModel,"recordTypeId":self.recordTypeId,"componentTypeId":self.componentTypeId,"equipmentId":self.equipmentId,"doorDistance":self.doorDistance,"remark":self.remark]
+        
 		if let images = images {
 			params["imageUrl"] = images
 		}
 		
-		/*
-		 if videoURL {
-		 let videoInfo = videoInfo(videoURL)
-		  params["videoResolution"] = "\(videoInfo["width"])/\(videoInfo["height"])",
-		 params["videoFrameRate"] = videoInfo["rate"],
-		 params["videoBitrate"] = videoInfo["bps"]
+		
+        if let videoUrl = self.videoURL {
+             let videoInfo = videoInfo(videoUrl)
+            params["videoResolution"] = "\(videoInfo["width"])/\(videoInfo["height"])"
+             params["videoFrameRate"] = videoInfo["rate"]
+             params["videoBitrate"] = videoInfo["bps"]
 		 }
-		 */
-		EMRequestProvider.request(.defaultRequest(url: "/order/insertEquipment", params:params), model: EMBaseModel.self) { model in
+		 
+        EMRequestProvider.request(.defaultRequest(url: "/order/insertEquipment", params:params as [String : Any]), model: EMBaseModel.self) { model in
 			
 			if (model?.code == "200") {
 				

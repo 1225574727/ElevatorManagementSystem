@@ -15,15 +15,25 @@ enum EMPicVideoUploadCellType {
 	case noteInput
 }
 
+typealias SelectRecordPartCallBack = (_ sysID: String, _ type: EMPubType) -> Void
 typealias InputCallBack = (_ text: String) -> Void
+typealias VideoSelectCallBack = (_ videoUrl: URL?) -> Void
+typealias ImageSelectCallBack = (_ imageArray: [UIImage]) -> Void
+typealias RemarkInputCallBack = (_ text: String) -> Void
 typealias UpdateCellHeight = (_ currentHeightMultiple: Int) -> Void
 
 class EMPicVideoUploadCell: UITableViewCell {
 	
+    var selectRecordPartCallBack:SelectRecordPartCallBack?
 	var inputCallBack:InputCallBack?
+    var videoSelectCallBack: VideoSelectCallBack?
+    var imageSelectCallBack:ImageSelectCallBack?
+    var remarkInputCallBack: RemarkInputCallBack?
+
 	var updateCellHeight:UpdateCellHeight?
 	
-	var currentPictureMap :[Int: UIImage] = Dictionary()
+	var currentPictureMap :[UIImage] = Array()
+    
 	var currentSelectPicTag = 3000
 	
 	//MARK: category
@@ -66,7 +76,7 @@ class EMPicVideoUploadCell: UITableViewCell {
 		btn.sg.setImage(location: .right, space: 60) { (btn) in
 			btn.setImage(UIImage(named: "selected_arrow"), for: .selected)
 			btn.setImage(UIImage(named: "deselect_arrow"), for: .normal)
-			btn.setTitle(EMLocalizable("record_type"), for: .normal)
+			btn.setTitle(EMLocalizable("upload_part_lab"), for: .normal)
 			btn.setTitleColor(UIColor.B3, for: .normal)
 			btn.setTitleColor(UIColor.Main, for: .selected)
 			btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -176,13 +186,19 @@ class EMPicVideoUploadCell: UITableViewCell {
         
         NSLog("\(sender.tag)")
         if sender.tag == 2021 { //选择记录类型
-            EMAlertService.show(title: nil, message: nil, cancelTitle: EMLocalizable("alert_cancel"), otherTitles:["正常检查", "校准后"] , style: .actionSheet) { title, index in
-                NSLog("\(index) ---\(title)")
-            }
+//            EMAlertService.show(title: nil, message: nil, cancelTitle: EMLocalizable("alert_cancel"), otherTitles:["正常检查", "校准后"] , style: .actionSheet) { title, index in
+//                NSLog("\(index) ---\(title)")
+//            }
+            
+            chooseRecordOrPart(type: .records)
+            
         }else if sender.tag == 2022 { //零件类别
-            EMAlertService.show(title: nil, message: nil, cancelTitle: EMLocalizable("alert_cancel"), otherTitles:["interlock Device Rollers", "厅门"] , style: .actionSheet) { title, index in
-                NSLog("\(index) ---\(title)")
-            }
+            
+            chooseRecordOrPart(type: .part)
+            
+//            EMAlertService.show(title: nil, message: nil, cancelTitle: EMLocalizable("alert_cancel"), otherTitles:["interlock Device Rollers", "厅门"] , style: .actionSheet) { title, index in
+//                NSLog("\(index) ---\(title)")
+//            }
         }else if sender.tag == 100 { //拍摄视频上传
             
             shootingVideo()
@@ -223,6 +239,8 @@ extension EMPicVideoUploadCell: UITextViewDelegate {
 	
 	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
 		
+        self.remarkInputCallBack?(textView.text)
+        
 		UIView.animate(withDuration: 0.25) {
 			self.superTableView()?.y = self.superTableView()!.y + 200
 		}

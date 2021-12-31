@@ -14,7 +14,13 @@ extension EMPicVideoUploadCell {
     //拍摄视频
     func shootingVideo() {
         
-        EMPhotoService.shared.showBottomAlert(resourceType: .media) { videoUrl, image in
+        EMPhotoService.shared.showBottomAlert(resourceType: .media) { [weak self] videoUrl, image in
+            
+            guard let self = self else {
+                return
+            }
+            
+            self.videoSelectCallBack?(videoUrl)
             
             for subView in self.contentView.subviews {
                 
@@ -74,7 +80,9 @@ extension EMPicVideoUploadCell {
                             }
                         }
                         
-                        self.currentPictureMap.updateValue(image as! UIImage, forKey: subView.tag)
+                        self.currentPictureMap.append(image as! UIImage)
+                        self.imageSelectCallBack?(self.currentPictureMap)
+
                     }
                 }
             }
@@ -216,6 +224,9 @@ extension EMPicVideoUploadCell {
             imageView.removeFromSuperview()
             
             allImageViews.remove(at: imageViewIndex)
+            
+            self.currentPictureMap.remove(at: imageViewIndex)
+            self.imageSelectCallBack?(self.currentPictureMap)
             
             for subView in allImageViews {
                 

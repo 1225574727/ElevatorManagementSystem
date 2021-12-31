@@ -19,7 +19,7 @@ class EMChooseElevatorMainController: EMBaseViewController {
 
     var fromType: EMFromFunctionType?
     
-    var historyDataArray: [EMListItemEntity] = Array()
+    var emDataArray: [EMListItemEntity] = Array()
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
@@ -50,7 +50,7 @@ class EMChooseElevatorMainController: EMBaseViewController {
             
             if let model = model, let dataArray = model.data {
                 
-                self.historyDataArray = dataArray
+                self.emDataArray = dataArray
                 EMEventAtMain {
                     self.tableView.reloadData()
                 }
@@ -72,7 +72,7 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
         if cell == nil {
             cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMChooseElevatorMainController.kEMHistroyMainCell)
         }
-        let model: EMListItemEntity = historyDataArray[indexPath.section]
+        let model: EMListItemEntity = emDataArray[indexPath.section]
         cell!.updateCellData(model: RecordModel(timeText: "", titleText:model.name , checkText: ""), type: .elevatorCell)
                 
         return cell!
@@ -83,7 +83,7 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.historyDataArray.count
+        return self.emDataArray.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -105,12 +105,14 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let model: EMListItemEntity = emDataArray[indexPath.section]
+       
         if fromType == .fromCheckHistory {
-            let model: EMListItemEntity = historyDataArray[indexPath.section]
+            
             let vc = EMChooseRecordController()
             vc.itemEntity = model
-            
             self.navigationController?.pushViewController(vc, animated: true)
+            
         }else {
 			if !EMReachabilityService.allow_wwan() {
 				EMReachabilityService.netWorkReachability { status in
@@ -127,7 +129,11 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
 				}
 				return
 			}
-            self.navigationController?.pushViewController(EMPicVideoUploadController(), animated: true)
+            
+            let videoVC = EMPicVideoUploadController()
+            videoVC.equipmentId = model.equipmentId
+            self.navigationController?.pushViewController(videoVC, animated: true)
+            
         }
         
         
