@@ -152,8 +152,10 @@ extension EMPicVideoUploadCell {
     //删除视频
     func deleteVideo() {
         
+        self.videoSelectCallBack?(nil)
+
         for subView in self.contentView.subviews {
-            
+
             if subView.isKind(of: UIImageView.self) && subView.tag == 300 {//视频的imageV
                 let imageV: UIImageView = subView as! UIImageView
                 imageV.image = nil
