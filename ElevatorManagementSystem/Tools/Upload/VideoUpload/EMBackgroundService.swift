@@ -7,9 +7,10 @@
 
 import Foundation
 import SwiftyJSON
+import MBProgressHUD
 
 /// 文件上传地址
-let uploadFileUrl = "---"
+let uploadFileUrl = PCDBaseURL + "/upload/public/breakpointUpload"
 let uploadUnitSize = 1 * 1024 * 1024
 let EMBoundary = "BoundaryForEMSystem"
 
@@ -21,8 +22,8 @@ enum EMUploadResult {
 class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegate {
 	
 	/// 文件路径
-	var filePath: String!
-	
+//	var filePath: String!
+	var isActivity: Bool = true
 	/// 后台会话
 	var backgoundSession: URLSession!
 	
@@ -34,9 +35,9 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	
 	var model:EMUploadModel!
 	
-	fileprivate var progressHandler:((CGFloat)->())?
-	fileprivate var completeHandler:((EMUploadResult)->())?
-	
+	var progressHandler:((Float)->())?
+	var completeHandler:((EMUploadResult)->())?
+		
 	func upload() {
 		upload { _ in
 			
@@ -45,7 +46,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		}
 	}
 	
-	func upload(progressHandler:@escaping ((CGFloat)->()), completeHandler:@escaping ((EMUploadResult)->())) {
+	func upload(progressHandler:@escaping ((Float)->()), completeHandler:@escaping ((EMUploadResult)->())) {
 		
 		if let loadingModel = EMUploadManager.shared.loadingModel {
 			self.model = loadingModel
@@ -55,14 +56,13 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		} else {
 			debugPrint("上传任务为空")
 		}
-
 	}
 	
 	/// 初始化backgoundSession
 	func setupBackgroundSession() {
 		let now = Date()
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "YYYYMMddHHMMSS"
+		dateFormatter.dateFormat = "yyyyMMddHHMMSS"
 		let dateStr = dateFormatter.string(from: now)
 		
 		let randomIndex = Int(arc4random()%10000)+1
@@ -79,18 +79,40 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		setupBackgroundSession()
 
 		model.status = .EMUploading
+		
 		/// 上传代码
-		uploadUnitWith()
+		perform(#selector(uploadUnitWith), with: nil, afterDelay: 2)
+		
+//		uploadUnitWith()
 	}
 	
-	func uploadUnitWith() {
+	@objc func uploadUnitWith() {
 		
-		let handle:FileHandle = try! FileHandle.init(forReadingFrom: URL(fileURLWithPath: filePath))
+		let handle:FileHandle = try! FileHandle.init(forReadingFrom: URL(string: model.resFilePath)!)//URL(fileURLWithPath: model.resFilePath)
 		handle.seek(toFileOffset: UInt64(model.uploadCount*uploadUnitSize))
 		let unitData = handle.readData(ofLength: uploadUnitSize)
+		handle.closeFile()
 		
+//		let cachePath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory,FileManager.SearchPathDomainMask.userDomainMask, true).first
+//		let cachePathUrl = URL(fileURLWithPath: cachePath!)
+//		try? FileManager.default.createDirectory(at: cachePathUrl, withIntermediateDirectories: true, attributes: nil)
+//
+//		let tmpUrl = cachePathUrl.appendingPathComponent("\(unitData.MD5().hexString()).tmp")
+//		do {
+//			try unitData.write(to: tmpUrl)
+//		}catch {
+//			print("写入失败")
+//		}
+				
 		let params = uploadParams()
-		var request = URLRequest(url: URL(string: uploadFileUrl)!)
+		let keys = params.allKeys;
+		var requestPath = uploadFileUrl + "?"
+		// 使用query进行参数上传
+		for key in keys {
+			requestPath = requestPath + "\(key)=\(params[key]!)&"
+		}
+		
+		var request = URLRequest(url: URL(string: requestPath)!)
 		request.httpMethod = "POST"
 		/// 请求头设置
 		let contentType = "multipart/form-data; boundary=\(EMBoundary)"
@@ -98,36 +120,39 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		
 		var uploadData: Data = Data.init()
 		
-		let keys = params.allKeys;
-		for key in keys {
-			uploadData.append(String(format:"--%@\r\n",EMBoundary).data(using: .utf8)!)
-			uploadData.append(String(format:"Content-Disposition:form-data;name=\"%@\"\r\n\r\n",key as! String).data(using: .utf8)!)
-			uploadData.append("\(params[key]!)\r\n".data(using: .utf8)!)
-		}
-		// 数据之前要用 --分隔线 来隔开 ，否则后台会解析失败
-		uploadData.append("--\(EMBoundary)".data(using: .utf8)!)
+		//改用query进行参数上传 此处为body参数上传
+//		let params = uploadParams()
+//		let keys = params.allKeys;
+//		for key in keys {
+//			uploadData.append(String(format:"--%@\r\n",EMBoundary).data(using: .utf8)!)
+//			uploadData.append(String(format:"Content-Disposition:form-data;name=\"%@\"\r\n\r\n",key as! String).data(using: .utf8)!)
+//			uploadData.append("\(params[key]!)\r\n".data(using: .utf8)!)
+//		}
 		
-		uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(unitData.MD5().hexString()).tmp\"\r\n".data(using: .utf8)!)
+		// 数据之前要用 --分隔线 来隔开 ，否则后台会解析失败
+		uploadData.append("--\(EMBoundary)\r\n".data(using: .utf8)!)
+		
+		uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(unitData.MD5().hexString()).tmp\"\r\n".data(using: .utf8)!) //multipartFile
 		// 文件类型
 		uploadData.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
 		// 添加文件主体
 		uploadData.append(unitData)
-		// 使用\r\n来表示这个这个值的结束符
-		uploadData.append("\r\n".data(using: .utf8)!)
+		uploadData.append("\r\n--\(EMBoundary)".data(using: .utf8)!)
 		
-		uploadData.append("--\(EMBoundary)--\r\n".data(using: .utf8)!)
-		
-		let backgroundTask = backgoundSession.uploadTask(with: request, from: uploadData)
+		request.httpBody = uploadData
+		let backgroundTask = backgoundSession.uploadTask(withStreamedRequest: request)
+//		let backgroundTask = backgoundSession.uploadTask(with: request, fromFile: tmpUrl)
 		backgroundTask.resume()
 	}
 	
 	func uploadParams() -> NSDictionary {
 		let dict: NSMutableDictionary = NSMutableDictionary.init()
-//		dict["unitSize"] = uploadUnitSize
-		dict["fileSize"] = model.totalSize
-//		dict["extension"] = URL(fileURLWithPath: model.resFilePath).pathExtension
-		dict["upload_count"] = model.uploadCount
-		dict["token"] = model.token
+		dict["orderId"] = model.token
+		dict["videoName"] = model.videoName
+		dict["totalCount"] = model.totalCount
+		dict["updaloadCount"] = model.uploadCount + 1
+		dict["deviceMac"] = EMDeviceService.deviceUUID
+		dict["deviceModel"] = EMDeviceService.deviceModel
 		return dict
 	}
 		
@@ -135,11 +160,10 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	//MARK: 进度监控
 	func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
 		
-		let currentProgress:Float = Float((Int(totalBytesSent)+model.uploadCount*uploadUnitSize) / model.totalCount)
-		progress = Float(currentProgress)
-		
-		progressHandler?(CGFloat(progress))
-		print("\(currentProgress)%")
+		let currentProgress:Float = (Float(totalBytesSent)+Float(model.uploadCount*uploadUnitSize)) / Float(model.totalSize)
+		model.progress = currentProgress
+		progressHandler?(currentProgress)
+		print("\(currentProgress*100)%")
 	}
 	
 	
@@ -156,10 +180,11 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 			//所有文件上传完毕后，释放创建的会话（在结束task后）
 			backgoundSession.finishTasksAndInvalidate()
 			let appDelegate = UIApplication.shared.delegate as! AppDelegate
-			if((appDelegate.handler) != nil) {
+			if let localHandler = appDelegate.handler {
 				// 执行上传完成delegate
-				let  handelerComp  = appDelegate.handler
-				handelerComp!()
+				localHandler()
+			} else {
+				creatNotificationContent(identifier: model.name!)
 			}
 
 		} else {
@@ -190,31 +215,55 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 			self.completeHandler?(.error(error!))
 			model.status = .EMUploadFailed
 		}else{
-			//任务数+1
-			model.uploadCount += 1
-		}
-	}
+			if model.uploadCount + 1 == model.totalCount {
+				model.status = .EMUploaded
+				
+				// 此任务完成进行下一个任务
+				EMUploadManager.shared.completeTask()
+				
+				self.completeHandler?(.success(path: "upload_url"))
+				
+				//所有文件上传完毕后，释放创建的会话（在结束task后）
+				backgoundSession.finishTasksAndInvalidate()
+				
+				if EMUploadManager.shared.service.isActivity {
+					
+					EMEventAtMain {
+						let rootController = UIApplication.shared.keyWindow?.rootViewController
+						guard let parent = rootController else {
+							print("rootViewController is nil")
+							return
+						}
+						rootController?.dismiss(animated: false, completion: nil)
+						
+						let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+						hudMB.mode = .text
+						hudMB.label.text = "任务\(self.model.name!)完成上传"
+						
+						hudMB.hide(animated: true, afterDelay: 2)
+					}
 
-	/// 文件相关处理
-//	func fileExist(_ filePath: String) -> Bool {
-//		return FileManager.default.fileExists(atPath: filePath)
-//	}
-	
-	class func deleteFiles(filePaths:[String]) {
-		for filePath in filePaths {
-			try? FileManager.default.removeItem(atPath: filePath)
+				} else {
+					creatNotificationContent(identifier: model.name!)
+				}
+
+			} else {
+				//任务数+1
+				model.uploadCount += 1
+				//清空上次后台返回的数据
+				self.response = nil
+				//继续下一片上传
+				uploadUnitWith()
+			}
 		}
 	}
 	
-//	func fileSizeAt(_ filePath: String) -> UInt64 {
-//		let manager:FileManager = FileManager.default
-//		if fileExist(filePath) {
-//			let attr = try? manager.attributesOfItem(atPath: filePath)
-//			let size = attr?[FileAttributeKey.size] as! UInt64
-//			return size
+//	class func deleteFiles(filePaths:[String]) {
+//		for filePath in filePaths {
+//			try? FileManager.default.removeItem(atPath: filePath)
 //		}
-//		return 0
 //	}
+	
 }
 
 

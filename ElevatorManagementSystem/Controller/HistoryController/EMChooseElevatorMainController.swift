@@ -132,6 +132,7 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
             
             let videoVC = EMPicVideoUploadController()
             videoVC.equipmentId = model.equipmentId
+			videoVC.equipmentName = model.name
             self.navigationController?.pushViewController(videoVC, animated: true)
             
         }

@@ -20,22 +20,36 @@ enum EMUploadStatus {
 	case EMUploadFailed
 }
 
+func fileSizeAt(_ filePath: String) -> UInt64 {
+	let manager:FileManager = FileManager.default
+	let path = filePath.replacingOccurrences(of: "file://", with: "")
+	if fileExist(path) {
+		let attr = try? manager.attributesOfItem(atPath: path)
+		let size = attr?[FileAttributeKey.size] as! UInt64
+		return size
+	}
+	return 0
+}
+
+func fileExist(_ filePath: String) -> Bool {
+	return FileManager.default.fileExists(atPath: filePath)
+}
+
 class EMUploadModel: NSObject {
 	
 	var status:EMUploadStatus = .EMUnUpload
+	
+	/// 电梯name
+	var name:String!
 	
 	/// token
 	var token:String!
 	
 	/// 本地资源地址
-	var resFilePath:String! {
-		didSet {
-//			let totalSize = fileSizeAt(resFilePath)
-//			let totalCount = Int(UInt(totalSize))/uploadUnitSize + (Int(UInt(totalSize))%uploadUnitSize == 0 ? 0 : 1)
-//			self.totalSize = totalSize
-//			self.totalCount = totalCount
-		}
-	}
+	var resFilePath:String!
+	
+	// 视频名称
+	var videoName:String!
 	
 	// 上传时间
 	var uploadTimer:String!
@@ -52,23 +66,21 @@ class EMUploadModel: NSObject {
 	/// 已上传片数
 	var uploadCount:Int = 0
 	
-	init(token:String, path:String, timer:String) {
+	init(name:String, videoName:String, token:String, path:String, timer:String) {
+		self.name = name
+		self.videoName = videoName
 		self.token = token
 		self.resFilePath = path
 		self.uploadTimer = timer
+		
+		let totalSize = fileSizeAt(path)
+		let totalCount = Int(UInt(totalSize))/uploadUnitSize + (Int(UInt(totalSize))%uploadUnitSize == 0 ? 0 : 1)
+		self.totalSize = totalSize
+		self.totalCount = totalCount
 	}
 	
-	func fileSizeAt(_ filePath: String) -> UInt64 {
-		let manager:FileManager = FileManager.default
-		if fileExist(filePath) {
-			let attr = try? manager.attributesOfItem(atPath: filePath)
-			let size = attr?[FileAttributeKey.size] as! UInt64
-			return size
-		}
-		return 0
-	}
-	
-	func fileExist(_ filePath: String) -> Bool {
-		return FileManager.default.fileExists(atPath: filePath)
+	func toJson() -> [String: Any] {
+		
+		return ["name":name!, "videoName":videoName!, "token":token!, "resFilePath":resFilePath!, "uploadTimer":uploadTimer!, "uploadCount":uploadCount]
 	}
 }

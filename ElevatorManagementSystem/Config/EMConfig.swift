@@ -71,3 +71,24 @@ func videoInfo(_ url: URL) -> [String:String] {
 	let durationNum:Int = Int(duration.value) / Int(duration.timescale)
 	return ["width":"\(trackDimensions.width)","height":"\(trackDimensions.height)","rate":"\(videoTrack.nominalFrameRate)","bps":"\(videoTrack.estimatedDataRate)","size":"\(videoTrack.totalSampleDataLength)","duration":"\(durationNum)"]
 }
+
+//MARK: - 创建一个通知
+func creatNotificationContent(identifier: String){
+	let content = UNMutableNotificationContent()
+	content.title = "上传完成通知"
+	content.body = "任务\(identifier)完成上传"
+	
+	let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+	
+	let requestIdentfier = "com.lmf.EMLocalNotification"
+	
+	let request = UNNotificationRequest(identifier: requestIdentfier, content: content, trigger: trigger)
+	
+	UNUserNotificationCenter.current().add(request) { (error) in
+		if error == nil {
+			
+		}
+	}
+	
+	
+}

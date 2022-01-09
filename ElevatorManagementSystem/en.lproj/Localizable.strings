@@ -66,6 +66,8 @@
 "upload_remark_lab" = "Comment";
 "upload_remark_placeholder" = "Please fill in any details or your comments here.";
 "upload_btn_title" = "Upload";
+"upload_required_tip" = "must be select record or part type!!!";
+"upload_submit_success" = "elevator info submit success!";
 
 "record_type" = "Inspection Record";
 "parts_category" = "Part Type";

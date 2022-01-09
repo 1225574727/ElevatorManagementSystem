@@ -19,6 +19,8 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     private var picCellHeightMultiple: Int = 1
     
     var equipmentId: String?
+	
+	var equipmentName: String!
     //用户输入数据
     //选择记录类型
     var recordTypeId: String?
@@ -27,7 +29,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     var componentTypeId: String?
     
     //门与手机之间的距离
-    var doorDistance: String?
+    var doorDistance: String = ""
     
     //图片
     var imageArray: [UIImage]?
@@ -238,6 +240,12 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     @objc func createAction() {
 		
 		// 记录类型、零件类别必填
+		guard self.recordTypeId != nil && self.componentTypeId != nil else {
+			[EMAlertService .show(title: EMLocalizable("alert_tip"), message: EMLocalizable("upload_required_tip"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: [], style: .alert, closure: { action, index in
+				
+			})];
+			return
+		}
 		
         if let imageArr = self.imageArray { // if pics 图片上传
             EMPicUploadService.uploadUnitWith(imageArr) { response in
@@ -266,7 +274,6 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 			params["imageUrl"] = images
 		}
 		
-		
         if let videoUrl = self.videoURL {
              let videoInfo = videoInfo(videoUrl)
              params["videoResolution"] = "\(videoInfo["width"])/\(videoInfo["height"])"
@@ -278,21 +285,43 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 			
 			if (model?.code == "200") {
 				
-				if (true) {// if have video path
+//				self.videoURL = URL(string: Bundle.main.path(forResource: "ani01fad87700", ofType: "mp4")!)
+				if let videoUrl = self.videoURL?.absoluteString, let pathExtension = self.videoURL?.pathExtension {
+					
 					//获取记录id
-					if let recordID = model?.data as? String {
-						
+					if let recordID = (model?.data as? Dictionary<String, Any>)?["orderId"] as? String {
 						let formatter = DateFormatter()
-						formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+						formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 						let dateString = formatter.string(from: Date())
 						
-						let videoUploadModel = EMUploadModel.init(token: recordID, path: "videoPath", timer: dateString)
+						let  timeInterval  = Date().timeIntervalSince1970
+						let  timeStamp =  Int (timeInterval)
+						
+						let videoUploadModel = EMUploadModel.init(name:self.equipmentName!,  videoName:"\(timeStamp).\(pathExtension)", token: recordID, path: videoUrl, timer: dateString)
 						EMUploadManager.shared.addTarget(videoUploadModel)
+					}
+					
+					EMAlertService.showAlertForUploading { index in
+						if index == 0 {
+							self.navigationController?.popViewController(animated: false)
+
+							if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
+								(rootVC as! UINavigationController).pushViewController(EMUploadListController(), animated: true)
+							}
+						} else {
+							self.navigationController?.popViewController(animated: true)
+						}
+					}
+				}
+				else {
+					EMAlertService.show(title: EMLocalizable("alert_tip"), message: EMLocalizable("upload_submit_success"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: [], style: .alert) { _, _ in
+						self.navigationController?.popViewController(animated: true)
 					}
 				}
 				
 				debugPrint("上传成功")
 			} else {
+				
 				debugPrint("上传失败")
 			}
 		}

@@ -364,7 +364,7 @@ class EMRecordResultView: UIView {
         }
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY.MM.dd"
+        dateFormatter.dateFormat = "yyyy.MM.dd"
         let timeStr: String = dateFormatter.string(from: datePicker.date)
 		print("\(timeStr)")
         /// 直接回调显示

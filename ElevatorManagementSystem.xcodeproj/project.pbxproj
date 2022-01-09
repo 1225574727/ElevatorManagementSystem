@@ -51,6 +51,7 @@
 		6A6D35EA276496540018E18B /* EMManageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D35E9276496540018E18B /* EMManageController.swift */; };
 		6A6D35EC2764CADD0018E18B /* EMCreateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D35EB2764CADD0018E18B /* EMCreateController.swift */; };
 		6A6D35EE2766EA750018E18B /* EMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D35ED2766EA750018E18B /* EMTextView.swift */; };
+		6A9424CD278AAA6400C577E7 /* ani01fad87700.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6A9424CC278AAA6400C577E7 /* ani01fad87700.mp4 */; };
 		6A987D8327367842002D7BC4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A987D8527367842002D7BC4 /* Localizable.strings */; };
 		6A987D8827367DCD002D7BC4 /* EMLanguageSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987D8727367DCD002D7BC4 /* EMLanguageSetting.swift */; };
 		6A987D8A27374919002D7BC4 /* EMObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987D8927374919002D7BC4 /* EMObservable.swift */; };
@@ -110,6 +111,7 @@
 		6A6D35E9276496540018E18B /* EMManageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMManageController.swift; sourceTree = "<group>"; };
 		6A6D35EB2764CADD0018E18B /* EMCreateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMCreateController.swift; sourceTree = "<group>"; };
 		6A6D35ED2766EA750018E18B /* EMTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMTextView.swift; sourceTree = "<group>"; };
+		6A9424CC278AAA6400C577E7 /* ani01fad87700.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ani01fad87700.mp4; sourceTree = "<group>"; };
 		6A987D7C27367711002D7BC4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		6A987D7D27367711002D7BC4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		6A987D8427367842002D7BC4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		51D5659226E5BCD000B29DF6 /* ElevatorManagementSystem */ = {
 			isa = PBXGroup;
 			children = (
+				6A9424CC278AAA6400C577E7 /* ani01fad87700.mp4 */,
 				6A36C91A27781CA000FF2961 /* Models */,
 				6A3E776627635481003E0593 /* View */,
 				6A663CAA2759FB44001A3DBD /* Extension */,
@@ -524,6 +527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51D565A026E5BCD900B29DF6 /* LaunchScreen.storyboard in Resources */,
+				6A9424CD278AAA6400C577E7 /* ani01fad87700.mp4 in Resources */,
 				6A987D8327367842002D7BC4 /* Localizable.strings in Resources */,
 				51D5659D26E5BCD900B29DF6 /* Assets.xcassets in Resources */,
 				51D5659B26E5BCD000B29DF6 /* Main.storyboard in Resources */,
@@ -788,7 +792,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LC2MMHMX24;
+				DEVELOPMENT_TEAM = B482ZKZGW7;
 				INFOPLIST_FILE = ElevatorManagementSystem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -811,8 +815,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 25ARAZF4FX;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ElevatorManagementSystem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -73,6 +73,8 @@
 "record_type_default" = "不限";
 "record_time_conform" = "确认选择";
 "record_time_reset" = "重置";
+"upload_required_tip" = "必选项 记录类型、零件类别未选择！！！";
+"upload_submit_success" = "电梯信息上传成功";
 
 "upload_btn_title" = "上传";
 "upload_list_title" = "上传列表";

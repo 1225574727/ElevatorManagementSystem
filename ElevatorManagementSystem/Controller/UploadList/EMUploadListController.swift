@@ -16,6 +16,24 @@ enum EMUploadCellStatus {
 
 class EMUploadListCell: UITableViewCell {
 	
+	var timer: String? {
+		didSet {
+			timerLab.text = timer
+		}
+	}
+	
+	var title: String? {
+		didSet {
+			titleLab.text = title
+		}
+	}
+	
+	var progress: Float = 0.0 {
+		didSet {
+			progressView.setProgress(progress, animated: true)
+		}
+	}
+	
 	var status:EMUploadCellStatus = .waiting {
 		didSet {
 			switch status {
@@ -178,10 +196,33 @@ class EMUploadListCell: UITableViewCell {
 class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITableViewDelegate {
 	
 	final let CellIdentifier = "UploadListCell"
+	
+	lazy var tasks:[EMUploadModel] = []
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = EMLocalizable("upload_list_title")
-		setupUI()
+		
+		tasks = EMUploadManager.shared.tasks
+		if tasks.count > 0 {
+			
+			EMUploadManager.shared.service.progressHandler =  { progress in
+				print(progress)
+				
+				if let cell = self.tableView.visibleCells.first as? EMUploadListCell {
+					cell.progress = progress
+				}
+			}
+			EMUploadManager.shared.service.completeHandler = { [weak self] result in
+				guard let self = self else {
+					return
+				}
+				self.tasks = EMUploadManager.shared.tasks
+				self.tableView.reloadData()
+			}
+			setupUI()
+		}
+		
 	}
 	
 	func setupUI() {
@@ -194,12 +235,19 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 	
 	///MARK: table view data source
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 2
+		
+		return tasks.count == 0 ? 0 : (tasks.count > 1 ? 2 : 1)
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-		return section == 0 ? 1 : 3
+		
+		guard tasks.count != 0 else {
+			return 0
+		}
+		if section == 0 {
+			return 1
+		}
+		return tasks.count - 1
 	}
 	
 	func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -233,11 +281,16 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 	///MARK: table view delegate
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell:EMUploadListCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier) as! EMUploadListCell
+		let model: EMUploadModel = tasks[indexPath.section + indexPath.row]
+		
 		if indexPath.section == 0 {
-			cell.status = .failure
+			cell.status = model.status == .EMUploading ? .loading : .failure
+			cell.progress = model.progress
 		} else {
 			cell.status = .waiting
 		}
+		cell.timer = model.uploadTimer
+		cell.title = model.name
 		return cell
 	}
 	

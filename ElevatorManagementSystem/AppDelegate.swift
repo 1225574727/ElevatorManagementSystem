@@ -21,9 +21,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 //        self.window?.rootViewController = UINavigationController(rootViewController: EMMainViewController())
 //        self.window?.makeKeyAndVisible()
+		
+		//
+//		var data = Data()
+//		data.append(FileManager.default.contents(atPath: Bundle.main.path(forResource: "0", ofType: "tmp")!)!)
+//		data.append(FileManager.default.contents(atPath: Bundle.main.path(forResource: "1", ofType: "tmp")!)!)
+//		data.append(FileManager.default.contents(atPath: Bundle.main.path(forResource: "2", ofType: "tmp")!)!)
+//
+//		let cachePath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory,FileManager.SearchPathDomainMask.userDomainMask, true).first
+//		let cachePathUrl = URL(fileURLWithPath: cachePath!)
+//		try? FileManager.default.createDirectory(at: cachePathUrl, withIntermediateDirectories: true, attributes: nil)
+//
+//		let url = cachePathUrl.appendingPathComponent("test.mp4")
+//		do {
+//			try data.write(to: url)
+//		}catch {
+//			print("写入失败")
+//		}
         
 		// language setting
 		object_setClass(Foundation.Bundle.main, EMBundle.self)
+		
+		//加载缓存任务
+		EMUploadManager.shared.loadCacheTasks()
 		
 		// 本地通知
 		UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]) { (granted, erro) in
@@ -34,6 +54,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
         return true
     }
+	
+	func applicationDidEnterBackground(_ application: UIApplication) {
+		
+		EMUploadManager.shared.service.isActivity = false
+	}
+	
+	func applicationWillEnterForeground(_ application: UIApplication) {
+		
+		EMUploadManager.shared.service.isActivity = true
+	}
+	
+	//MARK: 关闭应用保存下载任务
+	func applicationWillTerminate(_ application: UIApplication) {
+		
+		EMUploadManager.shared.saveTasks()
+	}
 	
 	//MARK: - 后台下载上传完成处理
 	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
@@ -50,26 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 		completionHandler(.alert)
 	}
-
-	//MARK: - 创建一个通知
-	func creatNotificationContent(identifier: String){
-		let content = UNMutableNotificationContent()
-		content.title = "上传完成通知"
-		content.body = "任务\(identifier)完成上传啦"
-		
-		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
-		
-		let requestIdentfier = "com.lmf.EMLocalNotification"
-		
-		let request = UNNotificationRequest(identifier: requestIdentfier, content: content, trigger: trigger)
-		
-		UNUserNotificationCenter.current().add(request) { (error) in
-			if error == nil {
-				
-			}
-		}
-		
-		
-	}
+	
 }
 
