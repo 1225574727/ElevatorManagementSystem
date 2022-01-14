@@ -34,7 +34,7 @@ class EMUploadManager : NSObject {
 		if let cmodel = tasks.first {
 			if (cmodel.status == .EMUploaded) {
 				tasks.removeFirst()
-				if tasks.count > 1 {
+				if tasks.count >= 1 {
 					loadingModel = tasks.first!
 					//继续下一个任务
 					service.upload()

@@ -33,6 +33,10 @@ class EMUploadListCell: UITableViewCell {
 			progressView.setProgress(progress, animated: true)
 		}
 	}
+    
+    func updateProgress(animated: Bool, progress: Float) {
+        progressView.setProgress(progress, animated: animated)
+    }
 	
 	var status:EMUploadCellStatus = .waiting {
 		didSet {
@@ -206,12 +210,15 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 		tasks = EMUploadManager.shared.tasks
 		if tasks.count > 0 {
 			
-			EMUploadManager.shared.service.progressHandler =  { progress in
-				print(progress)
-				
-				if let cell = self.tableView.visibleCells.first as? EMUploadListCell {
-					cell.progress = progress
-				}
+			EMUploadManager.shared.service.progressHandler =  { [weak self] progress in
+                
+                guard let self = self else {
+                    return
+                }
+                if let cell = self.tableView.visibleCells.first as? EMUploadListCell {
+                    cell.updateProgress(animated: true, progress: progress)
+                }
+                
 			}
 			EMUploadManager.shared.service.completeHandler = { [weak self] result in
 				guard let self = self else {
@@ -219,6 +226,12 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 				}
 				self.tasks = EMUploadManager.shared.tasks
 				self.tableView.reloadData()
+                
+                //完成后要将所有进度条置为0，不然有些还没开始的cell会保持100%
+                for value in self.tableView.visibleCells {
+                    let cell: EMUploadListCell = value as! EMUploadListCell
+                    cell.updateProgress(animated: false, progress: 0)
+                }
 			}
 			setupUI()
 		}
@@ -305,5 +318,9 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 		tableView.register(EMUploadListCell.self, forCellReuseIdentifier: CellIdentifier)
 		return tableView
 	}()
+    
+    deinit {
+        NSLog("EMUploadListController deinit")
+    }
 
 }

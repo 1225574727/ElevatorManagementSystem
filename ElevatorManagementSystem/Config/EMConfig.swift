@@ -63,6 +63,10 @@ func videoInfo(_ url: URL) -> [String:String] {
 	
 	let asset = AVURLAsset(url: url)
 	let videoTracks = asset.tracks(withMediaType: .video)
+    guard videoTracks.count > 0 else {
+        return [:]
+    }
+    
 	let videoTrack:AVAssetTrack = videoTracks[0]
 	let trackDimensions = videoTrack.naturalSize
 	

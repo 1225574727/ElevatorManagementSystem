@@ -81,6 +81,6 @@ class EMUploadModel: NSObject {
 	
 	func toJson() -> [String: Any] {
 		
-		return ["name":name!, "videoName":videoName!, "token":token!, "resFilePath":resFilePath!, "uploadTimer":uploadTimer!, "uploadCount":uploadCount]
+        return ["name":name!, "videoName":videoName!, "token":token!, "resFilePath":resFilePath!, "uploadTimer":uploadTimer!, "uploadCount":uploadCount,"totalCount":totalCount,"totalSize":totalSize,"progress":progress]
 	}
 }

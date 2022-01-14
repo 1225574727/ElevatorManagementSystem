@@ -8,10 +8,11 @@
 import Foundation
 import SwiftyJSON
 import MBProgressHUD
+import UIKit
 
 /// 文件上传地址
 let uploadFileUrl = PCDBaseURL + "/upload/public/breakpointUpload"
-let uploadUnitSize = 1 * 1024 * 1024
+let uploadUnitSize = 1 * 1024 * 1024/5
 let EMBoundary = "BoundaryForEMSystem"
 
 enum EMUploadResult {
@@ -50,11 +51,11 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		
 		if let loadingModel = EMUploadManager.shared.loadingModel {
 			self.model = loadingModel
-			self.progressHandler = progressHandler
-			self.completeHandler = completeHandler
+//			self.progressHandler = progressHandler
+//			self.completeHandler = completeHandler
 			startUploadFile()
 		} else {
-			debugPrint("上传任务为空")
+			NSLog("上传任务为空")
 		}
 	}
 	
@@ -76,7 +77,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	
 	private func startUploadFile() {
 		
-		setupBackgroundSession()
+//		setupBackgroundSession()
 
 		model.status = .EMUploading
 		
@@ -85,13 +86,38 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		
 //		uploadUnitWith()
 	}
+    
+    lazy var backUploadSession: URLSession = {
+            //只执行一次
+            let now = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyyMMddHHMMSS"
+            let dateStr = dateFormatter.string(from: now)
+            
+            let randomIndex = Int(arc4random()%10000)+1
+            let configIndentifier = "EM" + dateStr + String(randomIndex)
+            
+            let configration = URLSessionConfiguration.background(withIdentifier: configIndentifier)
+            let currentSession = URLSession(configuration: configration, delegate: self, delegateQueue: OperationQueue.main)
+            return currentSession
+    }()
 	
 	@objc func uploadUnitWith() {
 		
-		let handle:FileHandle = try! FileHandle.init(forReadingFrom: URL(string: model.resFilePath)!)//URL(fileURLWithPath: model.resFilePath)
-		handle.seek(toFileOffset: UInt64(model.uploadCount*uploadUnitSize))
-		let unitData = handle.readData(ofLength: uploadUnitSize)
-		handle.closeFile()
+        var unitData: Data = Data()
+        
+        do {
+            //强制try! 如果文件不存在会导致APP crash
+            let handle:FileHandle = try FileHandle.init(forReadingFrom: URL(string: model.resFilePath)!)
+            handle.seek(toFileOffset: UInt64(model.uploadCount*uploadUnitSize))
+            unitData = handle.readData(ofLength: uploadUnitSize)
+            handle.closeFile()
+        } catch (let error) {
+            NSLog("FileHandle 文件失败  error\(error)")
+            model.status = .EMUploaded
+            EMUploadManager.shared.completeTask()
+            return
+        }
 		
 //		let cachePath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory,FileManager.SearchPathDomainMask.userDomainMask, true).first
 //		let cachePathUrl = URL(fileURLWithPath: cachePath!)
@@ -140,9 +166,10 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		uploadData.append("\r\n--\(EMBoundary)".data(using: .utf8)!)
 		
 		request.httpBody = uploadData
-		let backgroundTask = backgoundSession.uploadTask(withStreamedRequest: request)
+		let backgroundTask = backUploadSession.uploadTask(withStreamedRequest: request)
 //		let backgroundTask = backgoundSession.uploadTask(with: request, fromFile: tmpUrl)
 		backgroundTask.resume()
+        NSLog("当前上传切片数\(model.uploadCount)个 ,总切片数 \(model.totalCount)个")
 	}
 	
 	func uploadParams() -> NSDictionary {
@@ -163,36 +190,26 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		let currentProgress:Float = (Float(totalBytesSent)+Float(model.uploadCount*uploadUnitSize)) / Float(model.totalSize)
 		model.progress = currentProgress
 		progressHandler?(currentProgress)
-		print("\(currentProgress*100)%")
+		NSLog("当前上传总进度\(currentProgress*100)%")
+        
 	}
 	
 	
 	//MARK: - 后台上传完执行代理方法
 	func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-		
-		if model.uploadCount == model.totalCount {
-			model.status = .EMUploaded
-			// 此任务完成进行下一个任务
-			EMUploadManager.shared.completeTask()
-			//此处可能返回后台保存视频的地址
-			self.completeHandler?(.success(path: "upload_url"))
-			
-			//所有文件上传完毕后，释放创建的会话（在结束task后）
-			backgoundSession.finishTasksAndInvalidate()
-			let appDelegate = UIApplication.shared.delegate as! AppDelegate
-			if let localHandler = appDelegate.handler {
-				// 执行上传完成delegate
-				localHandler()
-			} else {
-				creatNotificationContent(identifier: model.name!)
-			}
+        
+        //主线程调用
+        EMEventAtMain {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate,let completionHandler = appDelegate.handler {
+                        appDelegate.handler = nil
+                        //调用此方法告诉操作系统，现在可以安全的重新suspend你的app
+                        NSLog("执行appDelegate --> completionHandler")
 
-		} else {
-			//清空上次后台返回的数据
-			self.response = nil
-			//继续下一片上传
-			uploadUnitWith()
-		}
+                        completionHandler()
+//                     self.uploadUnitWith()
+
+                }
+        }
 	}
 	
 	//MARK: 接收返回的数据
@@ -201,6 +218,9 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		if self.response == nil {
 			let resposeData = NSMutableData(data: data)
 			self.response = resposeData
+            let json = JSON(data)
+            NSLog("服务端返回结果--> \(json)")
+
 		}else{
 			self.response.append(data)
 		}
@@ -220,18 +240,17 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 				
 				// 此任务完成进行下一个任务
 				EMUploadManager.shared.completeTask()
-				
-				self.completeHandler?(.success(path: "upload_url"))
-				
-				//所有文件上传完毕后，释放创建的会话（在结束task后）
-				backgoundSession.finishTasksAndInvalidate()
+                NSLog("此任务完成进行下一个任务 当前剩余任务数量 --> \(EMUploadManager.shared.tasks.count)")
+
+                self.completeHandler?(.success(path: "upload_url"))
+
 				
 				if EMUploadManager.shared.service.isActivity {
 					
 					EMEventAtMain {
 						let rootController = UIApplication.shared.keyWindow?.rootViewController
 						guard let parent = rootController else {
-							print("rootViewController is nil")
+                            NSLog("rootViewController is nil")
 							return
 						}
 						rootController?.dismiss(animated: false, completion: nil)
