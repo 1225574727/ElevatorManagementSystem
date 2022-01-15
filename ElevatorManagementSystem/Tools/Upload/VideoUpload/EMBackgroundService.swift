@@ -9,6 +9,8 @@ import Foundation
 import SwiftyJSON
 import MBProgressHUD
 import UIKit
+import Alamofire
+import Moya
 
 /// 文件上传地址
 let uploadFileUrl = PCDBaseURL + "/upload/public/breakpointUpload"
@@ -27,6 +29,9 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	var isActivity: Bool = true
 	/// 后台会话
 	var backgoundSession: URLSession!
+    
+//    后台任务
+    var backgroundTask: URLSessionUploadTask!
 	
 	/// 服务器返回数据
 	var response: NSMutableData!
@@ -166,7 +171,8 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		uploadData.append("\r\n--\(EMBoundary)".data(using: .utf8)!)
 		
 		request.httpBody = uploadData
-		let backgroundTask = backUploadSession.uploadTask(withStreamedRequest: request)
+        
+		backgroundTask = backUploadSession.uploadTask(withStreamedRequest: request)
 //		let backgroundTask = backgoundSession.uploadTask(with: request, fromFile: tmpUrl)
 		backgroundTask.resume()
         NSLog("当前上传切片数\(model.uploadCount)个 ,总切片数 \(model.totalCount)个")
@@ -272,6 +278,9 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 				//清空上次后台返回的数据
 				self.response = nil
 				//继续下一片上传
+                if backgroundTask.state != .canceling{
+                    backgroundTask.cancel()
+                }
 				uploadUnitWith()
 			}
 		}
