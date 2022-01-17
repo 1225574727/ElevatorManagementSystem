@@ -11,8 +11,9 @@ class EMUploadManager : NSObject {
 	
 	static let shared = EMUploadManager()
 	
+	var isActivity: Bool = true
 	var tasks:[EMUploadModel] = []
-	var service:EMBackgroundService = EMBackgroundService()
+	var service:EMBackgroundService?
 	var loadingModel:EMUploadModel?
 	
 	override init() {}
@@ -24,7 +25,8 @@ class EMUploadManager : NSObject {
 			if (cmodel.status == .EMUnUpload) {
 				loadingModel = cmodel
 				//无上传任务 首个任务进行上传
-				service.upload()
+				service = resetServcice()
+				service!.upload()
 			}
 		}
 	}
@@ -37,7 +39,8 @@ class EMUploadManager : NSObject {
 				if tasks.count >= 1 {
 					loadingModel = tasks.first!
 					//继续下一个任务
-					service.upload()
+					service = resetServcice()
+					service!.upload()
 				}
 			}
 		}
@@ -68,4 +71,10 @@ class EMUploadManager : NSObject {
 		}
 	}
 	
+	func resetServcice() -> EMBackgroundService {
+		if service != nil {
+			service = nil
+		}
+		return EMBackgroundService()
+	}
 }

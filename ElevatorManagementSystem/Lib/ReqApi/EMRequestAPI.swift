@@ -115,7 +115,11 @@ class EMRequestLoadingPlugin: PluginType {
 				print("rootViewController is nil")
 				return
 			}
-			self.hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+			if self.hudMB == nil {
+				self.hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+			} else {
+				self.hudMB?.show(animated: true)
+			}
 			self.hudMB?.mode = .indeterminate
 			self.hudMB?.label.text = "正在请求数据..."
 		}

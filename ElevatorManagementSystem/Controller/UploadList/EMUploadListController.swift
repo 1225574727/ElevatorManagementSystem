@@ -210,7 +210,7 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 		tasks = EMUploadManager.shared.tasks
 		if tasks.count > 0 {
 			
-			EMUploadManager.shared.service.progressHandler =  { [weak self] progress in
+			EMUploadManager.shared.service?.progressHandler =  { [weak self] progress in
                 
                 guard let self = self else {
                     return
@@ -220,7 +220,7 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
                 }
                 
 			}
-			EMUploadManager.shared.service.completeHandler = { [weak self] result in
+			EMUploadManager.shared.service?.completeHandler = { [weak self] result in
 				guard let self = self else {
 					return
 				}

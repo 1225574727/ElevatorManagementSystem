@@ -9,13 +9,13 @@ import UIKit
 import UserNotifications
 
 //后台下载完成后处理闭包
-typealias HanderCompletion = () -> Void
+//typealias HanderCompletion = () -> Void
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-	var handler:HanderCompletion!
+//	var handler:HanderCompletion!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 	
@@ -57,12 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func applicationDidEnterBackground(_ application: UIApplication) {
 		
-		EMUploadManager.shared.service.isActivity = false
+		EMUploadManager.shared.isActivity = false
 	}
 	
 	func applicationWillEnterForeground(_ application: UIApplication) {
 		
-		EMUploadManager.shared.service.isActivity = true
+		EMUploadManager.shared.isActivity = true
 	}
 	
 	//MARK: 关闭应用保存下载任务
@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	//MARK: - 后台下载上传完成处理
 	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-		self.handler = completionHandler
+//		self.handler = completionHandler
         NSLog("Appdelegate --> 保存handleEventsForBackgroundURLSession的completionHandler")
 //		creatNotificationContent(identifier: identifier)
 	}

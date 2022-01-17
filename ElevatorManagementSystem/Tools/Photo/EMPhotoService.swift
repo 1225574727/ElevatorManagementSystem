@@ -140,16 +140,22 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 	}
     
     private func generateVideoScreenshot(videoURL: URL) -> UIImage {
-        //生成视频截图
-       let avAsset = AVAsset(url: videoURL)
+	
+		do {
+			//生成视频截图
+		   let avAsset = AVAsset(url: videoURL)
+		   let generator = AVAssetImageGenerator(asset: avAsset)
+		   generator.appliesPreferredTrackTransform = true
+			let time = CMTimeMakeWithSeconds(0.0,preferredTimescale: 600)
+			var actualTime:CMTime = CMTimeMake(value: 0,timescale: 0)
+			let imageRef:CGImage = try! generator.copyCGImage(at: time, actualTime: &actualTime)
+			let frameImg = UIImage(cgImage: imageRef)
+			return frameImg
+		} catch (_) {
+			print("视频生成截图失败")
+			return UIImage()
+		}
         
-       let generator = AVAssetImageGenerator(asset: avAsset)
-       generator.appliesPreferredTrackTransform = true
-        let time = CMTimeMakeWithSeconds(0.0,preferredTimescale: 600)
-        var actualTime:CMTime = CMTimeMake(value: 0,timescale: 0)
-        let imageRef:CGImage = try! generator.copyCGImage(at: time, actualTime: &actualTime)
-        let frameImg = UIImage(cgImage: imageRef)
-        return frameImg
     }
 }
 

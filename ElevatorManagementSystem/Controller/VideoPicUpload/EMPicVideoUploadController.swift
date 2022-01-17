@@ -285,7 +285,6 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 			
 			if (model?.code == "200") {
 				
-//				self.videoURL = URL(string: Bundle.main.path(forResource: "ani01fad87700", ofType: "mp4")!)
 				if let videoUrl = self.videoURL?.absoluteString, let pathExtension = self.videoURL?.pathExtension {
 					
 					//获取记录id
