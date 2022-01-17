@@ -43,13 +43,13 @@ extension EMPicVideoUploadCell {
                             
                             if type == .records {
                                 
-                                self.calibrationBtn.setTitle(title, for: .normal)
+                                self.selectCaliLabel.text = title
                                
                                 self.selectRecordPartCallBack?(tempDict[title] ?? "", .records)
 
                             }else {
                                 
-                                self.doorBtn.setTitle(title, for: .normal)
+                                self.selectDoorLabel.text = title
                                 
                                 self.selectRecordPartCallBack?(tempDict[title] ?? "", .part)
 

@@ -86,7 +86,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 		}
 		//        uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(unitData.MD5().hexString()).tmp\"\r\n".data(using: .utf8)!) //multipartFile
 //		let upLoadRequest = Alamofire.AF.upload(unitData, to: requestPath)
-		let upLoadRequest = Alamofire.AF.upload(multipartFormData: { formData in
+		let upLoadRequest = AF.upload(multipartFormData: { formData in
 			formData.append(unitData, withName: "file", fileName: "\(unitData.MD5().hexString()).tmp", mimeType: "application/octet-stream")
 		}, to: requestPath)
 		upLoadRequest.response { [weak self] data in
@@ -105,7 +105,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 						
 						if response != nil {
 							let json = JSON(response)
-							print("response:\(json)")
+							print("服务端返回数据  response:\(json)")
 						}
 					}
 					// 如何获取data中后台返回的信息
@@ -164,6 +164,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 			if currentProgress > 1.0 {
 				currentProgress = 1.0
 			}
+            self.progressHandler?(currentProgress)
 			self.model.progress = currentProgress
 			print("当前进度\(currentProgress*100)%")
 		}

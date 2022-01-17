@@ -88,7 +88,7 @@ class EMUploadListCell: UITableViewCell {
 		statusButton.snp.makeConstraints { make in
 			make.centerY.equalTo(titleLab)
 			make.right.equalToSuperview().offset(-20)
-			make.width.equalTo(68)
+			make.width.equalTo(72)
 			make.height.equalTo(26)
 		}
 		
@@ -210,7 +210,7 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 		tasks = EMUploadManager.shared.tasks
 		if tasks.count > 0 {
 			
-			EMUploadManager.shared.service?.progressHandler =  { [weak self] progress in
+			EMUploadManager.shared.service.progressHandler =  { [weak self] progress in
                 
                 guard let self = self else {
                     return
@@ -220,18 +220,18 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
                 }
                 
 			}
-			EMUploadManager.shared.service?.completeHandler = { [weak self] result in
+			EMUploadManager.shared.service.completeHandler = { [weak self] result in
 				guard let self = self else {
 					return
 				}
 				self.tasks = EMUploadManager.shared.tasks
 				self.tableView.reloadData()
                 
-                //完成后要将所有进度条置为0，不然有些还没开始的cell会保持100%
-                for value in self.tableView.visibleCells {
-                    let cell: EMUploadListCell = value as! EMUploadListCell
-                    cell.updateProgress(animated: false, progress: 0)
-                }
+//                //完成后要将所有进度条置为0，不然有些还没开始的cell会保持100%
+//                for value in self.tableView.visibleCells {
+//                    let cell: EMUploadListCell = value as! EMUploadListCell
+//                    cell.updateProgress(animated: false, progress: 0)
+//                }
 			}
 			setupUI()
 		}
@@ -301,6 +301,7 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 			cell.progress = model.progress
 		} else {
 			cell.status = .waiting
+            cell.updateProgress(animated: false, progress: 0)
 		}
 		cell.timer = model.uploadTimer
 		cell.title = model.name

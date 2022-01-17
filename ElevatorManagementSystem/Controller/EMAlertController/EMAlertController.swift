@@ -48,7 +48,7 @@ class EMAlertController: UIViewController {
 		label.numberOfLines = 0
 		label.textColor = UIColor.B3
 		label.font = UIFont.systemFont(ofSize: 16)
-		label.textAlignment = NSTextAlignment.left
+		label.textAlignment = NSTextAlignment.center
 		return label
 	}()
 	

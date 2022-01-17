@@ -8,6 +8,8 @@
 import UIKit
 
 enum EMPicVideoUploadCellType {
+    case record
+    case part
 	case category
 	case textInput
 	case videoUpload
@@ -52,40 +54,83 @@ class EMPicVideoUploadCell: UITableViewCell {
 		lab.textColor = UIColor.B3
 		return lab
 	}()
+    
+    lazy var selectCaliLabel: UILabel = {
+        let lab = UILabel()
+        lab.font = UIFont.systemFont(ofSize: 14)
+        lab.textColor = UIColor.B3
+        return lab
+    }()
+    
+    lazy var selectDoorLabel: UILabel = {
+        let lab = UILabel()
+        lab.font = UIFont.systemFont(ofSize: 14)
+        lab.textColor = UIColor.B3
+        return lab
+    }()
 	
 	 lazy var calibrationBtn: UIButton = {
 		let btn = UIButton.init(frame: CGRect(x: 0, y: 0, width: 161, height: 60))
-		btn.sg.setImage(location: .right, space: 60) { (btn) in
-			btn.setImage(UIImage(named: "selected_arrow"), for: .selected)
-			btn.setImage(UIImage(named: "deselect_arrow"), for: .normal)
-			btn.setTitle(EMLocalizable("record_type"), for: .normal)
-			btn.setTitleColor(UIColor.B3, for: .normal)
-			btn.setTitleColor(UIColor.Main, for: .selected)
-			btn.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
-			btn.layer.cornerRadius = 8
-			btn.layer.masksToBounds = true
-			btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-			btn.tag = 2021
-			btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
-		}
+//        btn.setTitle(EMLocalizable("record_type"), for: .normal)
+        btn.setTitleColor(UIColor.B3, for: .normal)
+        btn.setTitleColor(UIColor.Main, for: .selected)
+        btn.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+        btn.layer.cornerRadius = 8
+        btn.layer.masksToBounds = true
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.tag = 2021
+        btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+         
+         
+         let arrowImageV = UIImageView()
+         arrowImageV.image = UIImage(named: "deselect_arrow")
+         btn.addSubview(arrowImageV)
+         arrowImageV.snp.makeConstraints { make in
+             make.top.equalTo(15)
+             make.right.equalTo(-5)
+             make.width.height.equalTo(30)
+         }
+         
+         btn.addSubview(selectCaliLabel)
+        selectCaliLabel.snp.makeConstraints { make in
+             make.top.equalTo(15)
+            make.left.equalTo(10)
+            make.right.equalTo(arrowImageV.snp.left).offset(0)
+             make.height.equalTo(30)
+         }
 		return btn
 	}()
 	
 	  lazy  var doorBtn: UIButton = {
 		let btn = UIButton.init(frame: CGRect(x: 0, y: 0, width: 161, height: 60))
-		btn.sg.setImage(location: .right, space: 60) { (btn) in
-			btn.setImage(UIImage(named: "selected_arrow"), for: .selected)
-			btn.setImage(UIImage(named: "deselect_arrow"), for: .normal)
-			btn.setTitle(EMLocalizable("upload_part_lab"), for: .normal)
-			btn.setTitleColor(UIColor.B3, for: .normal)
-			btn.setTitleColor(UIColor.Main, for: .selected)
-			btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-			btn.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
-			btn.layer.cornerRadius = 8
-			btn.layer.masksToBounds = true
-			btn.tag = 2022
-			btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
-		}
+//        btn.setTitle(EMLocalizable("upload_part_lab"), for: .normal)
+        btn.setTitleColor(UIColor.B3, for: .normal)
+        btn.setTitleColor(UIColor.Main, for: .selected)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: -20, bottom: 0, right: 0)
+        btn.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+        btn.layer.cornerRadius = 8
+        btn.layer.masksToBounds = true
+        btn.tag = 2022
+        btn.addTarget(self, action: #selector(didClickButton(sender:)), for: .touchUpInside)
+          
+          let arrowImageV = UIImageView()
+          arrowImageV.image = UIImage(named: "deselect_arrow")
+          btn.addSubview(arrowImageV)
+          arrowImageV.snp.makeConstraints { make in
+              make.top.equalTo(15)
+              make.right.equalTo(-5)
+              make.width.height.equalTo(30)
+          }
+          
+          btn.addSubview(selectDoorLabel)
+          selectDoorLabel.snp.makeConstraints { make in
+               make.top.equalTo(15)
+              make.left.equalTo(10)
+              make.right.equalTo(arrowImageV.snp.left).offset(0)
+               make.height.equalTo(30)
+           }
+          
 		return btn
 	}()
 	
@@ -167,8 +212,11 @@ class EMPicVideoUploadCell: UITableViewCell {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		
 		self.selectionStyle = .none
-		
-		if reuseIdentifier == EMPicVideoUploadController.kCategoryCell {
+        if reuseIdentifier == EMPicVideoUploadController.kRecordCell {
+            setupUI(type: .record)
+        }else if reuseIdentifier == EMPicVideoUploadController.kPartCell {
+            setupUI(type: .part)
+        }else if reuseIdentifier == EMPicVideoUploadController.kCategoryCell {
 			setupUI(type: .category)
 		}else if reuseIdentifier == EMPicVideoUploadController.kTextInputCell {
 			setupUI(type: .textInput)

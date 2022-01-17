@@ -16,7 +16,7 @@
 "alert_cancel" = "Cancel";
 "alert_sure" = "Confirm";
 "alert_change_language" = "Switching to Chinese Version.";
-"alert_net_tip" = "It is not allowed to upload data in the existing network setting (via 3G/4G/ 5G). Do you want to continue?";
+"alert_net_tip" = "It is not allowed to upload data in existing network setting (3G/4G/5G). WIFI connection is required or please enable data uploading via mobile data.";
 "alert_net_setting" = "Go to Network Settings";
 "alert_net_close" = "Close";
 "alert_upload_success" = "Done!";
@@ -25,9 +25,9 @@
 "alert_upload_fail" = "The upload failed!";
 "alert_upload_fail_continue" = "Continue Data Upload";
 "alert_upload_fail_cancel" = "Cancel Data Upload";
-"alert_upload_list" = "Continue with Another Inspection Order";
-"alert_upload_sure" = "Home";
-"alert_upload_content" = "Done!";
+"alert_upload_list" = "Open Upload List";
+"alert_upload_sure" = "Noted!";
+"alert_upload_content" = "Submitted! Uploading…";
 "alert_process_content" = "Uploading";
 
 "root_manage" = "Manage Equipment";
@@ -76,8 +76,8 @@
 "record_type_default" = "All";
 "record_time_conform" = "Confirm";
 "record_time_reset" = "Reset";
-"no_more_record" = "No more records yet";
-"no_more_floorRecord" = "No more floor records yet";
+"no_more_record" = "There are no inspection records/results yet…";
+"no_more_floorRecord" = "There are no floor records/results yet…";
 
 "upload_list_title" = "Upload List";
 "upload_list_section_loading" = "Uploading";

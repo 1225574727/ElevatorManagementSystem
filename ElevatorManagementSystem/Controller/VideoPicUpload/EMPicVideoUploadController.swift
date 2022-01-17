@@ -8,7 +8,9 @@
 import UIKit
 
 class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UITableViewDelegate {
-
+    
+    static let kRecordCell = "kRecordCell"
+    static let kPartCell = "kPartCell"
     static let kCategoryCell = "kCategoryCell"
     static let kTextInputCell = "kTextInputCell"
     static let kVideoUploadCell = "kVideoUploadCell"
@@ -83,104 +85,223 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     
     ///MARK: table view data source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return EMLanguageSetting.shared.language == .Chinese ? 5 : 6
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 || indexPath.row == 1 {
-            return 110
-        }else if indexPath.row == 2 {
-            return  CGFloat(oneCellHeight + 40)
-        }else if indexPath.row == 3 {
-            return CGFloat(Int(oneCellHeight) * picCellHeightMultiple + 40)
+        if EMLanguageSetting.shared.language == .Chinese {
+            if indexPath.row == 0 || indexPath.row == 1 {
+                return 110
+            }else if indexPath.row == 2 {
+                return  CGFloat(oneCellHeight + 40)
+            }else if indexPath.row == 3 {
+                return CGFloat(Int(oneCellHeight) * picCellHeightMultiple + 40)
+            }else {
+                return 210
+            }
         }else {
-            return 210
+            if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 {
+                return 110
+            }else if indexPath.row == 3 {
+                return  CGFloat(oneCellHeight + 40)
+            }else if indexPath.row == 4 {
+                return CGFloat(Int(oneCellHeight) * picCellHeightMultiple + 40)
+            }else {
+                return 210
+            }
         }
+       
     }
     
     ///MARK: table view delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if indexPath.row == 0 {
-            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kCategoryCell) as! EMPicVideoUploadCell
-            cell.selectRecordPartCallBack = { [weak self](sysId, type) in
-                
-                guard let self = self else {
-                    return
-                }
-                
-                if type == .records {
+        if EMLanguageSetting.shared.language == .Chinese {//中文显示
+
+            if indexPath.row == 0 {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kCategoryCell) as! EMPicVideoUploadCell
+                cell.selectRecordPartCallBack = { [weak self](sysId, type) in
                     
-                    self.recordTypeId = sysId
+                    guard let self = self else {
+                        return
+                    }
                     
-                }else {
+                    if type == .records {
+                        
+                        self.recordTypeId = sysId
+                        
+                    }else {
+                        
+                        self.componentTypeId = sysId
+                        
+                    }
                     
-                    self.componentTypeId = sysId
+                }
+                cell.selectionStyle = .none
+                return cell
+            }else if indexPath.row == 1 {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
+                cell.inputCallBack = { [weak self] textString in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.doorDistance = textString
                     
                 }
-                
-            }
-            cell.selectionStyle = .none
-            return cell
-        }else if indexPath.row == 1 {
-            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
-            cell.inputCallBack = { [weak self] textString in
-                
-                guard let self = self else {
-                    return
+                cell.selectionStyle = .none
+                return cell
+            }else if indexPath.row == 2{
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kVideoUploadCell) as! EMPicVideoUploadCell
+                cell.videoSelectCallBack = {[weak self] videoUrl in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.videoURL = videoUrl
+                    
+                }
+                return cell
+            }else if indexPath.row == 3 {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPicUploadCell) as! EMPicVideoUploadCell
+                cell.updateCellHeight = { [weak self] currentHeightMultiple in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    self.picCellHeightMultiple = currentHeightMultiple
+                    self.tableView.reloadData()
                 }
                 
-                self.doorDistance = textString
-                
-            }
-            cell.selectionStyle = .none
-            return cell
-        }else if indexPath.row == 2{
-            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kVideoUploadCell) as! EMPicVideoUploadCell
-            cell.videoSelectCallBack = {[weak self] videoUrl in
-                
-                guard let self = self else {
-                    return
+                cell.imageSelectCallBack = { [weak self] dataArray in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.imageArray = dataArray
+                    
                 }
+                return cell
+            }else {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kNoteInputCell) as! EMPicVideoUploadCell
                 
-                self.videoURL = videoUrl
-                
-            }
-            return cell
-        }else if indexPath.row == 3 {
-            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPicUploadCell) as! EMPicVideoUploadCell
-            cell.updateCellHeight = { [weak self] currentHeightMultiple in
-                
-                guard let self = self else {
-                    return
+                cell.remarkInputCallBack = { [weak self] textString in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.remark = textString
+                    
                 }
-                self.picCellHeightMultiple = currentHeightMultiple
-                self.tableView.reloadData()
+                return cell
             }
             
-            cell.imageSelectCallBack = { [weak self] dataArray in
-                
-                guard let self = self else {
-                    return
-                }
-                
-                self.imageArray = dataArray
-                
-            }
-            return cell
         }else {
-            let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kNoteInputCell) as! EMPicVideoUploadCell
-            
-            cell.remarkInputCallBack = { [weak self] textString in
-                
-                guard let self = self else {
-                    return
+            if indexPath.row == 0 {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kRecordCell) as! EMPicVideoUploadCell
+                cell.selectRecordPartCallBack = { [weak self](sysId, type) in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    if type == .records {
+                        
+                        self.recordTypeId = sysId
+                        
+                    }else {
+                        
+                        self.componentTypeId = sysId
+                        
+                    }
+                    
+                }
+                cell.selectionStyle = .none
+                return cell
+            }else if indexPath.row == 1 {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPartCell) as! EMPicVideoUploadCell
+                cell.selectRecordPartCallBack = { [weak self](sysId, type) in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    if type == .records {
+                        
+                        self.recordTypeId = sysId
+                        
+                    }else {
+                        
+                        self.componentTypeId = sysId
+                        
+                    }
+                    
+                }
+                cell.selectionStyle = .none
+                return cell
+            }else if indexPath.row == 2 {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
+                cell.inputCallBack = { [weak self] textString in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.doorDistance = textString
+                    
+                }
+                cell.selectionStyle = .none
+                return cell
+            }else if indexPath.row == 3{
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kVideoUploadCell) as! EMPicVideoUploadCell
+                cell.videoSelectCallBack = {[weak self] videoUrl in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.videoURL = videoUrl
+                    
+                }
+                return cell
+            }else if indexPath.row == 4 {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kPicUploadCell) as! EMPicVideoUploadCell
+                cell.updateCellHeight = { [weak self] currentHeightMultiple in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    self.picCellHeightMultiple = currentHeightMultiple
+                    self.tableView.reloadData()
                 }
                 
-                self.remark = textString
+                cell.imageSelectCallBack = { [weak self] dataArray in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.imageArray = dataArray
+                    
+                }
+                return cell
+            }else {
+                let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kNoteInputCell) as! EMPicVideoUploadCell
                 
+                cell.remarkInputCallBack = { [weak self] textString in
+                    
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    self.remark = textString
+                    
+                }
+                return cell
             }
-            return cell
         }
         
     }
@@ -210,6 +331,8 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(EMPicVideoUploadCell.self, forCellReuseIdentifier: EMPicVideoUploadController.kRecordCell)
+        tableView.register(EMPicVideoUploadCell.self, forCellReuseIdentifier: EMPicVideoUploadController.kPartCell)
         tableView.register(EMPicVideoUploadCell.self, forCellReuseIdentifier: EMPicVideoUploadController.kCategoryCell)
         tableView.register(EMPicVideoUploadCell.self, forCellReuseIdentifier: EMPicVideoUploadController.kTextInputCell)
         tableView.register(EMPicVideoUploadCell.self, forCellReuseIdentifier: EMPicVideoUploadController.kVideoUploadCell)

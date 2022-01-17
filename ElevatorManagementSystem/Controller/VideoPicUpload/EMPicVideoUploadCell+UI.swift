@@ -13,6 +13,12 @@ extension EMPicVideoUploadCell {
     //设置UI
     func setupUI(type: EMPicVideoUploadCellType) -> Void {
         switch type {
+        case .record:
+            setUpRecordTypeUI()
+            break
+        case .part:
+            setUpPartTypeUI()
+            break
         case .category:
             setUpChooseTypeUI()
             break
@@ -28,6 +34,46 @@ extension EMPicVideoUploadCell {
         case .noteInput:
             setUpNoticeInputUI()
             break
+            
+        }
+        
+    }
+    
+    //记录类型cell 切换成英文单独占据一个cell
+    func setUpRecordTypeUI(){
+        contentView.addSubview(self.calibrationLabel)
+        contentView.addSubview(self.calibrationBtn)
+        self.calibrationLabel.snp.makeConstraints { make in
+            make.top.equalTo(10)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.height.equalTo(20)
+        }
+        
+        self.calibrationBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.calibrationLabel.snp.bottom).offset(10)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.height.equalTo(60)
+        }
+    }
+    
+    //零件类型cell 切换成英文单独占据一个cell
+    func setUpPartTypeUI(){
+        contentView.addSubview(self.doorLabel)
+        contentView.addSubview(self.doorBtn)
+        self.doorLabel.snp.makeConstraints { make in
+            make.top.equalTo(10)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.height.equalTo(20)
+        }
+        
+        self.doorBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.doorLabel.snp.bottom).offset(10)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.height.equalTo(60)
         }
     }
     
