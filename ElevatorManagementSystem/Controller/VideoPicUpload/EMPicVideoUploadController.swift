@@ -439,9 +439,9 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 					EMAlertService.show(title: EMLocalizable("alert_tip"), message: EMLocalizable("upload_submit_success"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: [], style: .alert) { _, _ in
 						self.navigationController?.popViewController(animated: true)
 					}
+					debugPrint("上传成功")
 				}
 				
-				debugPrint("上传成功")
 			} else {
 				
 				debugPrint("上传失败")

@@ -14,6 +14,13 @@ enum EMUploadCellStatus {
 	case failure
 }
 
+enum EMUploadEventType {
+	case uploadCancel
+	case uploadContinue
+}
+
+typealias EMUploadListHanlder = (_ eventType:EMUploadEventType) -> Void
+
 class EMUploadListCell: UITableViewCell {
 	
 	var timer: String? {
@@ -66,6 +73,8 @@ class EMUploadListCell: UITableViewCell {
 			}
 		}
 	}
+	
+	var eventHandler:EMUploadListHanlder?
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -188,11 +197,10 @@ class EMUploadListCell: UITableViewCell {
 	}()
 	
 	@objc func userAction(sender:UIButton) {
-		if sender.tag == 2017 {
-			print("取消")
-		}
-		else if sender.tag == 2018 {
-			print("继续")
+
+		if let handler = eventHandler {
+			
+			handler(sender.tag == 2017 ? .uploadCancel : .uploadContinue)
 		}
 	}
 }
@@ -203,10 +211,40 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 	
 	lazy var tasks:[EMUploadModel] = []
 	
+	lazy var emptyBgImageV: UIImageView = {
+		let imageV = UIImageView()
+		imageV.image = UIImage(named: "empty_record")
+		imageV.isHidden = true
+		return imageV
+	}()
+	
+	lazy var emptyTipLabel: UILabel = {
+		let label = UILabel()
+		label.text = EMLocalizable("no_more_record")
+		label.textAlignment = .center
+		label.textColor = .B6
+		label.font = UIFont.systemFont(ofSize: 18)
+		label.isHidden = true
+		return label
+	}()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = EMLocalizable("upload_list_title")
 		
+		self.view.addSubview(emptyBgImageV)
+		self.view .addSubview(emptyTipLabel)
+		emptyBgImageV.snp.makeConstraints { make in
+			make.centerX.equalToSuperview()
+			make.width.height.equalTo(166)
+			make.top.equalTo(50 + NavigationBarHeight)
+		}
+		
+		emptyTipLabel.snp.makeConstraints { make in
+			make.right.left.equalToSuperview()
+			make.top.equalTo(emptyBgImageV.snp.bottom).offset(4)
+		}
+
 		tasks = EMUploadManager.shared.tasks
 		if tasks.count > 0 {
 			
@@ -226,6 +264,16 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 				}
 				self.tasks = EMUploadManager.shared.tasks
 				self.tableView.reloadData()
+				
+				if self.tasks.count == 0 {
+					self.emptyBgImageV.isHidden = false
+					self.emptyTipLabel.isHidden = false
+					self.tableView.isHidden = true
+				} else {
+					self.emptyBgImageV.isHidden = true
+					self.emptyTipLabel.isHidden = true
+					self.tableView.isHidden = false
+				}
                 
 //                //完成后要将所有进度条置为0，不然有些还没开始的cell会保持100%
 //                for value in self.tableView.visibleCells {
@@ -235,7 +283,11 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 			}
 			setupUI()
 		}
-		
+		else {
+			emptyBgImageV.isHidden = false
+			emptyTipLabel.isHidden = false
+			self.tableView.isHidden = true
+		}
 	}
 	
 	func setupUI() {
@@ -302,6 +354,27 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 		} else {
 			cell.status = .waiting
             cell.updateProgress(animated: false, progress: 0)
+		}
+		cell.eventHandler = {
+			[weak self] eventType in
+			guard let self = self else {
+				return;
+			}
+			if eventType == .uploadCancel {
+				
+				let arrIndex = indexPath.section + indexPath.row
+				EMUploadManager.shared.tasks.remove(at: arrIndex)
+				
+				if arrIndex == 0 && EMUploadManager.shared.tasks.count > 0{
+					EMUploadManager.shared.continueTask()
+				}
+				self.tasks = EMUploadManager.shared.tasks
+				
+				self.tableView.reloadData()
+			} else {
+				
+				EMUploadManager.shared.continueTask()
+			}
 		}
 		cell.timer = model.uploadTimer
 		cell.title = model.name

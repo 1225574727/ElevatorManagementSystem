@@ -46,6 +46,18 @@ class EMUploadManager : NSObject {
 		}
 	}
 	
+	func continueTask () {
+		
+		if let cmodel = tasks.first {
+			if (cmodel.status == .EMUploadFailed || cmodel.status == .EMUnUpload) {
+				cmodel.status = .EMUploading
+				loadingModel = cmodel
+				//无上传任务 首个任务进行上传
+				service.upload()
+			}
+		}
+	}
+	
 	func saveTasks() {
 		
 		if !tasks.isEmpty {
