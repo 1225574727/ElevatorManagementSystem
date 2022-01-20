@@ -231,11 +231,10 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 
 				// 如何获取data中后台返回的信息
 				self.model.status = .EMUploaded
-				
+				FileOperation.removeFile(sourceUrl: self.model.resFilePath)
 				// 此任务完成进行下一个任务
 				EMUploadManager.shared.completeTask()
 				print("任务\(self.model.name!)完成上传，剩余任务数量 --> \(EMUploadManager.shared.tasks.count)")
-				
 				self.completeHandler?(.success(path: "upload_url"))
 				
 				if EMUploadManager.shared.isActivity {

@@ -57,6 +57,7 @@
 		6A987E90273A682B002D7BC4 /* EMBackgroundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987E8F273A682B002D7BC4 /* EMBackgroundService.swift */; };
 		6A987E92273A6901002D7BC4 /* EMUploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A987E91273A6901002D7BC4 /* EMUploadModel.swift */; };
 		6AB364C32769DE0F007BAC7A /* EMDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB364C22769DE0F007BAC7A /* EMDeviceService.swift */; };
+		6AEA960827997F7600AC6707 /* FileOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEA960727997F7600AC6707 /* FileOperation.swift */; };
 		A720F44DEA552B2CC72E13E0 /* Pods_ElevatorManagementSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AF4C6D8494B79051CFF9DE /* Pods_ElevatorManagementSystem.framework */; };
 /* End PBXBuildFile section */
 
@@ -119,6 +120,7 @@
 		6A987E8F273A682B002D7BC4 /* EMBackgroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMBackgroundService.swift; sourceTree = "<group>"; };
 		6A987E91273A6901002D7BC4 /* EMUploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMUploadModel.swift; sourceTree = "<group>"; };
 		6AB364C22769DE0F007BAC7A /* EMDeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMDeviceService.swift; sourceTree = "<group>"; };
+		6AEA960727997F7600AC6707 /* FileOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOperation.swift; sourceTree = "<group>"; };
 		B3ABE2A88A57E5C73F6465B8 /* Pods-ElevatorManagementSystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevatorManagementSystem.release.xcconfig"; path = "Target Support Files/Pods-ElevatorManagementSystem/Pods-ElevatorManagementSystem.release.xcconfig"; sourceTree = "<group>"; };
 		BA96119891B7CDE6AF21BCA6 /* Pods-ElevatorManagementSystem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevatorManagementSystem.debug.xcconfig"; path = "Target Support Files/Pods-ElevatorManagementSystem/Pods-ElevatorManagementSystem.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -386,6 +388,7 @@
 		6A987D7B2736766E002D7BC4 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				6AEA960627997F6000AC6707 /* FileOperation */,
 				6A36C93B277D496900FF2961 /* Upload */,
 				6A663CA72759C567001A3DBD /* Photo */,
 				6A36C91D27782AE400FF2961 /* PubRequest */,
@@ -441,6 +444,14 @@
 				6AB364C22769DE0F007BAC7A /* EMDeviceService.swift */,
 			);
 			path = Device;
+			sourceTree = "<group>";
+		};
+		6AEA960627997F6000AC6707 /* FileOperation */ = {
+			isa = PBXGroup;
+			children = (
+				6AEA960727997F7600AC6707 /* FileOperation.swift */,
+			);
+			path = FileOperation;
 			sourceTree = "<group>";
 		};
 		8C1079C02639CAB5D5A8A509 /* Frameworks */ = {
@@ -583,6 +594,7 @@
 				47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */,
 				6A2C5CA52754CC9500935161 /* EMAlertService.swift in Sources */,
 				474586DF2764F12000796950 /* EMChooseElevatorMainController.swift in Sources */,
+				6AEA960827997F7600AC6707 /* FileOperation.swift in Sources */,
 				47E6C4F627362A28000FAA7D /* EMConfig.swift in Sources */,
 				474586DD2764F12000796950 /* EMRecordSelectView.swift in Sources */,
 				6A987E92273A6901002D7BC4 /* EMUploadModel.swift in Sources */,

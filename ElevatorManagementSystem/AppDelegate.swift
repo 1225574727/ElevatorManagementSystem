@@ -52,6 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			}
 		}
 		
+		FileOperation.createVideoDirectory()
+		
         return true
     }
 	
