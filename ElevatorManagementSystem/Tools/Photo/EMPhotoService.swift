@@ -11,6 +11,7 @@ import AVFoundation
 import Photos
 import MobileCoreServices
 import AVKit
+import MBProgressHUD
 
 typealias PhotoHandler = (_ videoUrl: URL?, _ resource:Any)->Void;
 
@@ -129,6 +130,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			var image : UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
 			image = image.compressImage(maxLength: 100*1024)
 			self.handler!(nil, image)
+			self.parent?.dismiss(animated: true, completion: nil)
 		} else {
 			
 			let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as! URL
@@ -139,9 +141,23 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			let  timeStamp =  Int (timeInterval)
 			let newURL = tmpVideoPath + "/\(timeStamp).mp4"
 			
+			let rootController = UIApplication.shared.keyWindow?.rootViewController
+			guard let parent = rootController else {
+				NSLog("rootViewController is nil")
+				return
+			}
+			rootController?.dismiss(animated: false, completion: nil)
+
+			let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+			hudMB.mode = .text
+			hudMB.label.text = "视频生成中"
+			
 			DispatchQueue.global().async {
 				self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
 					success in
+					EMEventAtMain {
+						hudMB.hide(animated: true)
+					}
 					if success {
 						EMEventAtMain {
 							self.handler!(URL(fileURLWithPath: newURL),self.generateVideoScreenshot(videoURL: URL(fileURLWithPath: newURL)))

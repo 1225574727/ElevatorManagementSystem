@@ -235,6 +235,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 				// 此任务完成进行下一个任务
 				EMUploadManager.shared.completeTask()
 				print("任务\(self.model.name!)完成上传，剩余任务数量 --> \(EMUploadManager.shared.tasks.count)")
+				let model = self.model
 				self.completeHandler?(.success(path: "upload_url"))
 				
 				if EMUploadManager.shared.isActivity {
@@ -260,7 +261,10 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 					if let rootVC = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController {
 						let vc = rootVC.viewControllers.last!
 						if (vc.isKind(of: EMPicVideoUploadController.self)) {
-							rootVC.popViewController(animated: false)
+							let videoVC = vc as! EMPicVideoUploadController
+							if videoVC.videoURL?.absoluteString == model?.resFilePath {
+								rootVC.popViewController(animated: false)
+							}
 						}
 					}
 				}
@@ -328,11 +332,11 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	}
 	
 	//MARK: - 后台上传完执行代理方法
-	func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-		
-		//上传结束后其他操作
-		self.dealResponse(nil)
-	}
+//	func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+//
+//		//上传结束后其他操作
+//		self.dealResponse(nil)
+//	}
 	
 	func beginBackgroundTask() -> UIBackgroundTaskIdentifier {
 		return UIApplication.shared.beginBackgroundTask(expirationHandler: {})

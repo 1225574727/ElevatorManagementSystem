@@ -53,12 +53,14 @@ class FileOperation {
 	
 	// 删除目标文件
 	static func removeFile(sourceUrl:String){
+		
+		let url = sourceUrl.replacingOccurrences(of: "file://", with: "")
 		let fileManger = FileManager.default
 		do{
-			try fileManger.removeItem(atPath: sourceUrl)
-			print("Success to remove file.")
+			try fileManger.removeItem(atPath: url)
+			print("Success to remove file - \(url)")
 		}catch{
-			print("Failed to remove file.")
+			print("Failed to remove file - \(url)")
 		}
 	}
 	

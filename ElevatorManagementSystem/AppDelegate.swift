@@ -74,11 +74,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 	
 	//MARK: - 后台下载上传完成处理
-	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-//		self.handler = completionHandler
-        NSLog("Appdelegate --> 保存handleEventsForBackgroundURLSession的completionHandler")
-//		creatNotificationContent(identifier: identifier)
-	}
+//	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+//		if EMUploadManager.shared.loadingModel?.status == .EMUploading {
+//			EMUploadManager.shared.service.uploadUnitWith()
+//		}
+//	}
 	
 	
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
