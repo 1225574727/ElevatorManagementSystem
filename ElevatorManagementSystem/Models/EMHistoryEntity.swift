@@ -15,9 +15,40 @@ struct EMHistoryItemEntity : HandyJSON {
 	var status:String? //状态暂未定义
 }
 
+struct EMFloorItemEntity: HandyJSON {
+    var componentId: String?
+    var name: String?
+    var result: String?
+}
+
+struct EMComponentItemEntity: HandyJSON {
+    var componentId: String?
+    var name: String?
+    var result: String?
+    var photoUrls: String?
+    var tags: String?
+    var status: String?
+    var comment: String?
+}
+
 struct EMHistoryEntity : HandyJSON {
     
     var code: String?
     var msg: String?
     var data:[EMHistoryItemEntity]?
+}
+
+struct EMFloorEntity : HandyJSON {
+    
+    var code: String?
+    var msg: String?
+    var data:[EMFloorItemEntity]?
+}
+
+struct EMComponentEntity : HandyJSON {
+    
+    var code: String?
+    var msg: String?
+    var data:[EMComponentItemEntity]?
+
 }

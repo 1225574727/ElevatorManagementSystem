@@ -69,6 +69,14 @@ class EMChooseRecordController: EMBaseViewController{
                 return
             }
             
+            if date != "" {
+                self.requestParam.updateValue(date, forKey: "date")
+            }else{
+                self.requestParam.removeValue(forKey: "date")
+            }
+            
+            self.sendGetEquipmentOrderListRquest()
+
             self.hideResultView()
 
             
@@ -80,20 +88,31 @@ class EMChooseRecordController: EMBaseViewController{
             
             if type == .record {
                 
-                if let sysId = itemEntity.sysId {
-                    self.requestParam.updateValue(sysId, forKey: "recordTypeId")
+                if let sysValue = itemEntity.sysValue ,sysValue != EMLocalizable("record_type_default"){
+                    self.requestParam.updateValue(sysValue, forKey: "status")
                 }else{
-                    self.requestParam.removeValue(forKey: "recordTypeId")
-                }
-            }
-            if type == .part,let sysId = itemEntity.sysId{
-                if let sysId = itemEntity.sysId {
-                    self.requestParam.updateValue(sysId, forKey: "componentTypeId")
-                }else{
-                    self.requestParam.removeValue(forKey: "componentTypeId")
+                    self.requestParam.removeValue(forKey: "status")
                 }
             }
             
+            if type == .part{
+                if let sysValue = itemEntity.sysValue, sysValue != EMLocalizable("record_type_default") {
+                    self.requestParam.updateValue(sysValue, forKey: "componentType")
+                }else{
+                    self.requestParam.removeValue(forKey: "componentType")
+                }
+            }
+            
+            if type == .result{
+                if let sysValue = itemEntity.sysValue, sysValue != EMLocalizable("record_type_default") {
+                    self.requestParam.updateValue(sysValue, forKey: "actionRequired")
+                }else{
+                    self.requestParam.removeValue(forKey: "actionRequired")
+                }
+            }
+            
+           
+        
 
             self.sendGetEquipmentOrderListRquest()
            
@@ -129,7 +148,7 @@ class EMChooseRecordController: EMBaseViewController{
         emptyBgImageV.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.width.height.equalTo(166)
-            make.top.equalTo(50 + NavigationBarHeight)
+            make.top.equalTo(50 + NavigationBarHeight + 56)
         }
         
         emptyTipLabel.snp.makeConstraints { make in
@@ -222,7 +241,7 @@ class EMChooseRecordController: EMBaseViewController{
 
         recordResultView.isHidden = true
         tableView.isHidden = true
-        recordSelectView.isHidden = true
+//        recordSelectView.isHidden = true
     }
     
     func fetchData() {
@@ -256,6 +275,9 @@ class EMChooseRecordController: EMBaseViewController{
                 }
                 self.recordDataArray = data
                 self.tableView.reloadData()
+                self.emptyBgImageV.isHidden = true
+                self.emptyTipLabel.isHidden = true
+                self.tableView.isHidden = false
             }   else {
                 self.showEmptyView()
             }
@@ -273,7 +295,7 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
         }
         
         let model = recordDataArray[indexPath.row]
-		cell!.updateCellData(model: RecordModel(timeText: model.createDate, titleText:"记录：\(indexPath.section + 1)" , checkText: CheckStyle.afterCalibration.checkText), type: .chooseRecordCell)
+        cell!.updateCellData(model: RecordModel(timeText: model.createDate, titleText:"\(EMLocalizable("record_type")) #\(indexPath.section + 1)" , checkText: model.status), type: .chooseRecordCell)
 		
         return cell!
     }
@@ -304,8 +326,10 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        self.navigationController?.pushViewController(EMRecordDetailController(), animated: true)
+        let model = recordDataArray[indexPath.row]
+        let vc = EMRecordDetailController()
+        vc.orderId = model.orderId
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
 }

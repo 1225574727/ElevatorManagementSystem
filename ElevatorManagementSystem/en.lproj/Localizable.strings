@@ -71,6 +71,7 @@
 "upload_submit_failure" = "elevator info submit failure!";
 
 "record_type" = "Inspection Record";
+"record_session" = "Inspection Record";
 "parts_category" = "Part Type";
 "result_state" = "Result Status";
 "record_time" = "Time";

@@ -11,8 +11,11 @@ import UIKit
 class EMRecordDetailController: EMBaseViewController {
     
     static let kEMRecordDetailCell = "kEMRecordDetailCell"
+    
+    var floorDataArray: [EMFloorItemEntity] = Array()
 
-    var historyDataArray: [String] = Array()
+    
+    var orderId: String?
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
@@ -24,20 +27,84 @@ class EMRecordDetailController: EMBaseViewController {
         return tableview
     }()
     
+    lazy var emptyBgImageV: UIImageView = {
+        let imageV = UIImageView()
+        imageV.image = UIImage(named: "empty_record")
+        return imageV
+    }()
+    
+    lazy var emptyTipLabel: UILabel = {
+        let label = UILabel()
+        label.text = EMLocalizable("no_more_floorRecord")
+        label.textAlignment = .center
+        label.textColor = .B6
+        label.font = UIFont.systemFont(ofSize: 18)
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = EMLocalizable("choose_floor_title")
         
-        historyDataArray.append("楼层一")
-        historyDataArray.append("楼层二")
-        historyDataArray.append("楼层三")
         
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         
+        self.view.addSubview(emptyBgImageV)
+        self.view .addSubview(emptyTipLabel)
+
+        emptyBgImageV.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(166)
+            make.top.equalTo(50 + NavigationBarHeight)
+        }
+        
+        emptyTipLabel.snp.makeConstraints { make in
+            make.right.left.equalToSuperview()
+            make.top.equalTo(emptyBgImageV.snp.bottom).offset(4)
+        }
+        
+        fetchData()
+        
     }
+    
+    func fetchData() {
+        
+        guard orderId != nil else {
+            showEmptyView(isHide: true)
+            return
+        }
+        
+        EMRequestProvider.request(.defaultRequest(url:"/order/getComponentListByOrderId", params: ["orderId":orderId!]), model: EMFloorEntity.self) { [weak self] model in
+            
+            guard let self = self else {
+                return
+            }
+            if let model = model, let data = model.data {
+                
+                guard data.count > 0 else {
+                    self.showEmptyView(isHide: true)
+                    return
+                }
+                self.showEmptyView(isHide: false)
+                self.floorDataArray = data
+                self.tableView.reloadData()
+            }   else {
+                self.showEmptyView(isHide: true)
+            }
+        }
+        
+    }
+    
+    func showEmptyView(isHide: Bool){
+        emptyBgImageV.isHidden = isHide
+        emptyTipLabel.isHidden = isHide
+        self.tableView.isHidden = !isHide
+    }
+    
+    
 }
 
 extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate {
@@ -49,7 +116,9 @@ extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate 
             cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMRecordDetailController.kEMRecordDetailCell)
         }
         
-        cell!.updateCellData(model: RecordModel(timeText: "", titleText: historyDataArray[indexPath.row], checkText: ""), type: .detailRecordCell)
+        let model = self.floorDataArray[indexPath.row]
+        cell!.updateCellData(model: RecordModel(timeText: "", titleText: model.name
+                                                , checkText: ""), type: .detailRecordCell)
                 
         return cell!
     }
@@ -59,7 +128,7 @@ extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate 
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.historyDataArray.count
+        return self.floorDataArray.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -80,8 +149,10 @@ extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        self.navigationController?.pushViewController(EMCheckDataController(), animated: true)
+        let model = self.floorDataArray[indexPath.row]
+        let vc = EMCheckDataController()
+        vc.componentId = model.componentId
+        self.navigationController?.pushViewController(vc, animated: true)
 
         
     }

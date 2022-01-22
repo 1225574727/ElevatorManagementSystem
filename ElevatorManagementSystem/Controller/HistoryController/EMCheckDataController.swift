@@ -11,7 +11,9 @@ class EMCheckDataController: EMBaseViewController {
     
     static let kEMCheckDataCell = "kEMCheckDataCell"
 
-    var historyDataArray: [String] = Array()
+    var componentDataArray: [EMComponentItemEntity] = Array()
+    
+    var componentId: String?
     
     lazy var tableView: UITableView = {
         let tableview = UITableView(frame: .zero, style: .grouped)
@@ -25,16 +27,43 @@ class EMCheckDataController: EMBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.title = EMLocalizable("check_data_title")
         
-       historyDataArray = ["https://img2.baidu.com/it/u=3875536202,2172052105&fm=26&fmt=auto","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.jj20.com%2Fup%2Fallimg%2Fmn02%2F123120155408%2F201231155408-0.jpg&refer=http%3A%2F%2Fpic.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641873945&t=f7077a55b9768286acbe6a88867ef1b6","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2Ftp03%2F1Z92419315I401-0-lp.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641873945&t=efff33d77f3ea673afe666b4addb7708","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.jj20.com%2Fup%2Fallimg%2F1011%2F01031Q45917%2F1P103145917-10.jpg&refer=http%3A%2F%2Fpic.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641874128&t=dd90f1f56f43f2d832916e4913bd67c3","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fc5%2F89%2F0e%2Fc5890ee0b2472f75fa1a91d9305d5f09.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641874180&t=ba89a499a9d9e6c311222b8f3bc64065","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg01.taopic.com%2F141206%2F318758-1412060G34858.jpg&refer=http%3A%2F%2Fimg01.taopic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641874180&t=4f3f33a76432b3f979ac4ed58f5a5c06"]
+//       historyDataArray = ["https://img2.baidu.com/it/u=3875536202,2172052105&fm=26&fmt=auto","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.jj20.com%2Fup%2Fallimg%2Fmn02%2F123120155408%2F201231155408-0.jpg&refer=http%3A%2F%2Fpic.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641873945&t=f7077a55b9768286acbe6a88867ef1b6","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2Ftp03%2F1Z92419315I401-0-lp.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641873945&t=efff33d77f3ea673afe666b4addb7708","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.jj20.com%2Fup%2Fallimg%2F1011%2F01031Q45917%2F1P103145917-10.jpg&refer=http%3A%2F%2Fpic.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641874128&t=dd90f1f56f43f2d832916e4913bd67c3","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fc5%2F89%2F0e%2Fc5890ee0b2472f75fa1a91d9305d5f09.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641874180&t=ba89a499a9d9e6c311222b8f3bc64065","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg01.taopic.com%2F141206%2F318758-1412060G34858.jpg&refer=http%3A%2F%2Fimg01.taopic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1641874180&t=4f3f33a76432b3f979ac4ed58f5a5c06"]
         
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         
+        fetchData()
+    
+    }
+    
+    func fetchData() {
         
+        guard componentId != nil else {
+//            showEmptyView(isHide: true)
+            return
+        }
+        
+        EMRequestProvider.request(.defaultRequest(url:"/order/getComponentDetils", params: ["orderId":componentId!]), model: EMComponentEntity.self) { [weak self] model in
+            
+            guard let self = self else {
+                return
+            }
+            if let model = model, let data = model.data {
+                
+                guard data.count > 0 else {
+                    return
+                }
+                self.componentDataArray = data
+                self.tableView.reloadData()
+            }   else {
+//                self.showEmptyView(isHide: true)
+            }
+        }
         
     }
 }
@@ -48,7 +77,9 @@ extension EMCheckDataController : UITableViewDataSource, UITableViewDelegate {
             cell = EMCheckDataCell(style: .default, reuseIdentifier: EMCheckDataController.kEMCheckDataCell)
         }
         
-        cell!.updateData(imageUrl: historyDataArray[indexPath.section])
+        let model = componentDataArray[indexPath.section]
+        
+        cell!.updateData(imageUrl: model.photoUrls, content: model.comment)
                 
         return cell!
     }
@@ -58,7 +89,7 @@ extension EMCheckDataController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return historyDataArray.count
+        return componentDataArray.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

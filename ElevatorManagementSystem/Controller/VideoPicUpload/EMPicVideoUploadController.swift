@@ -392,7 +392,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 	
 	func uploadInfo(images:String?) {
 		
-        var params = ["deviceMac":EMDeviceService.deviceUUID,"deviceModel":EMDeviceService.deviceModel,"recordType":self.recordTypeId,"componentType":self.componentTypeId,"equipmentId":self.equipmentId,"doorDistance":self.doorDistance,"remark":self.remark]
+        var params = ["deviceMac":EMDeviceService.deviceUUID,"deviceModel":EMDeviceService.deviceModel,"status":self.recordTypeId,"componentType":self.componentTypeId,"equipmentId":self.equipmentId,"doorDistance":self.doorDistance,"remark":self.remark]
         
 		if let images = images {
 			params["imageUrl"] = images

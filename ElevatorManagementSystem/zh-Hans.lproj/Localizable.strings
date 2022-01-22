@@ -67,6 +67,7 @@
 "upload_remark_lab" = "备注";
 "upload_remark_placeholder" = "请填写";
 "record_type" = "记录类型";
+"record_session" = "记录";
 "parts_category" = "零件类别";
 "result_state" = "结果状态";
 "record_time" = "时间";

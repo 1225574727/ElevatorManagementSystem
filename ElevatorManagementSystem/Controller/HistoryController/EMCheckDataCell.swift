@@ -78,15 +78,21 @@ class EMCheckDataCell: UITableViewCell {
 
     }
     
-    func updateData(imageUrl: String) -> Void {
+    func updateData(imageUrl: String?,content: String?) -> Void {
         let paraph = NSMutableParagraphStyle()
         //将行间距设置为28
         paraph.lineSpacing = 4
         //样式属性集合
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 12),
                           NSAttributedString.Key.paragraphStyle: paraph]
-        self.descTextLabel.attributedText = NSAttributedString(string: "这是一段文本，这是一段文本，这是一段文本，这是一段文 本，这是一段文本，这是一段文本，这是一段文本，这是一 段文本。", attributes: attributes)
-        self.imageV.kf.setImage(with: URL(string: imageUrl))
+        if let contentString = content {
+            self.descTextLabel.attributedText = NSAttributedString(string: contentString, attributes: attributes)
+        }
+//        self.descTextLabel.attributedText = NSAttributedString(string: "这是一段文本，这是一段文本，这是一段文本，这是一段文 本，这是一段文本，这是一段文本，这是一段文本，这是一 段文本。", attributes: attributes)
+        
+        if let url = imageUrl {
+            self.imageV.kf.setImage(with: URL(string: url))
+        }
         
     }
     required init?(coder: NSCoder) {
