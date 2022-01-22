@@ -45,15 +45,15 @@ extension EMPicVideoUploadCell {
                                 
                                 self.selectCaliLabel.text = title
                                
-                                self.selectRecordPartCallBack?(tempDict[title] ?? "", .records)
+//                                self.selectRecordPartCallBack?(tempDict[title] ?? "", .records)
+								self.selectRecordPartCallBack?(title, .records)
 
                             }else {
                                 
                                 self.selectDoorLabel.text = title
                                 
-                                self.selectRecordPartCallBack?(tempDict[title] ?? "", .part)
-
-
+//                                self.selectRecordPartCallBack?(tempDict[title] ?? "", .part)
+								self.selectRecordPartCallBack?(title, .part)
                             }
                             
                         }

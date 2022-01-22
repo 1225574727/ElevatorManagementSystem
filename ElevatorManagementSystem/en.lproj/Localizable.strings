@@ -68,6 +68,7 @@
 "upload_btn_title" = "Upload";
 "upload_required_tip" = "must be select record or part type!!!";
 "upload_submit_success" = "elevator info submit success!";
+"upload_submit_failure" = "elevator info submit failure!";
 
 "record_type" = "Inspection Record";
 "parts_category" = "Part Type";

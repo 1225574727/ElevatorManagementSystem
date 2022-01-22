@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UITableViewDelegate {
     
@@ -391,7 +392,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 	
 	func uploadInfo(images:String?) {
 		
-        var params = ["deviceMac":EMDeviceService.deviceUUID,"deviceModel":EMDeviceService.deviceModel,"recordTypeId":self.recordTypeId,"componentTypeId":self.componentTypeId,"equipmentId":self.equipmentId,"doorDistance":self.doorDistance,"remark":self.remark]
+        var params = ["deviceMac":EMDeviceService.deviceUUID,"deviceModel":EMDeviceService.deviceModel,"recordType":self.recordTypeId,"componentType":self.componentTypeId,"equipmentId":self.equipmentId,"doorDistance":self.doorDistance,"remark":self.remark]
         
 		if let images = images {
 			params["imageUrl"] = images
@@ -443,6 +444,11 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 				}
 				
 			} else {
+				
+				let hudMB = MBProgressHUD.showAdded(to: self.view, animated: true)
+				hudMB.mode = .text
+				hudMB.label.text = EMLocalizable("upload_submit_failure")
+				hudMB.hide(animated: false, afterDelay: 3)
 				
 				debugPrint("上传失败")
 			}

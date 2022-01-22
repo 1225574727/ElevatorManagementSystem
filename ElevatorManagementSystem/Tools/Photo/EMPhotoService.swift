@@ -148,6 +148,10 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			}
 			rootController?.dismiss(animated: false, completion: nil)
 
+			if (TARGET_IPHONE_SIMULATOR == 1) {
+				self.handler!(videoURL,self.generateVideoScreenshot(videoURL: videoURL))
+				return
+			}
 			let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
 			hudMB.mode = .text
 			hudMB.label.text = "视频生成中"
@@ -162,7 +166,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 						EMEventAtMain {
 							self.handler!(URL(fileURLWithPath: newURL),self.generateVideoScreenshot(videoURL: URL(fileURLWithPath: newURL)))
 							//显示设置的照片
-							self.parent?.dismiss(animated: true, completion: nil)
+//							self.parent?.dismiss(animated: true, completion: nil)
 						}
 					} else {
 						print("视频生成失败！！！")
@@ -199,22 +203,27 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
 		let videoTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
 		
-		let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first!
-		let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first!
-		
-		let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
-		
-		try! audioTrack.insertTimeRange(timeRange, of: assetAudio, at: .zero)
-		try! videoTrack.insertTimeRange(timeRange, of: assetVideo, at: .zero)
-		
-		let exportSession:AVAssetExportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPreset1280x720)!
-		exportSession.outputURL = target
-		exportSession.outputFileType = .mp4
-		exportSession.exportAsynchronously(completionHandler: {
+//		let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first!
+//		let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first!
+		if let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first , let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first {
+			let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
 			
-			print("exportSession...",exportSession)
-			relhandler(exportSession.status == .completed)
-		})
+			try! audioTrack.insertTimeRange(timeRange, of: assetAudio, at: .zero)
+			try! videoTrack.insertTimeRange(timeRange, of: assetVideo, at: .zero)
+			
+			let exportSession:AVAssetExportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPreset1280x720)!
+			exportSession.outputURL = target
+			exportSession.outputFileType = .mp4
+			exportSession.exportAsynchronously(completionHandler: {
+				
+				print("exportSession...",exportSession)
+				relhandler(exportSession.status == .completed)
+			})
+		} else {
+			relhandler(false)
+		}
+
+
 	}
 }
 
