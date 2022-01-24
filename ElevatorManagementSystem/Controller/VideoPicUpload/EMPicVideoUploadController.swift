@@ -437,19 +437,32 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 					}
 				}
 				else {
-					EMAlertService.show(title: EMLocalizable("alert_tip"), message: EMLocalizable("upload_submit_success"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: [], style: .alert) { _, _ in
-						self.navigationController?.popViewController(animated: true)
+//					EMAlertService.show(title: EMLocalizable("alert_tip"), message: EMLocalizable("upload_submit_success"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: [], style: .alert) { _, _ in
+//						self.navigationController?.popViewController(animated: true)
+//					}
+					EMAlertService.showAlertForUpload(type: .EMAlertUploadSuccess) { index in
+						if (index == 0) {
+							self.navigationController?.popViewController(animated: true)
+						} else {
+							self.navigationController?.popToRootViewController(animated: true)
+						}
 					}
 					debugPrint("上传成功")
 				}
 				
 			} else {
 				
-				let hudMB = MBProgressHUD.showAdded(to: self.view, animated: true)
-				hudMB.mode = .text
-				hudMB.label.text = EMLocalizable("upload_submit_failure")
-				hudMB.hide(animated: false, afterDelay: 3)
-				
+//				let hudMB = MBProgressHUD.showAdded(to: self.view, animated: true)
+//				hudMB.mode = .text
+//				hudMB.label.text = EMLocalizable("upload_submit_failure")
+//				hudMB.hide(animated: false, afterDelay: 3)
+				EMAlertService.showAlertForUpload(type: .EMAlertUploadFailure) { index in
+					if index == 0 {
+						EMUploadManager.shared.continueTask()
+					} else {
+						self.navigationController?.popViewController(animated: true)
+					}
+				}
 				debugPrint("上传失败")
 			}
 		}

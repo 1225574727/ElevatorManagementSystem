@@ -76,7 +76,7 @@ class EMAlertService: NSObject {
 		var content: String
 		if type == .EMAlertUploadSuccess {
 			imageName = "alert_success"
-			buttons = [EMLocalizable("alert_upload_continue"), EMLocalizable("alert_upload_go_home")]
+			buttons = [EMLocalizable("alert_upload_fail_continue"), EMLocalizable("alert_upload_go_home")]
 			content = EMLocalizable("alert_upload_success")
 		} else {
 			imageName = "alert_failure"
