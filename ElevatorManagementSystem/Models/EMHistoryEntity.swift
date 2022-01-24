@@ -49,6 +49,6 @@ struct EMComponentEntity : HandyJSON {
     
     var code: String?
     var msg: String?
-    var data:[EMComponentItemEntity]?
+    var data:EMComponentItemEntity?
 
 }

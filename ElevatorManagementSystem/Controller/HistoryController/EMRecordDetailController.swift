@@ -99,9 +99,9 @@ class EMRecordDetailController: EMBaseViewController {
     }
     
     func showEmptyView(isHide: Bool){
-        emptyBgImageV.isHidden = isHide
-        emptyTipLabel.isHidden = isHide
-        self.tableView.isHidden = !isHide
+        emptyBgImageV.isHidden = !isHide
+        emptyTipLabel.isHidden = !isHide
+        self.tableView.isHidden = isHide
     }
     
     
@@ -118,7 +118,7 @@ extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate 
         
         let model = self.floorDataArray[indexPath.row]
         cell!.updateCellData(model: RecordModel(timeText: "", titleText: model.name
-                                                , checkText: ""), type: .detailRecordCell)
+                                                , checkText: model.result), type: .detailRecordCell)
                 
         return cell!
     }

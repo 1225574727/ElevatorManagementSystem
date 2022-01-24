@@ -294,8 +294,8 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
             cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMChooseRecordController.kEMChooseRecordCell)
         }
         
-        let model = recordDataArray[indexPath.row]
-        cell!.updateCellData(model: RecordModel(timeText: model.createDate, titleText:"\(EMLocalizable("record_type")) #\(indexPath.section + 1)" , checkText: model.status), type: .chooseRecordCell)
+        let model = recordDataArray[indexPath.section]
+        cell!.updateCellData(model: RecordModel(timeText: model.createDate, titleText:"\(EMLocalizable("record_session")) #\(indexPath.section + 1)" , checkText: model.status), type: .chooseRecordCell)
 		
         return cell!
     }
@@ -326,7 +326,7 @@ extension EMChooseRecordController : UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        let model = recordDataArray[indexPath.row]
+        let model = recordDataArray[indexPath.section]
         let vc = EMRecordDetailController()
         vc.orderId = model.orderId
         self.navigationController?.pushViewController(vc, animated: true)

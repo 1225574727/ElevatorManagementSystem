@@ -33,7 +33,7 @@ class EMCheckDataCell: UITableViewCell {
     
     private var imageV: UIImageView = {
         let imgV = UIImageView()
-        imgV.backgroundColor = .Main
+//        imgV.backgroundColor = .gray
         return imgV
     }()
     

@@ -86,6 +86,7 @@ extension MoyaProvider {
                     
                     if data != nil {
                         let json = JSON(data!)
+                        NSLog("服务端返回数据: \(json)")
                         let model = JSONDeserializer<T>.deserializeFrom(json: json.description)
                         completion(model)
                         return

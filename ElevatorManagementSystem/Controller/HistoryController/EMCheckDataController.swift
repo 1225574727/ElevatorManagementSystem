@@ -48,17 +48,17 @@ class EMCheckDataController: EMBaseViewController {
             return
         }
         
-        EMRequestProvider.request(.defaultRequest(url:"/order/getComponentDetils", params: ["orderId":componentId!]), model: EMComponentEntity.self) { [weak self] model in
+        EMRequestProvider.request(.defaultRequest(url:"/order/getComponentDetils", params: ["componentId":componentId!]), model: EMComponentEntity.self) { [weak self] model in
             
             guard let self = self else {
                 return
             }
             if let model = model, let data = model.data {
-                
-                guard data.count > 0 else {
-                    return
-                }
-                self.componentDataArray = data
+            
+//                guard data.count > 0 else {
+//                    return
+//                }
+                self.componentDataArray.append(data)
                 self.tableView.reloadData()
             }   else {
 //                self.showEmptyView(isHide: true)
