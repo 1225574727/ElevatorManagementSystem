@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Kingfisher
+//import Kingfisher
 
 class EMCheckDataCell: UITableViewCell {
     
@@ -90,10 +90,17 @@ class EMCheckDataCell: UITableViewCell {
         }
 //        self.descTextLabel.attributedText = NSAttributedString(string: "这是一段文本，这是一段文本，这是一段文本，这是一段文 本，这是一段文本，这是一段文本，这是一段文本，这是一 段文本。", attributes: attributes)
         
-        if let url = imageUrl {
-            self.imageV.kf.setImage(with: URL(string: url))
-        }
-        
+		if let url = imageUrl {
+//            self.imageV.kf.setImage(with: URL(string: url))
+			DispatchQueue.global().async {
+				if let imageURL = URL(string: url), let data = try? Data(contentsOf: imageURL) {
+					let image = UIImage(data: data,scale: 1.0)
+					DispatchQueue.main.async {
+						self.imageV.image = image
+					}
+				}
+			}
+		}
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

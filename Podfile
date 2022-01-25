@@ -11,7 +11,7 @@ target 'ElevatorManagementSystem' do
   # 布局
   pod 'SnapKit', '~> 5.0.0'
   # 图片加载
-  pod 'Kingfisher', '~> 6.3.1'
+#  pod 'Kingfisher', '~> 6.3.1'
   # 网络数据
   pod 'Moya', '~> 15.0'
   # 字典模型
