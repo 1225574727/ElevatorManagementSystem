@@ -97,3 +97,7 @@
 "picker_cancel" = "Cancel";
 
 "system_allow_camera" = "App require use camera";
+
+"task_upload_success_title" = "upload success";
+"task_upload_success_task" = "task";
+"task_upload_success_done" = "upload done";

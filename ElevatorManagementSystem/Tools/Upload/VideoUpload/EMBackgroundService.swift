@@ -251,7 +251,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 
 						let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
 						hudMB.mode = .text
-						hudMB.label.text = "任务\(self.model.name!)完成上传"
+						hudMB.label.text = EMLocalizable("task_upload_success_task") + self.model.name + EMLocalizable("task_upload_success_done")
 
 						hudMB.hide(animated: true, afterDelay: 2)
 					}

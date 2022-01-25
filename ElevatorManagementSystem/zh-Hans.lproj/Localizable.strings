@@ -96,3 +96,7 @@
 "system_allow_camera" = "app需要授权使用您的相机";
 "system_allow_photo" = "app需要授权使用您的相册";
 
+"task_upload_success_title" = "上传完成通知";
+"task_upload_success_task" = "任务";
+"task_upload_success_done" = "完成上传";
+
