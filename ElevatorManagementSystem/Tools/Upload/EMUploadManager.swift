@@ -69,6 +69,10 @@ class EMUploadManager : NSObject {
 			}
 			
 			EMUserDefault.set(rel, forKey: "EMVideoUploadTasks")
+			EMUserDefault.synchronize()
+		} else {
+			EMUserDefault.set([], forKey: "EMVideoUploadTasks")
+			EMUserDefault.synchronize()
 		}
 	}
 	

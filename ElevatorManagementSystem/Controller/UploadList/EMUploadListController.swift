@@ -54,6 +54,9 @@ class EMUploadListCell: UITableViewCell {
 				statusButton.setTitleColor(UIColor.B3, for: .normal)
 				statusButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
 				statusButton.backgroundColor = UIColor.clear
+				cancelBtn.isEnabled = false
+				cancelBtn.setTitleColor(UIColor.lightGray, for: .normal)
+				cancelBtn.borderColor = UIColor.lightGray
 				break
 			case .waiting:
 				statusButton.setTitle(EMLocalizable("upload_list_status_waitting"), for: .normal)
@@ -61,6 +64,9 @@ class EMUploadListCell: UITableViewCell {
 				statusButton.setTitleColor(UIColor.B3, for: .normal)
 				statusButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
 				statusButton.backgroundColor = UIColor.clear
+				cancelBtn.isEnabled = true
+				cancelBtn.setTitleColor(UIColor.Main, for: .normal)
+				cancelBtn.borderColor = UIColor.Main
 				break
 			case .failure:
 				statusButton.setTitle(EMLocalizable("upload_list_status_continue"), for: .normal)
@@ -69,6 +75,9 @@ class EMUploadListCell: UITableViewCell {
 				statusButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
 				statusButton.cornerRadius = 13
 				statusButton.backgroundColor = UIColor.Main
+				cancelBtn.isEnabled = true
+				cancelBtn.setTitleColor(UIColor.Main, for: .normal)
+				cancelBtn.borderColor = UIColor.Main
 				break
 			}
 		}
