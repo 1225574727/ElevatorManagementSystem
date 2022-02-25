@@ -116,7 +116,7 @@ extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate 
             cell = EMHistroyMainCell(style: .default, reuseIdentifier: EMRecordDetailController.kEMRecordDetailCell)
         }
         
-        let model = self.floorDataArray[indexPath.row]
+        let model = self.floorDataArray[indexPath.section]
         cell!.updateCellData(model: RecordModel(timeText: "", titleText: model.name
                                                 , checkText: model.result), type: .detailRecordCell)
                 
@@ -149,7 +149,7 @@ extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        let model = self.floorDataArray[indexPath.row]
+        let model = self.floorDataArray[indexPath.section]
         let vc = EMCheckDataController()
         vc.componentId = model.componentId
         self.navigationController?.pushViewController(vc, animated: true)

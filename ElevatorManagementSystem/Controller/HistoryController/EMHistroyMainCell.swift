@@ -96,14 +96,14 @@ class EMHistroyMainCell: UITableViewCell {
         rightDistanceLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalTo(-16)
-            make.width.equalTo(50)
+            make.width.equalTo(80)
             make.height.equalTo(22)
         }
         
         leftDistanceLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.right.equalTo(self.rightDistanceLabel.snp.left).offset(-10)
-            make.width.equalTo(50)
+            make.width.equalTo(80)
             make.height.equalTo(22)
         }
         
@@ -129,8 +129,11 @@ class EMHistroyMainCell: UITableViewCell {
             titleLabel.text = model.titleText
             let tempArr = model.checkText?.components(separatedBy: ",")
             if tempArr?.count == 2{
-                leftDistanceLabel.text = "\(abs(Int(tempArr![0]) ?? 0))mm"
-                rightDistanceLabel.text = "\(abs(Int(tempArr![1]) ?? 0))mm"
+                let rightDistanceFloatValue = abs(Float(tempArr![0]) ?? 0)
+                let leftDistanceFloatValue = abs(Float(tempArr![1]) ?? 0)
+
+                leftDistanceLabel.text = "\(String(format: "%.2f", leftDistanceFloatValue))mm"
+                rightDistanceLabel.text = "\(String(format: "%.2f", rightDistanceFloatValue))mm"
             }
             break
         }
