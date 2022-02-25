@@ -78,8 +78,8 @@ extension EMCheckDataController : UITableViewDataSource, UITableViewDelegate {
         }
         
         let model = componentDataArray[indexPath.section]
-        
-        cell!.updateData(imageUrl: model.photoUrls, content: model.comment)
+        let urlArray = model.photoUrlsArray()
+        cell!.updateData(urlArray: urlArray, content: model.comment)
                 
         return cell!
     }
@@ -93,7 +93,9 @@ extension EMCheckDataController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 292
+        let model = componentDataArray[indexPath.section]
+        let urlArray = model.photoUrlsArray()
+        return CGFloat(210*urlArray.count + 82)
     }
     
     

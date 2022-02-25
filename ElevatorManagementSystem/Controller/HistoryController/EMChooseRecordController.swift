@@ -104,7 +104,7 @@ class EMChooseRecordController: EMBaseViewController{
             }
             
             if type == .result{
-                if let sysValue = itemEntity.sysValue, sysValue != EMLocalizable("record_type_default") {
+                if let sysValue = itemEntity.value, sysValue != EMLocalizable("record_type_default") {
                     self.requestParam.updateValue(sysValue, forKey: "actionRequired")
                 }else{
                     self.requestParam.removeValue(forKey: "actionRequired")
@@ -128,9 +128,6 @@ class EMChooseRecordController: EMBaseViewController{
         self.view.backgroundColor = UIColor.white
         self.title = EMLocalizable("choose_record_title")
 
-//        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
-//        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
-//        recordDataArray.append(RecordModel(timeText: "2020-02-02 12:17", titleText: "记录一", checkText: CheckStyle.afterCalibration.checkText))
         
         self.view.addSubview(recordSelectView)
         self.view.addSubview(tableView)
@@ -209,8 +206,17 @@ class EMChooseRecordController: EMBaseViewController{
             guard let self = self else {
                 return
             }
-            if let dataArray = entity.data {
+            if let data = entity.data {
                 
+                var dataArray: [EMChooseTypeItemEntity] = []
+                
+                if requestType == .records, let array = data.statusList {
+                    dataArray = array
+                }else if requestType == .part, let array = data.componentType {
+                    dataArray = array
+                }else if requestType == .status, let array = data.actionRequired {
+                    dataArray = array
+                }
                 self.recordResultView.reloadRecordViewData( view: self.recordSelectView, type: type, dataArray: dataArray)
                 
                 let height = type == .time ? 250 : (dataArray.count + 1)*50

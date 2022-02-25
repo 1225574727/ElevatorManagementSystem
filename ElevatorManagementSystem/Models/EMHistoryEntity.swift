@@ -29,6 +29,15 @@ struct EMComponentItemEntity: HandyJSON {
     var tags: String?
     var status: String?
     var comment: String?
+    
+    func photoUrlsArray() -> Array<String> {
+        if let photoUrls = photoUrls {
+            let array = photoUrls.components(separatedBy: ",")
+            return array
+        }else{
+            return []
+        }
+    }
 }
 
 struct EMHistoryEntity : HandyJSON {

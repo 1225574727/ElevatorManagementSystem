@@ -17,13 +17,21 @@ struct EMChooseTypeItemEntity : HandyJSON {
 	var sysId:String? //类型id
 	var sysValue:String? //类型名
 	var updateDate:String? //更新时间
+    var value: String?
+    var name: String?
 }
 
 struct EMChooseTypesEntity : HandyJSON {
 	
 	var code: String?
 	var msg: String?
-	var data:[EMChooseTypeItemEntity]?
+	var data:EMChooseTypesDataEntity?
+}
+
+struct EMChooseTypesDataEntity : HandyJSON {
+    var statusList: [EMChooseTypeItemEntity]?
+    var componentType: [EMChooseTypeItemEntity]?
+    var actionRequired: [EMChooseTypeItemEntity]?
 }
 
 

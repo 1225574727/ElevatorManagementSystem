@@ -31,11 +31,11 @@ class EMCheckDataCell: UITableViewCell {
         return contentV
     }()
     
-    private var imageV: UIImageView = {
-        let imgV = UIImageView()
-//        imgV.backgroundColor = .gray
-        return imgV
-    }()
+//    private var imageV: UIImageView = {
+//        let imgV = UIImageView()
+////        imgV.backgroundColor = .gray
+//        return imgV
+//    }()
     
     private lazy var descTextLabel: UILabel = {
         let label = UILabel.init()
@@ -54,7 +54,7 @@ class EMCheckDataCell: UITableViewCell {
     
     private func initSubView() {
         self.addSubview(self.bgContentView)
-        self.bgContentView.addSubview(self.imageV)
+//        self.bgContentView.addSubview(self.imageV)
         self.bgContentView.addSubview(self.descTextLabel)
         
         self.bgContentView.snp.makeConstraints { make in
@@ -62,15 +62,15 @@ class EMCheckDataCell: UITableViewCell {
             make.bottom.right.equalTo(-1)
         }
         
-        self.imageV.snp.makeConstraints { make in
-            make.left.right.top.equalToSuperview()
-            make.height.equalTo(210)
-
-//            make.height.equalTo(self.frame.width*0.62)
-        }
+//        self.imageV.snp.makeConstraints { make in
+//            make.left.right.top.equalToSuperview()
+//            make.height.equalTo(210)
+//
+////            make.height.equalTo(self.frame.width*0.62)
+//        }
         
         self.descTextLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.imageV.snp.bottom).offset(12)
+            make.height.equalTo(82)
             make.left.equalTo(12)
             make.right.bottom.equalTo(-12)
         }
@@ -78,7 +78,7 @@ class EMCheckDataCell: UITableViewCell {
 
     }
     
-    func updateData(imageUrl: String?,content: String?) -> Void {
+    func updateData(urlArray: [String],content: String?) -> Void {
         let paraph = NSMutableParagraphStyle()
         //将行间距设置为28
         paraph.lineSpacing = 4
@@ -90,17 +90,28 @@ class EMCheckDataCell: UITableViewCell {
         }
 //        self.descTextLabel.attributedText = NSAttributedString(string: "这是一段文本，这是一段文本，这是一段文本，这是一段文 本，这是一段文本，这是一段文本，这是一段文本，这是一 段文本。", attributes: attributes)
         
-		if let url = imageUrl {
-//            self.imageV.kf.setImage(with: URL(string: url))
-			DispatchQueue.global().async {
-				if let imageURL = URL(string: url), let data = try? Data(contentsOf: imageURL) {
-					let image = UIImage(data: data,scale: 1.0)
-					DispatchQueue.main.async {
-						self.imageV.image = image
-					}
-				}
-			}
-		}
+        for index in 0..<urlArray.count {
+            
+            let imgV = UIImageView()
+            self.bgContentView.addSubview(imgV)
+            imgV.snp.makeConstraints { make in
+                make.top.equalToSuperview().offset(index*210+index*2)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(210)
+            }
+            
+            imgV.kf.setImage(with: URL(string: urlArray[index]))
+
+//            DispatchQueue.global().async {
+//                if let imageURL = URL(string: imageUrl), let data = try? Data(contentsOf: imageURL) {
+//                    let image = UIImage(data: data,scale: 1.0)
+//                    DispatchQueue.main.async {
+//                        imgV.image = image
+//                    }
+//                }
+//            }
+        }
+		
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

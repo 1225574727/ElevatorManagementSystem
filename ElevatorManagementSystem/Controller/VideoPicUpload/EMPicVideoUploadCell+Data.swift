@@ -20,10 +20,20 @@ extension EMPicVideoUploadCell {
                 guard let self = self else {
                     return
                 }
-                if let dataArray = entity.data {
+                if let data = entity.data {
                     
                     var tempDict :[String: String] = Dictionary()
                     var tempArray: [String] = Array()
+                    
+                    var dataArray: [EMChooseTypeItemEntity] = []
+                    
+                    if type == .records, let array = data.statusList {
+                        dataArray = array
+                    }else if type == .part, let array = data.componentType {
+                        dataArray = array
+                    }else if type == .status, let array = data.actionRequired {
+                        dataArray = array
+                    }
                     
                     for entity in dataArray {
                         

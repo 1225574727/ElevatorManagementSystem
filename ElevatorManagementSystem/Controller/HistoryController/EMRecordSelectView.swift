@@ -404,7 +404,7 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: EMRecordResultView.kEMRecordResultViewCell, for: indexPath)
         
         let model: EMChooseTypeItemEntity = msgArray[indexPath.row]
-        cell.textLabel?.text = model.sysValue
+        cell.textLabel?.text = model.name != nil ? model.name : model.sysValue
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
         cell.textLabel?.textColor = UIColor.B3
@@ -463,7 +463,7 @@ extension EMRecordResultView: UITableViewDataSource, UITableViewDelegate {
         }else if currentSelectType == .result {
             defalutValue = EMLocalizable("result_state")
             
-            let selectValue = indexPath.row == 0 ? defalutValue : model.sysValue
+            let selectValue = indexPath.row == 0 ? defalutValue : model.name
 
             if selectView != nil {
                 selectView?.resultBtn.setTitle(selectValue, for: btnStyle)

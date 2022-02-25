@@ -17,6 +17,55 @@
 		474586DF2764F12000796950 /* EMChooseElevatorMainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586DB2764F12000796950 /* EMChooseElevatorMainController.swift */; };
 		474586E02764F12000796950 /* EMHistroyMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586DC2764F12000796950 /* EMHistroyMainCell.swift */; };
 		474586E22764F13600796950 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474586E12764F13600796950 /* UIButton+Extension.swift */; };
+		478A329C27C9202300F2A565 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 478A326127C9202300F2A565 /* LICENSE */; };
+		478A329D27C9202300F2A565 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 478A326227C9202300F2A565 /* README.md */; };
+		478A329E27C9202300F2A565 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326527C9202300F2A565 /* Storage.swift */; };
+		478A329F27C9202300F2A565 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326627C9202300F2A565 /* ImageCache.swift */; };
+		478A32A027C9202300F2A565 /* MemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326727C9202300F2A565 /* MemoryStorage.swift */; };
+		478A32A127C9202300F2A565 /* DiskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326827C9202300F2A565 /* DiskStorage.swift */; };
+		478A32A227C9202300F2A565 /* CacheSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326927C9202300F2A565 /* CacheSerializer.swift */; };
+		478A32A327C9202300F2A565 /* FormatIndicatedCacheSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326A27C9202300F2A565 /* FormatIndicatedCacheSerializer.swift */; };
+		478A32A427C9202300F2A565 /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326C27C9202300F2A565 /* Kingfisher.swift */; };
+		478A32A527C9202300F2A565 /* KingfisherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326D27C9202300F2A565 /* KingfisherError.swift */; };
+		478A32A627C9202300F2A565 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A326F27C9202300F2A565 /* Source.swift */; };
+		478A32A727C9202300F2A565 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327027C9202300F2A565 /* Resource.swift */; };
+		478A32A827C9202300F2A565 /* ImageDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327127C9202300F2A565 /* ImageDataProvider.swift */; };
+		478A32A927C9202300F2A565 /* KingfisherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327227C9202300F2A565 /* KingfisherManager.swift */; };
+		478A32AA27C9202300F2A565 /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327327C9202300F2A565 /* Deprecated.swift */; };
+		478A32AB27C9202300F2A565 /* KingfisherOptionsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327427C9202300F2A565 /* KingfisherOptionsInfo.swift */; };
+		478A32AC27C9202300F2A565 /* ImageDownloaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327627C9202300F2A565 /* ImageDownloaderDelegate.swift */; };
+		478A32AD27C9202300F2A565 /* RequestModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327727C9202300F2A565 /* RequestModifier.swift */; };
+		478A32AE27C9202300F2A565 /* ImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327827C9202300F2A565 /* ImageDataProcessor.swift */; };
+		478A32AF27C9202300F2A565 /* SessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327927C9202300F2A565 /* SessionDataTask.swift */; };
+		478A32B027C9202300F2A565 /* RedirectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327A27C9202300F2A565 /* RedirectHandler.swift */; };
+		478A32B127C9202300F2A565 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327B27C9202300F2A565 /* ImageDownloader.swift */; };
+		478A32B227C9202300F2A565 /* AuthenticationChallengeResponsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327C27C9202300F2A565 /* AuthenticationChallengeResponsable.swift */; };
+		478A32B327C9202300F2A565 /* ImageModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327D27C9202300F2A565 /* ImageModifier.swift */; };
+		478A32B427C9202300F2A565 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327E27C9202300F2A565 /* SessionDelegate.swift */; };
+		478A32B527C9202300F2A565 /* ImagePrefetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A327F27C9202300F2A565 /* ImagePrefetcher.swift */; };
+		478A32B627C9202300F2A565 /* ImageProgressive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328127C9202300F2A565 /* ImageProgressive.swift */; };
+		478A32B727C9202300F2A565 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328227C9202300F2A565 /* Image.swift */; };
+		478A32B827C9202300F2A565 /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328327C9202300F2A565 /* ImageFormat.swift */; };
+		478A32B927C9202300F2A565 /* ImageDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328427C9202300F2A565 /* ImageDrawing.swift */; };
+		478A32BA27C9202300F2A565 /* ImageTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328527C9202300F2A565 /* ImageTransition.swift */; };
+		478A32BB27C9202300F2A565 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328627C9202300F2A565 /* ImageProcessor.swift */; };
+		478A32BC27C9202300F2A565 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328727C9202300F2A565 /* Filter.swift */; };
+		478A32BD27C9202300F2A565 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328827C9202300F2A565 /* Placeholder.swift */; };
+		478A32BE27C9202300F2A565 /* GIFAnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328927C9202300F2A565 /* GIFAnimatedImage.swift */; };
+		478A32BF27C9202300F2A565 /* ImageView+Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328C27C9202300F2A565 /* ImageView+Kingfisher.swift */; };
+		478A32C027C9202300F2A565 /* NSButton+Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328D27C9202300F2A565 /* NSButton+Kingfisher.swift */; };
+		478A32C127C9202300F2A565 /* UIButton+Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328E27C9202300F2A565 /* UIButton+Kingfisher.swift */; };
+		478A32C227C9202300F2A565 /* WKInterfaceImage+Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A328F27C9202300F2A565 /* WKInterfaceImage+Kingfisher.swift */; };
+		478A32C327C9202300F2A565 /* Indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329127C9202300F2A565 /* Indicator.swift */; };
+		478A32C427C9202300F2A565 /* AnimatedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329227C9202300F2A565 /* AnimatedImageView.swift */; };
+		478A32C527C9202300F2A565 /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329427C9202300F2A565 /* Runtime.swift */; };
+		478A32C627C9202300F2A565 /* CallbackQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329527C9202300F2A565 /* CallbackQueue.swift */; };
+		478A32C727C9202300F2A565 /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329627C9202300F2A565 /* Delegate.swift */; };
+		478A32C827C9202300F2A565 /* ExtensionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329727C9202300F2A565 /* ExtensionHelpers.swift */; };
+		478A32C927C9202300F2A565 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329827C9202300F2A565 /* Result.swift */; };
+		478A32CA27C9202300F2A565 /* SizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329927C9202300F2A565 /* SizeExtensions.swift */; };
+		478A32CB27C9202300F2A565 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329A27C9202300F2A565 /* Box.swift */; };
+		478A32CC27C9202300F2A565 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478A329B27C9202300F2A565 /* String+MD5.swift */; };
 		47AF4C812778A3A9009D0973 /* EMHistoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AF4C802778A3A9009D0973 /* EMHistoryEntity.swift */; };
 		47D0E48D277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E48C277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift */; };
 		47D0E48F277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0E48E277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift */; };
@@ -74,6 +123,56 @@
 		474586DB2764F12000796950 /* EMChooseElevatorMainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMChooseElevatorMainController.swift; sourceTree = "<group>"; };
 		474586DC2764F12000796950 /* EMHistroyMainCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMHistroyMainCell.swift; sourceTree = "<group>"; };
 		474586E12764F13600796950 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		478A326127C9202300F2A565 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		478A326227C9202300F2A565 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		478A326527C9202300F2A565 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		478A326627C9202300F2A565 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		478A326727C9202300F2A565 /* MemoryStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryStorage.swift; sourceTree = "<group>"; };
+		478A326827C9202300F2A565 /* DiskStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskStorage.swift; sourceTree = "<group>"; };
+		478A326927C9202300F2A565 /* CacheSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheSerializer.swift; sourceTree = "<group>"; };
+		478A326A27C9202300F2A565 /* FormatIndicatedCacheSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatIndicatedCacheSerializer.swift; sourceTree = "<group>"; };
+		478A326C27C9202300F2A565 /* Kingfisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
+		478A326D27C9202300F2A565 /* KingfisherError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KingfisherError.swift; sourceTree = "<group>"; };
+		478A326F27C9202300F2A565 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
+		478A327027C9202300F2A565 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		478A327127C9202300F2A565 /* ImageDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDataProvider.swift; sourceTree = "<group>"; };
+		478A327227C9202300F2A565 /* KingfisherManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KingfisherManager.swift; sourceTree = "<group>"; };
+		478A327327C9202300F2A565 /* Deprecated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deprecated.swift; sourceTree = "<group>"; };
+		478A327427C9202300F2A565 /* KingfisherOptionsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KingfisherOptionsInfo.swift; sourceTree = "<group>"; };
+		478A327627C9202300F2A565 /* ImageDownloaderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloaderDelegate.swift; sourceTree = "<group>"; };
+		478A327727C9202300F2A565 /* RequestModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestModifier.swift; sourceTree = "<group>"; };
+		478A327827C9202300F2A565 /* ImageDataProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDataProcessor.swift; sourceTree = "<group>"; };
+		478A327927C9202300F2A565 /* SessionDataTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionDataTask.swift; sourceTree = "<group>"; };
+		478A327A27C9202300F2A565 /* RedirectHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedirectHandler.swift; sourceTree = "<group>"; };
+		478A327B27C9202300F2A565 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		478A327C27C9202300F2A565 /* AuthenticationChallengeResponsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationChallengeResponsable.swift; sourceTree = "<group>"; };
+		478A327D27C9202300F2A565 /* ImageModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageModifier.swift; sourceTree = "<group>"; };
+		478A327E27C9202300F2A565 /* SessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
+		478A327F27C9202300F2A565 /* ImagePrefetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePrefetcher.swift; sourceTree = "<group>"; };
+		478A328127C9202300F2A565 /* ImageProgressive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProgressive.swift; sourceTree = "<group>"; };
+		478A328227C9202300F2A565 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		478A328327C9202300F2A565 /* ImageFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFormat.swift; sourceTree = "<group>"; };
+		478A328427C9202300F2A565 /* ImageDrawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDrawing.swift; sourceTree = "<group>"; };
+		478A328527C9202300F2A565 /* ImageTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTransition.swift; sourceTree = "<group>"; };
+		478A328627C9202300F2A565 /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
+		478A328727C9202300F2A565 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		478A328827C9202300F2A565 /* Placeholder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
+		478A328927C9202300F2A565 /* GIFAnimatedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFAnimatedImage.swift; sourceTree = "<group>"; };
+		478A328A27C9202300F2A565 /* Kingfisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kingfisher.h; sourceTree = "<group>"; };
+		478A328C27C9202300F2A565 /* ImageView+Kingfisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageView+Kingfisher.swift"; sourceTree = "<group>"; };
+		478A328D27C9202300F2A565 /* NSButton+Kingfisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSButton+Kingfisher.swift"; sourceTree = "<group>"; };
+		478A328E27C9202300F2A565 /* UIButton+Kingfisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Kingfisher.swift"; sourceTree = "<group>"; };
+		478A328F27C9202300F2A565 /* WKInterfaceImage+Kingfisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WKInterfaceImage+Kingfisher.swift"; sourceTree = "<group>"; };
+		478A329127C9202300F2A565 /* Indicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indicator.swift; sourceTree = "<group>"; };
+		478A329227C9202300F2A565 /* AnimatedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedImageView.swift; sourceTree = "<group>"; };
+		478A329427C9202300F2A565 /* Runtime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
+		478A329527C9202300F2A565 /* CallbackQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallbackQueue.swift; sourceTree = "<group>"; };
+		478A329627C9202300F2A565 /* Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegate.swift; sourceTree = "<group>"; };
+		478A329727C9202300F2A565 /* ExtensionHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionHelpers.swift; sourceTree = "<group>"; };
+		478A329827C9202300F2A565 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		478A329927C9202300F2A565 /* SizeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeExtensions.swift; sourceTree = "<group>"; };
+		478A329A27C9202300F2A565 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		478A329B27C9202300F2A565 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		47AF4C802778A3A9009D0973 /* EMHistoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMHistoryEntity.swift; sourceTree = "<group>"; };
 		47D0E48C277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EMPicVideoUploadCell+VPOpreation.swift"; sourceTree = "<group>"; };
 		47D0E48E277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EMPicVideoUploadCell+UI.swift"; sourceTree = "<group>"; };
@@ -161,6 +260,135 @@
 				4721464727659CE1003792AB /* EMCheckDataCell.swift */,
 			);
 			path = HistoryController;
+			sourceTree = "<group>";
+		};
+		478A326027C9202300F2A565 /* Kingfisher */ = {
+			isa = PBXGroup;
+			children = (
+				478A326127C9202300F2A565 /* LICENSE */,
+				478A326227C9202300F2A565 /* README.md */,
+				478A326327C9202300F2A565 /* Sources */,
+			);
+			path = Kingfisher;
+			sourceTree = "<group>";
+		};
+		478A326327C9202300F2A565 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				478A326427C9202300F2A565 /* Cache */,
+				478A326B27C9202300F2A565 /* General */,
+				478A327527C9202300F2A565 /* Networking */,
+				478A328027C9202300F2A565 /* Image */,
+				478A328A27C9202300F2A565 /* Kingfisher.h */,
+				478A328B27C9202300F2A565 /* Extensions */,
+				478A329027C9202300F2A565 /* Views */,
+				478A329327C9202300F2A565 /* Utility */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		478A326427C9202300F2A565 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				478A326527C9202300F2A565 /* Storage.swift */,
+				478A326627C9202300F2A565 /* ImageCache.swift */,
+				478A326727C9202300F2A565 /* MemoryStorage.swift */,
+				478A326827C9202300F2A565 /* DiskStorage.swift */,
+				478A326927C9202300F2A565 /* CacheSerializer.swift */,
+				478A326A27C9202300F2A565 /* FormatIndicatedCacheSerializer.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		478A326B27C9202300F2A565 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				478A326C27C9202300F2A565 /* Kingfisher.swift */,
+				478A326D27C9202300F2A565 /* KingfisherError.swift */,
+				478A326E27C9202300F2A565 /* ImageSource */,
+				478A327227C9202300F2A565 /* KingfisherManager.swift */,
+				478A327327C9202300F2A565 /* Deprecated.swift */,
+				478A327427C9202300F2A565 /* KingfisherOptionsInfo.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		478A326E27C9202300F2A565 /* ImageSource */ = {
+			isa = PBXGroup;
+			children = (
+				478A326F27C9202300F2A565 /* Source.swift */,
+				478A327027C9202300F2A565 /* Resource.swift */,
+				478A327127C9202300F2A565 /* ImageDataProvider.swift */,
+			);
+			path = ImageSource;
+			sourceTree = "<group>";
+		};
+		478A327527C9202300F2A565 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				478A327627C9202300F2A565 /* ImageDownloaderDelegate.swift */,
+				478A327727C9202300F2A565 /* RequestModifier.swift */,
+				478A327827C9202300F2A565 /* ImageDataProcessor.swift */,
+				478A327927C9202300F2A565 /* SessionDataTask.swift */,
+				478A327A27C9202300F2A565 /* RedirectHandler.swift */,
+				478A327B27C9202300F2A565 /* ImageDownloader.swift */,
+				478A327C27C9202300F2A565 /* AuthenticationChallengeResponsable.swift */,
+				478A327D27C9202300F2A565 /* ImageModifier.swift */,
+				478A327E27C9202300F2A565 /* SessionDelegate.swift */,
+				478A327F27C9202300F2A565 /* ImagePrefetcher.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		478A328027C9202300F2A565 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				478A328127C9202300F2A565 /* ImageProgressive.swift */,
+				478A328227C9202300F2A565 /* Image.swift */,
+				478A328327C9202300F2A565 /* ImageFormat.swift */,
+				478A328427C9202300F2A565 /* ImageDrawing.swift */,
+				478A328527C9202300F2A565 /* ImageTransition.swift */,
+				478A328627C9202300F2A565 /* ImageProcessor.swift */,
+				478A328727C9202300F2A565 /* Filter.swift */,
+				478A328827C9202300F2A565 /* Placeholder.swift */,
+				478A328927C9202300F2A565 /* GIFAnimatedImage.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		478A328B27C9202300F2A565 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				478A328C27C9202300F2A565 /* ImageView+Kingfisher.swift */,
+				478A328D27C9202300F2A565 /* NSButton+Kingfisher.swift */,
+				478A328E27C9202300F2A565 /* UIButton+Kingfisher.swift */,
+				478A328F27C9202300F2A565 /* WKInterfaceImage+Kingfisher.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		478A329027C9202300F2A565 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				478A329127C9202300F2A565 /* Indicator.swift */,
+				478A329227C9202300F2A565 /* AnimatedImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		478A329327C9202300F2A565 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				478A329427C9202300F2A565 /* Runtime.swift */,
+				478A329527C9202300F2A565 /* CallbackQueue.swift */,
+				478A329627C9202300F2A565 /* Delegate.swift */,
+				478A329727C9202300F2A565 /* ExtensionHelpers.swift */,
+				478A329827C9202300F2A565 /* Result.swift */,
+				478A329927C9202300F2A565 /* SizeExtensions.swift */,
+				478A329A27C9202300F2A565 /* Box.swift */,
+				478A329B27C9202300F2A565 /* String+MD5.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		47E6C4EE27361A53000FAA7D /* VideoRecording */ = {
@@ -388,6 +616,7 @@
 		6A987D7B2736766E002D7BC4 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				478A326027C9202300F2A565 /* Kingfisher */,
 				6AEA960627997F6000AC6707 /* FileOperation */,
 				6A36C93B277D496900FF2961 /* Upload */,
 				6A663CA72759C567001A3DBD /* Photo */,
@@ -534,10 +763,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				478A329D27C9202300F2A565 /* README.md in Resources */,
 				51D565A026E5BCD900B29DF6 /* LaunchScreen.storyboard in Resources */,
 				6A987D8327367842002D7BC4 /* Localizable.strings in Resources */,
 				51D5659D26E5BCD900B29DF6 /* Assets.xcassets in Resources */,
 				51D5659B26E5BCD000B29DF6 /* Main.storyboard in Resources */,
+				478A329C27C9202300F2A565 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,46 +824,93 @@
 				6A36C93E277D49AA00FF2961 /* EMUploadManager.swift in Sources */,
 				47E6C4F227361A53000FAA7D /* EMRecordBottomView.swift in Sources */,
 				6A2C5CA52754CC9500935161 /* EMAlertService.swift in Sources */,
+				478A32B727C9202300F2A565 /* Image.swift in Sources */,
+				478A32A427C9202300F2A565 /* Kingfisher.swift in Sources */,
+				478A32AB27C9202300F2A565 /* KingfisherOptionsInfo.swift in Sources */,
 				474586DF2764F12000796950 /* EMChooseElevatorMainController.swift in Sources */,
 				6AEA960827997F7600AC6707 /* FileOperation.swift in Sources */,
 				47E6C4F627362A28000FAA7D /* EMConfig.swift in Sources */,
+				478A32BD27C9202300F2A565 /* Placeholder.swift in Sources */,
 				474586DD2764F12000796950 /* EMRecordSelectView.swift in Sources */,
 				6A987E92273A6901002D7BC4 /* EMUploadModel.swift in Sources */,
 				6A3E775C2762DF6D003E0593 /* UIColor+Extension.swift in Sources */,
+				478A32C427C9202300F2A565 /* AnimatedImageView.swift in Sources */,
+				478A32BE27C9202300F2A565 /* GIFAnimatedImage.swift in Sources */,
 				4721464427659AD1003792AB /* EMRecordDetailController.swift in Sources */,
+				478A32B527C9202300F2A565 /* ImagePrefetcher.swift in Sources */,
 				6A6D35EC2764CADD0018E18B /* EMCreateController.swift in Sources */,
+				478A32AA27C9202300F2A565 /* Deprecated.swift in Sources */,
+				478A32A727C9202300F2A565 /* Resource.swift in Sources */,
+				478A32AF27C9202300F2A565 /* SessionDataTask.swift in Sources */,
 				51D565CD26E73B7A00B29DF6 /* EMRequestAPI.swift in Sources */,
+				478A32AE27C9202300F2A565 /* ImageDataProcessor.swift in Sources */,
 				6A494570276EABAB00EF497A /* EMUploadListController.swift in Sources */,
+				478A32C627C9202300F2A565 /* CallbackQueue.swift in Sources */,
+				478A32C727C9202300F2A565 /* Delegate.swift in Sources */,
+				478A32C327C9202300F2A565 /* Indicator.swift in Sources */,
 				4721464627659CAD003792AB /* EMCheckDataController.swift in Sources */,
+				478A32BA27C9202300F2A565 /* ImageTransition.swift in Sources */,
+				478A32B327C9202300F2A565 /* ImageModifier.swift in Sources */,
+				478A32CA27C9202300F2A565 /* SizeExtensions.swift in Sources */,
+				478A32A027C9202300F2A565 /* MemoryStorage.swift in Sources */,
 				6AB364C32769DE0F007BAC7A /* EMDeviceService.swift in Sources */,
 				47D0E48F277B5D9100A9D158 /* EMPicVideoUploadCell+UI.swift in Sources */,
+				478A32C227C9202300F2A565 /* WKInterfaceImage+Kingfisher.swift in Sources */,
 				6A36C9212779BE4C00FF2961 /* EMChooseTypeEntity.swift in Sources */,
+				478A32A827C9202300F2A565 /* ImageDataProvider.swift in Sources */,
 				474586DE2764F12000796950 /* EMChooseRecordController.swift in Sources */,
 				6A3E776A2764633A003E0593 /* EMShadowView.swift in Sources */,
+				478A32B627C9202300F2A565 /* ImageProgressive.swift in Sources */,
+				478A32B127C9202300F2A565 /* ImageDownloader.swift in Sources */,
+				478A32B827C9202300F2A565 /* ImageFormat.swift in Sources */,
+				478A329F27C9202300F2A565 /* ImageCache.swift in Sources */,
 				6A987D8827367DCD002D7BC4 /* EMLanguageSetting.swift in Sources */,
+				478A32C027C9202300F2A565 /* NSButton+Kingfisher.swift in Sources */,
+				478A32A527C9202300F2A565 /* KingfisherError.swift in Sources */,
+				478A32A627C9202300F2A565 /* Source.swift in Sources */,
 				6A663CA92759C58B001A3DBD /* EMPhotoService.swift in Sources */,
 				47D0E48D277B58FC00A9D158 /* EMPicVideoUploadCell+VPOpreation.swift in Sources */,
+				478A32B927C9202300F2A565 /* ImageDrawing.swift in Sources */,
 				6A987E90273A682B002D7BC4 /* EMBackgroundService.swift in Sources */,
 				47E6C4F127361A53000FAA7D /* EMVideoRecordingController.swift in Sources */,
+				478A32A327C9202300F2A565 /* FormatIndicatedCacheSerializer.swift in Sources */,
+				478A32B027C9202300F2A565 /* RedirectHandler.swift in Sources */,
+				478A32C927C9202300F2A565 /* Result.swift in Sources */,
+				478A32C127C9202300F2A565 /* UIButton+Kingfisher.swift in Sources */,
 				474586E22764F13600796950 /* UIButton+Extension.swift in Sources */,
 				6A663CAF275A0F0B001A3DBD /* EMReachabilityService.swift in Sources */,
+				478A32B427C9202300F2A565 /* SessionDelegate.swift in Sources */,
 				6A3E776D27647CE0003E0593 /* EMSettingController.swift in Sources */,
+				478A32BC27C9202300F2A565 /* Filter.swift in Sources */,
+				478A32A927C9202300F2A565 /* KingfisherManager.swift in Sources */,
 				6A6D35EE2766EA750018E18B /* EMTextView.swift in Sources */,
 				6A36C91F27782B0100FF2961 /* EMPubRequestService.swift in Sources */,
+				478A329E27C9202300F2A565 /* Storage.swift in Sources */,
 				6A987D8A27374919002D7BC4 /* EMObservable.swift in Sources */,
 				6A3E775E2762DF9A003E0593 /* UIView+Extension.swift in Sources */,
+				478A32A227C9202300F2A565 /* CacheSerializer.swift in Sources */,
 				6A3E77612762E96A003E0593 /* EMAlertController.swift in Sources */,
 				6A36C932277AE77D00FF2961 /* EMPicUploadService.swift in Sources */,
 				6A36C938277AF7C300FF2961 /* Data+Extension.swift in Sources */,
+				478A32BF27C9202300F2A565 /* ImageView+Kingfisher.swift in Sources */,
 				4721464D2765C397003792AB /* EMPicVideoUploadCell.swift in Sources */,
+				478A32B227C9202300F2A565 /* AuthenticationChallengeResponsable.swift in Sources */,
+				478A32A127C9202300F2A565 /* DiskStorage.swift in Sources */,
+				478A32CB27C9202300F2A565 /* Box.swift in Sources */,
+				478A32C827C9202300F2A565 /* ExtensionHelpers.swift in Sources */,
+				478A32AC27C9202300F2A565 /* ImageDownloaderDelegate.swift in Sources */,
 				47D0E491277B60E400A9D158 /* EMPicVideoUploadCell+Data.swift in Sources */,
+				478A32AD27C9202300F2A565 /* RequestModifier.swift in Sources */,
 				51D5659426E5BCD000B29DF6 /* AppDelegate.swift in Sources */,
 				4721464B2765C108003792AB /* EMPicVideoUploadController.swift in Sources */,
+				478A32BB27C9202300F2A565 /* ImageProcessor.swift in Sources */,
 				47AF4C812778A3A9009D0973 /* EMHistoryEntity.swift in Sources */,
 				6A663CAC2759FB6E001A3DBD /* UIImage+Extension.swift in Sources */,
+				478A32C527C9202300F2A565 /* Runtime.swift in Sources */,
 				474586E02764F12000796950 /* EMHistroyMainCell.swift in Sources */,
 				4721464827659CE1003792AB /* EMCheckDataCell.swift in Sources */,
 				6A36C91C27781D2B00FF2961 /* EMListEntity.swift in Sources */,
+				478A32CC27C9202300F2A565 /* String+MD5.swift in Sources */,
 				6A4ECF8D275C520500CE5F9C /* EMPickerService.swift in Sources */,
 				6A6D35EA276496540018E18B /* EMManageController.swift in Sources */,
 				51D565CA26E60EFB00B29DF6 /* EMBaseViewController.swift in Sources */,

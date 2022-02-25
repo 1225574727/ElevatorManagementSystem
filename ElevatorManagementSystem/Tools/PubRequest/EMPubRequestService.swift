@@ -29,7 +29,7 @@ class EMPubRequestService {
 	/// 获取公共类型 1:记录类型2:零件类别
 	static func fetchPubType(_ type:EMPubType,closure:@escaping(EMChooseTypesEntity)->Void) {
 		
-		EMReqeustWithoutActivityProvider.request(.defaultRequest(url: "/order/getSysCategory", params: ["sysCategory":type.typeValue,"createPerson":EMDeviceService.deviceUUID]), model: EMChooseTypesEntity.self) { model in
+		EMReqeustWithoutActivityProvider.request(.defaultRequest(url: "/order/getSearchCondition", params: ["sysCategory":type.typeValue,"createPerson":EMDeviceService.deviceUUID]), model: EMChooseTypesEntity.self) { model in
 			
 			if (model?.code == "200") {
 				if let model = model {
