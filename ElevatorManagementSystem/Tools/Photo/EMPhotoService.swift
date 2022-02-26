@@ -23,10 +23,15 @@ enum EMResourceType {
 class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 	
 	static let shared = EMPhotoService()
+	
+	var typeAction: String = ""
+	
+	var backgroudIdentifier:UIBackgroundTaskIdentifier?
 		
 	// Make sure the class has only one instance
 	// Should not init or copy outside
 	private override init() {
+		
 	}
 	
 	override func copy() -> Any {
@@ -75,10 +80,14 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 					
 					EMEventAtMain {
 						
+						self.typeAction = "camera";
 						let  cameraPicker = UIImagePickerController()
 						cameraPicker.delegate = self
 						cameraPicker.sourceType = .camera
 						cameraPicker.mediaTypes = self.resourceType == .photo ? [kUTTypeImage as String]: [kUTTypeMovie as String]
+						if self.resourceType == .media {
+							cameraPicker.videoQuality = .typeHigh
+						}
 						self.parent?.present(cameraPicker, animated: true, completion: nil)
 					}
 				} else {
@@ -107,6 +116,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 				break
 			case .authorized://已经有权限
 				EMEventAtMain {
+					self.typeAction = "photo"
 					let photoPicker =  UIImagePickerController()
 					photoPicker.delegate = self
 			//		photoPicker.allowsEditing = true
@@ -114,6 +124,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 					photoPicker.mediaTypes = self.resourceType == .photo ? [kUTTypeImage as String]: [kUTTypeMovie as String] //["public.image"]:["public.movie"]
 					//在需要的地方present出来
 					UIApplication.shared.keyWindow?.rootViewController?.present(photoPicker, animated: true, completion: nil)
+					self.backgroudIdentifier = self.beginBackgroundTask()
 				}
 				break
 			case .limited:
@@ -127,52 +138,84 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		
 		if (info.keys.contains(UIImagePickerController.InfoKey.originalImage)) {
 			
-			var image : UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-			image = image.compressImage(maxLength: 100*1024)
+			let image : UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+//			image = image.compressImage(maxLength: 100*1024)
+			if "camera" == typeAction {
+				// 图片保存相册
+				UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
+			}
 			self.handler!(nil, image)
 			self.parent?.dismiss(animated: true, completion: nil)
 		} else {
 			
-			let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as! URL
-			///将视频文件写入沙盒
-			let formatter = DateFormatter()
-			formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			let  timeInterval  = Date().timeIntervalSince1970
-			let  timeStamp =  Int (timeInterval)
-			let newURL = tmpVideoPath + "/\(timeStamp).mp4"
-			
-			let rootController = UIApplication.shared.keyWindow?.rootViewController
-			guard let parent = rootController else {
-				NSLog("rootViewController is nil")
-				return
-			}
-			rootController?.dismiss(animated: false, completion: nil)
+			if let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+				///将视频文件写入沙盒
+				let formatter = DateFormatter()
+				formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+				let  timeInterval  = Date().timeIntervalSince1970
+				let  timeStamp =  Int (timeInterval)
+				let newURL = tmpVideoPath + "/\(timeStamp).mp4"
+				
+				let rootController = UIApplication.shared.keyWindow?.rootViewController
+				guard let parent = rootController else {
+					NSLog("rootViewController is nil")
+					return
+				}
+				rootController?.dismiss(animated: false, completion: nil)
 
-			if (TARGET_IPHONE_SIMULATOR == 1) {
-				self.handler!(videoURL,self.generateVideoScreenshot(videoURL: videoURL))
-				return
-			}
-			let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
-			hudMB.mode = .text
-			hudMB.label.text = "视频生成中"
-			
-			DispatchQueue.global().async {
-				self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
-					success in
-					EMEventAtMain {
-						hudMB.hide(animated: true)
-					}
-					if success {
+				if (TARGET_IPHONE_SIMULATOR == 1) {
+					self.handler!(videoURL, self.generateVideoScreenshot(videoURL: videoURL))
+					return
+				}
+				let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+				hudMB.mode = .text
+				hudMB.label.text = "视频生成中"
+				
+				DispatchQueue.global().async {
+					self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
+						success in
 						EMEventAtMain {
-							self.handler!(URL(fileURLWithPath: newURL),self.generateVideoScreenshot(videoURL: URL(fileURLWithPath: newURL)))
-							//显示设置的照片
-//							self.parent?.dismiss(animated: true, completion: nil)
+							hudMB.hide(animated: true)
 						}
-					} else {
-						print("视频生成失败！！！")
+						if success {
+							EMEventAtMain {
+								if "camera" == self.typeAction {
+									let videoCompatible = UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(newURL)
+									//判断是否可以保存
+									if videoCompatible {
+										UISaveVideoAtPathToSavedPhotosAlbum(newURL, self, #selector(self.didFinishSavingVideo(videoPath:error:contextInfo:)), nil)
+									} else {
+										print("该视频无法保存至相册")
+									}
+								}
+															
+								self.handler!(URL(fileURLWithPath: newURL),self.generateVideoScreenshot(videoURL: URL(fileURLWithPath: newURL)))
+								//显示设置的照片
+	//							self.parent?.dismiss(animated: true, completion: nil)
+							}
+						} else {
+							print("视频生成失败！！！")
+						}
 					}
 				}
+
 			}
+			else {
+				
+				let rootController = UIApplication.shared.keyWindow?.rootViewController
+				guard let parent = rootController else {
+					NSLog("rootViewController is nil")
+					return
+				}
+				rootController?.dismiss(animated: false, completion: nil)
+				print("视频获取失败")
+			}
+			
+			if let identifer = self.backgroudIdentifier {
+				self.endBackgroundTask(taskID: identifer)
+			}
+
+//			let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as! URL
 		}
 	}
     
@@ -225,6 +268,35 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 
 
 	}
+	
+	@objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+
+		if error == nil
+		{
+			print("图片存储成功")
+		}
+		else
+		{
+			print("图片存储失败")
+		}
+	}
+	
+	@objc func didFinishSavingVideo(videoPath: String, error: NSError?, contextInfo: UnsafeMutableRawPointer?) {
+			if error != nil{
+				print("视频存储失败")
+			}else{
+				print("视频存储成功")
+			}
+		}
+	
+	func beginBackgroundTask() -> UIBackgroundTaskIdentifier {
+		return UIApplication.shared.beginBackgroundTask(expirationHandler: {})
+	}
+	 
+	func endBackgroundTask(taskID: UIBackgroundTaskIdentifier) {
+		UIApplication.shared.endBackgroundTask(taskID)
+	}
+
 }
 
 
