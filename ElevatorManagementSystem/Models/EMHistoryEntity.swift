@@ -19,6 +19,7 @@ struct EMFloorItemEntity: HandyJSON {
     var componentId: String?
     var name: String?
     var result: String?
+	var fontColor: String?
 }
 
 struct EMComponentItemEntity: HandyJSON {

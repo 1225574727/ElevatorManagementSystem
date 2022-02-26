@@ -36,6 +36,7 @@ struct RecordModel: HandyJSON {
     var timeText: String?
     var titleText: String?
     var checkText: String?
+	var colorText: String?
 }
 
 
@@ -135,6 +136,14 @@ class EMHistroyMainCell: UITableViewCell {
                 leftDistanceLabel.text = "\(String(format: "%.2f", leftDistanceFloatValue))mm"
                 rightDistanceLabel.text = "\(String(format: "%.2f", rightDistanceFloatValue))mm"
             }
+			let colorArr = model.colorText?.components(separatedBy: ",")
+			if colorArr?.count == 2{
+				let leftColor = colorArr![0]
+				let rightColor = colorArr![1]
+
+				leftDistanceLabel.textColor = UIColor.init(hexString: leftColor)
+				rightDistanceLabel.textColor = UIColor.init(hexString: rightColor)
+			}
             break
         }
         

@@ -118,7 +118,7 @@ extension EMRecordDetailController : UITableViewDataSource, UITableViewDelegate 
         
         let model = self.floorDataArray[indexPath.section]
         cell!.updateCellData(model: RecordModel(timeText: "", titleText: model.name
-                                                , checkText: model.result), type: .detailRecordCell)
+												, checkText: model.result, colorText: model.fontColor), type: .detailRecordCell)
                 
         return cell!
     }
