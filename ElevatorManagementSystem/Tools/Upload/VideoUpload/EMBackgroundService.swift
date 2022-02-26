@@ -253,7 +253,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 						hudMB.mode = .text
 						hudMB.label.text = EMLocalizable("task_upload_success_task") + self.model.name + EMLocalizable("task_upload_success_done")
 
-						hudMB.hide(animated: true, afterDelay: 2)
+						hudMB.hide(animated: true, afterDelay: 5)
 					}
 				} else {
 					creatNotificationContent(identifier: self.model.name!)

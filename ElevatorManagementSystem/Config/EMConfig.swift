@@ -73,6 +73,8 @@ func videoInfo(_ url: URL) -> [String:String] {
 	//视频总时长
 	let duration:CMTime = asset.duration
 	let durationNum:Int = Int(duration.value) / Int(duration.timescale)
+	//nominalFrameRate - 帧速率
+	//estimatedDataRate - 像素比特 bps
 	return ["width":"\(trackDimensions.width)","height":"\(trackDimensions.height)","rate":"\(videoTrack.nominalFrameRate)","bps":"\(videoTrack.estimatedDataRate)","size":"\(videoTrack.totalSampleDataLength)","duration":"\(durationNum)"]
 }
 
