@@ -136,11 +136,17 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                         
                     }
                     
+					if self.recordTypeId != nil && self.componentTypeId != nil {
+						
+						self.submitBtn.setTitleColor(UIColor.colorFormHex(0xffffff), for: .normal)
+						self.submitBtn.backgroundColor = UIColor.Main
+					}
                 }
                 cell.selectionStyle = .none
                 return cell
             }else if indexPath.row == 1 {
                 let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
+				cell.textField.text = self.doorDistance
                 cell.inputCallBack = { [weak self] textString in
                     
                     guard let self = self else {
@@ -245,6 +251,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                 return cell
             }else if indexPath.row == 2 {
                 let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
+
                 cell.inputCallBack = { [weak self] textString in
                     
                     guard let self = self else {
@@ -372,8 +379,13 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 		}
 		
         if let imageArr = self.imageArray { // if pics 图片上传
+			EMEventAtMain {
+				self.showActivity()
+			}
             EMPicUploadService.uploadUnitWith(imageArr) { response in
-				
+				EMEventAtMain {
+					self.hideActivity()
+				}
 				if response?.code == "200" { //图片上传成功
 					
 					//视频上传成功，上传表单信息

@@ -127,6 +127,7 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
                         let videoVC = EMPicVideoUploadController()
                         videoVC.equipmentId = model.equipmentId
                         videoVC.equipmentName = model.name
+						videoVC.doorDistance = model.doorDistance ?? ""
 						self.navigationController?.pushViewController(videoVC, animated: true)
 					}
 				}
@@ -136,6 +137,7 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
             let videoVC = EMPicVideoUploadController()
             videoVC.equipmentId = model.equipmentId
 			videoVC.equipmentName = model.name
+			videoVC.doorDistance = model.doorDistance ?? ""
             self.navigationController?.pushViewController(videoVC, animated: true)
             
         }
