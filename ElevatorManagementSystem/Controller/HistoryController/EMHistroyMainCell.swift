@@ -130,11 +130,12 @@ class EMHistroyMainCell: UITableViewCell {
             titleLabel.text = model.titleText
             let tempArr = model.checkText?.components(separatedBy: ",")
             if tempArr?.count == 2{
-                let rightDistanceFloatValue = abs(Float(tempArr![0]) ?? 0)
-                let leftDistanceFloatValue = abs(Float(tempArr![1]) ?? 0)
+				
+				let leftDistanceFloatValue = Float(tempArr![0]) ?? 0
+				let rightDistanceFloatValue = Float(tempArr![1]) ?? 0
 
-                leftDistanceLabel.text = "\(String(format: "%.2f", leftDistanceFloatValue))mm"
-                rightDistanceLabel.text = "\(String(format: "%.2f", rightDistanceFloatValue))mm"
+				leftDistanceLabel.text = "\(String(format: "\(leftDistanceFloatValue > 0 ? "+" : "")%.2f", leftDistanceFloatValue))mm"
+                rightDistanceLabel.text = "\(String(format: "\(rightDistanceFloatValue > 0 ? "+" : "")%.2f", rightDistanceFloatValue))mm"
             }
 			let colorArr = model.colorText?.components(separatedBy: ",")
 			if colorArr?.count == 2{

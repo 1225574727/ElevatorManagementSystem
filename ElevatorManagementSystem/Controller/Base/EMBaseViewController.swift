@@ -49,6 +49,12 @@ class EMBaseViewController: UIViewController {
         hudMB?.mode = .indeterminate
         hudMB?.label.text = "正在请求数据..."
     }
+	
+	func showActivity(message: String) {
+		hudMB = MBProgressHUD.showAdded(to: self.view, animated: true)
+		hudMB?.mode = .indeterminate
+		hudMB?.label.text = message
+	}
     
     func hideActivity() {
         hudMB?.hide(animated: true)

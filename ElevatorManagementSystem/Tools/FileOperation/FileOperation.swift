@@ -39,15 +39,17 @@ class FileOperation {
 	}
 	
 	// 移动文件到目标位置
-	static func movingFile(sourceUrl:String, targetUrl:String){
+	static func movingFile(sourceUrl:String, targetUrl:String) -> Bool {
 		let fileManager = FileManager.default
 		let targetUrl = targetUrl
 		print("targetUrl = \(targetUrl)")
 		do{
 			try fileManager.moveItem(atPath: sourceUrl, toPath: targetUrl)
 			print("Succsee to move file.")
+			return true
 		}catch{
 			print("Failed to move file.")
+			return false
 		}
 	}
 	

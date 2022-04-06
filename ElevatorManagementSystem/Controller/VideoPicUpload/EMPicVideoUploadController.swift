@@ -136,11 +136,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                         
                     }
                     
-					if self.recordTypeId != nil && self.componentTypeId != nil {
-						
-						self.submitBtn.setTitleColor(UIColor.colorFormHex(0xffffff), for: .normal)
-						self.submitBtn.backgroundColor = UIColor.Main
-					}
+					self.changeSubmitButtonStatus()
                 }
                 cell.selectionStyle = .none
                 return cell
@@ -167,7 +163,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                     }
                     
                     self.videoURL = videoUrl
-                    
+					self.changeSubmitButtonStatus()
                 }
                 return cell
             }else if indexPath.row == 3 {
@@ -188,7 +184,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                     }
                     
                     self.imageArray = dataArray
-                    
+					self.changeSubmitButtonStatus()
                 }
                 return cell
             }else {
@@ -224,7 +220,8 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                         self.componentTypeId = sysId
                         
                     }
-                    
+					
+					self.changeSubmitButtonStatus()
                 }
                 cell.selectionStyle = .none
                 return cell
@@ -246,12 +243,13 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                         
                     }
                     
+					self.changeSubmitButtonStatus()
                 }
                 cell.selectionStyle = .none
                 return cell
             }else if indexPath.row == 2 {
                 let cell:EMPicVideoUploadCell = tableView.dequeueReusableCell(withIdentifier: EMPicVideoUploadController.kTextInputCell) as! EMPicVideoUploadCell
-
+				cell.textField.text = self.doorDistance
                 cell.inputCallBack = { [weak self] textString in
                     
                     guard let self = self else {
@@ -272,7 +270,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                     }
                     
                     self.videoURL = videoUrl
-                    
+					self.changeSubmitButtonStatus()
                 }
                 return cell
             }else if indexPath.row == 4 {
@@ -293,7 +291,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                     }
                     
                     self.imageArray = dataArray
-                    
+					self.changeSubmitButtonStatus()
                 }
                 return cell
             }else {
@@ -332,6 +330,18 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
         }
         return true
     }
+	
+	private func changeSubmitButtonStatus() {
+		if self.recordTypeId != nil && self.componentTypeId != nil && ((self.imageArray != nil && self.imageArray!.count > 0) || self.videoURL != nil) {
+			
+			self.submitBtn.setTitleColor(UIColor.colorFormHex(0xffffff), for: .normal)
+			self.submitBtn.backgroundColor = UIColor.Main
+		} else {
+			
+			self.submitBtn.setTitleColor(UIColor.colorFormHex(0x999999), for: .normal)
+			self.submitBtn.backgroundColor = UIColor.colorFormHex(0xf7f7f7)
+		}
+	}
     
     ///MARK: lazy
     lazy var tableView:UITableView = {
@@ -371,7 +381,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     @objc func createAction() {
 		
 		// 记录类型、零件类别必填
-		guard self.recordTypeId != nil && self.componentTypeId != nil else {
+		guard self.recordTypeId != nil && self.componentTypeId != nil && ((self.imageArray != nil && self.imageArray!.count > 0) || self.videoURL != nil) else {
 			[EMAlertService .show(title: EMLocalizable("alert_tip"), message: EMLocalizable("upload_required_tip"), cancelTitle: EMLocalizable("alert_sure"), otherTitles: [], style: .alert, closure: { action, index in
 				
 			})];
@@ -380,20 +390,23 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 		
         if let imageArr = self.imageArray { // if pics 图片上传
 			EMEventAtMain {
-				self.showActivity()
+				self.showActivity(message: EMLocalizable("upload_image_message"))
 			}
-            EMPicUploadService.uploadUnitWith(imageArr) { response in
-				EMEventAtMain {
-					self.hideActivity()
-				}
-				if response?.code == "200" { //图片上传成功
-					
-					//视频上传成功，上传表单信息
-					if let array = response?.data {
-						let imageString = array.joined(separator: ",")
-						self.uploadInfo(images: imageString)
+			
+			DispatchQueue.global().async {
+				EMPicUploadService.uploadUnitWith(imageArr) { response in
+					EMEventAtMain {
+						self.hideActivity()
 					}
-					
+					if response?.code == "200" { //图片上传成功
+
+						//视频上传成功，上传表单信息
+						if let array = response?.data {
+							let imageString = array.joined(separator: ",")
+							self.uploadInfo(images: imageString)
+						}
+
+					}
 				}
 			}
 		} else {

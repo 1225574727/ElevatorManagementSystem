@@ -66,9 +66,10 @@
 "upload_remark_lab" = "Comment";
 "upload_remark_placeholder" = "Please fill in any details or your comments here.";
 "upload_btn_title" = "Upload";
-"upload_required_tip" = "must be select record or part type!!!";
+"upload_required_tip" = "must be select record、 part type、image or video!!!";
 "upload_submit_success" = "elevator info submit success!";
 "upload_submit_failure" = "elevator info submit failure!";
+"upload_image_message" = "images uploading...";
 
 "record_type" = "Inspection Record";
 "record_session" = "Inspection Record";
@@ -99,5 +100,5 @@
 "system_allow_camera" = "App require use camera";
 
 "task_upload_success_title" = "upload success";
-"task_upload_success_task" = "task";
-"task_upload_success_done" = "upload done";
+"task_upload_success_task" = "task ";
+"task_upload_success_done" = " upload done";

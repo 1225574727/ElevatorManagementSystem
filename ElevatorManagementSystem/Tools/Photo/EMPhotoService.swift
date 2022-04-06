@@ -240,33 +240,47 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 	
 	private func copySourceToCache(sourceURL: URL, target: URL,relhandler: @escaping (_ isSuccess:Bool)->Void) {
 		
+		if (sourceURL.absoluteString.contains("/Application/")) {
+			if FileOperation.movingFile(sourceUrl: sourceURL.absoluteString.replacingOccurrences(of: "file://", with: ""), targetUrl: target.absoluteString.replacingOccurrences(of: "file://", with: "")) {
+
+				relhandler(true)
+			} else {
+
+				relhandler(false)
+			}
+			return
+		}
+		
 		let videoAsset = AVURLAsset(url:sourceURL)
 		let composition:AVMutableComposition = AVMutableComposition()
 
 		let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
 		let videoTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
-		
-//		let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first!
-//		let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first!
+
 		if let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first , let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first {
 			let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
-			
+
 			try! audioTrack.insertTimeRange(timeRange, of: assetAudio, at: .zero)
 			try! videoTrack.insertTimeRange(timeRange, of: assetVideo, at: .zero)
-			
-			let exportSession:AVAssetExportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPreset1280x720)!
+
+			let exportSession:AVAssetExportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPresetHighestQuality)!
 			exportSession.outputURL = target
 			exportSession.outputFileType = .mp4
+//			exportSession.shouldOptimizeForNetworkUse = false
+			let composition = fixedComposition(asset: videoAsset)
+			if !composition.renderSize.equalTo(.zero) {
+				exportSession.videoComposition = composition
+			}
+			
 			exportSession.exportAsynchronously(completionHandler: {
-				
-				print("exportSession...",exportSession)
+
+				print("code:",exportSession.status.rawValue)
+				print("exportSessionError...",exportSession.error)
 				relhandler(exportSession.status == .completed)
 			})
 		} else {
 			relhandler(false)
 		}
-
-
 	}
 	
 	@objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
@@ -296,7 +310,78 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 	func endBackgroundTask(taskID: UIBackgroundTaskIdentifier) {
 		UIApplication.shared.endBackgroundTask(taskID)
 	}
+	
+	func fixedComposition(asset:AVURLAsset) -> AVMutableVideoComposition {
+		
+		let videoComposition = AVMutableVideoComposition()
+		let degrees = degressFromVideoFileWithAsset(asset: asset)
+		if degrees != 0 {
+			let translateToCenter:CGAffineTransform
+			let mixedTransform:CGAffineTransform
+			videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
+			
+			let tracks = asset.tracks(withMediaType: .video)
+			if (tracks.count > 0) {
+				
+				if let videoTrack = tracks.first {
+					let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: asset.duration)
 
+					let roateInstruction = AVMutableVideoCompositionInstruction()
+					roateInstruction.timeRange = timeRange
+					
+					let roateLayerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+					if (degrees == 90) {
+						// 顺时针旋转90°
+						translateToCenter = CGAffineTransform(translationX: videoTrack.naturalSize.height, y: 0.0)
+						mixedTransform = translateToCenter.rotated(by: .pi/2)
+						videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.height, height: videoTrack.naturalSize.width)
+						roateLayerInstruction.setTransform(mixedTransform, at: .zero)
+					} else if(degrees == 180){
+						// 顺时针旋转180°
+						translateToCenter = CGAffineTransform(translationX: videoTrack.naturalSize.width, y: videoTrack.naturalSize.height)
+						mixedTransform = translateToCenter.rotated(by: .pi)
+						videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.width, height: videoTrack.naturalSize.height)
+						roateLayerInstruction.setTransform(mixedTransform, at: .zero)
+					} else if(degrees == 270){
+						// 顺时针旋转270°
+						translateToCenter = CGAffineTransform(translationX:0.0, y: videoTrack.naturalSize.width)
+						mixedTransform = translateToCenter.rotated(by: .pi / 2 * 3.0)
+						videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.height, height: videoTrack.naturalSize.width)
+						roateLayerInstruction.setTransform(mixedTransform, at: .zero)
+					}
+					roateInstruction.layerInstructions = [roateLayerInstruction];
+					videoComposition.instructions = [roateInstruction];
+				}
+			}
+		}
+		return videoComposition
+	}
+	
+	func degressFromVideoFileWithAsset(asset: AVAsset) -> Int {
+		var degress:Int = 0
+		let tracks = asset.tracks(withMediaType: .video)
+		if (tracks.count > 0) {
+			let videoTrack = tracks.first
+			
+			if let t = videoTrack?.preferredTransform {
+				if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0){
+					// Portrait
+				   degress = 90
+			   }else if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0){
+				   // PortraitUpsideDown
+				   degress = 270
+			   }else if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0){
+				   // LandscapeRight
+				   degress = 0
+			   }else if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0){
+				   // LandscapeLeft
+				   degress = 180
+			   }
+			}
+		}
+		return degress
+	}
+	
 }
 
 

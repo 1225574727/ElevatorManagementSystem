@@ -373,6 +373,7 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 				
 				let arrIndex = indexPath.section + indexPath.row
 				EMUploadManager.shared.tasks.remove(at: arrIndex)
+				EMUploadManager.shared.saveTasks()
 				
 				if arrIndex == 0 && EMUploadManager.shared.tasks.count > 0{
 					EMUploadManager.shared.continueTask()

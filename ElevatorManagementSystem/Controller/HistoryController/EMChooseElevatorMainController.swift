@@ -137,7 +137,11 @@ extension EMChooseElevatorMainController : UITableViewDataSource, UITableViewDel
             let videoVC = EMPicVideoUploadController()
             videoVC.equipmentId = model.equipmentId
 			videoVC.equipmentName = model.name
-			videoVC.doorDistance = model.doorDistance ?? ""
+			
+			if let tDistance = model.doorDistance {
+				
+				videoVC.doorDistance = String(format: "%.2f", Float(tDistance)!)
+			}
             self.navigationController?.pushViewController(videoVC, animated: true)
             
         }
