@@ -54,6 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		FileOperation.createVideoDirectory()
 		
+		//
+		Bugly.start(withAppId: "edab779d4b")
         return true
     }
 	

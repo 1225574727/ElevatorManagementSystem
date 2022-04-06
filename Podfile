@@ -23,4 +23,6 @@ target 'ElevatorManagementSystem' do
   pod 'SVProgressHUD', '~> 2.2.5'
   # keychain 存储
   pod 'KeychainSwift', '~> 19.0'
+  # buggly
+  pod 'Bugly', '~> 2.5.91'
 end

@@ -210,6 +210,7 @@
 		6A6D35E9276496540018E18B /* EMManageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMManageController.swift; sourceTree = "<group>"; };
 		6A6D35EB2764CADD0018E18B /* EMCreateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMCreateController.swift; sourceTree = "<group>"; };
 		6A6D35ED2766EA750018E18B /* EMTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMTextView.swift; sourceTree = "<group>"; };
+		6A7BBED527FDC40B00241B7D /* ElevatorManagementSystem-bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ElevatorManagementSystem-bridging-Header.h"; sourceTree = "<group>"; };
 		6A987D7C27367711002D7BC4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		6A987D7D27367711002D7BC4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		6A987D8427367842002D7BC4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -439,6 +440,7 @@
 				51D5659326E5BCD000B29DF6 /* AppDelegate.swift */,
 				51D5659C26E5BCD900B29DF6 /* Assets.xcassets */,
 				6A987D8227367809002D7BC4 /* support */,
+				6A7BBED527FDC40B00241B7D /* ElevatorManagementSystem-bridging-Header.h */,
 			);
 			path = ElevatorManagementSystem;
 			sourceTree = "<group>";
@@ -1076,18 +1078,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LC2MMHMX24;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = XL5VT6U5BC;
 				INFOPLIST_FILE = ElevatorManagementSystem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ylg.demos;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bzhcw.BingQiMobileApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = YTDevGeneralID_47;
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ElevatorManagementSystem/ElevatorManagementSystem-bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1101,7 +1104,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ElevatorManagementSystem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1109,9 +1112,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ylg.demos;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bzhcw.BingQiMobileApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ElevatorManagementSystem/ElevatorManagementSystem-bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
