@@ -266,8 +266,8 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		let videoAsset = AVURLAsset(url:sourceURL)
 		let composition:AVMutableComposition = AVMutableComposition()
 
-		let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
 		let videoTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
+		let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
 
 		if let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first , let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first {
 			let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
@@ -278,10 +278,10 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			let exportSession:AVAssetExportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPresetHighestQuality)!
 			exportSession.outputURL = target
 			exportSession.outputFileType = .mp4
-//			let composition = fixedComposition(asset: videoAsset)
-//			if !composition.renderSize.equalTo(.zero) {
-//				exportSession.videoComposition = composition
-//			}
+			let composition = fixedComposition(asset: videoAsset)
+			if !composition.renderSize.equalTo(.zero) {
+				exportSession.videoComposition = composition
+			}
 			
 			exportSession.exportAsynchronously(completionHandler: {
 
@@ -399,6 +399,11 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 //		self.selectedModel = selectedModel
 //		self.visibleImages = selectedImages
 		if let asset = selectedModel.first?.asset {
+			
+			let imageRequestOption = PHVideoRequestOptions()
+			imageRequestOption.version = .current
+			imageRequestOption.deliveryMode = .highQualityFormat
+			
 			PHCachingImageManager().requestAVAsset(forVideo: asset, options:nil, resultHandler: { (asset, audioMix, info)in
 
 				EMEventAtMain {
@@ -408,11 +413,11 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 						return
 					}
 					rootController?.dismiss(animated: false, completion: nil)
-					
+
 					let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
 					hudMB.mode = .text
 					hudMB.label.text = "视频生成中..."
-					
+
 					let  avAsset = asset as? AVURLAsset
 					if let videoURL = avAsset?.url {
 						print(videoURL)
@@ -422,15 +427,15 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 						let  timeInterval  = Date().timeIntervalSince1970
 						let  timeStamp =  Int (timeInterval)
 						let newURL = tmpVideoPath + "/\(timeStamp).mp4"
-						
+
 						DispatchQueue.global().async {
 							self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
 								success in
 								EMEventAtMain {
 									hudMB.hide(animated: true)
-									
+
 									if success {
-										
+
 										self.handler!(URL(fileURLWithPath: newURL),self.generateVideoScreenshot(videoURL: URL(fileURLWithPath: newURL)))
 									} else {
 										print("视频生成失败！！！")
@@ -440,7 +445,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 						}
 					}
 				}
-				
+
 			})
 		}
 	}
