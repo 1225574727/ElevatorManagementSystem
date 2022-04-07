@@ -43,7 +43,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
     //备注
     var remark: String?
     
-
+	var imageResolution: CGSize?
 
     final let datas = [
         ["name":EMLocalizable("manage_id")],
@@ -388,10 +388,14 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 			return
 		}
 		
+		imageResolution = nil
         if let imageArr = self.imageArray { // if pics 图片上传
 			EMEventAtMain {
 				self.showActivity(message: EMLocalizable("upload_image_message"))
 			}
+			
+			let firstImage = imageArray?.first
+			imageResolution = firstImage!.size
 			
 			DispatchQueue.global().async {
 				EMPicUploadService.uploadUnitWith(imageArr) { response in
@@ -429,8 +433,13 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
              params["videoFrameRate"] = videoInfo["rate"]
              params["videoBitrate"] = videoInfo["bps"]
 		 }
+		
+		if let imageSize = self.imageResolution {
+			params["imageResolution"] = "\(imageSize.width)/\(imageSize.height)"
+		}
 		 
-        EMRequestProvider.request(.defaultRequest(url: "/order/insertEquipment", params:params as [String : Any]), model: EMBaseModel.self) { model in
+		///order/insertEquipment -> /order/insertOrder
+        EMRequestProvider.request(.defaultRequest(url: "/order/insertOrder", params:params as [String : Any]), model: EMBaseModel.self) { model in
 			
 			if (model?.code == "200") {
 				

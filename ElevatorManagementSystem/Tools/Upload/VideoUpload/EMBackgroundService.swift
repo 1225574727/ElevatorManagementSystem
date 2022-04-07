@@ -280,6 +280,7 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 				self.uploadUnitWith()
 			}
 		}
+		EMUploadManager.shared.saveTasks()
 	}
 	func dealProgress() {
 		var currentProgress:Float = (Float(uploadUnitSize)+Float(self.model.uploadCount*uploadUnitSize)) / Float(self.model.totalSize)

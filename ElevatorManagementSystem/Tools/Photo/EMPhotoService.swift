@@ -31,7 +31,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 	// Make sure the class has only one instance
 	// Should not init or copy outside
 	private override init() {
-		
+		super.init()
 	}
 	
 	override func copy() -> Any {
@@ -169,7 +169,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 				}
 				let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
 				hudMB.mode = .text
-				hudMB.label.text = "视频生成中"
+				hudMB.label.text = "视频生成中..."
 				
 				DispatchQueue.global().async {
 					self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
