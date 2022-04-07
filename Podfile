@@ -25,4 +25,6 @@ target 'ElevatorManagementSystem' do
   pod 'KeychainSwift', '~> 19.0'
   # buggly
   pod 'Bugly', '~> 2.5.91'
+  # 相册 图片视频获取
+  pod 'HEPhotoPicker', :path => './'
 end

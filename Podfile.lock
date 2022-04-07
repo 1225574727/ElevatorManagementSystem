@@ -2,6 +2,7 @@ PODS:
   - Alamofire (5.4.4)
   - Bugly (2.5.91)
   - HandyJSON (5.0.2)
+  - HEPhotoPicker (0.0.8)
   - KeychainSwift (19.0.0)
   - MBProgressHUD (1.2.0)
   - Moya (15.0.0):
@@ -16,6 +17,7 @@ DEPENDENCIES:
   - Alamofire (~> 5.4)
   - Bugly (~> 2.5.91)
   - HandyJSON (~> 5.0.2)
+  - HEPhotoPicker (from `./`)
   - KeychainSwift (~> 19.0)
   - MBProgressHUD (~> 1.2.0)
   - Moya (~> 15.0)
@@ -35,10 +37,15 @@ SPEC REPOS:
     - SVProgressHUD
     - SwiftyJSON
 
+EXTERNAL SOURCES:
+  HEPhotoPicker:
+    :path: "./"
+
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   Bugly: afe841bba2ea6de6d432a3c125240a5e75949c55
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
+  HEPhotoPicker: 52831f8db5f3cd4b47925968cdb06131549b007f
   KeychainSwift: a06190cf933ad46b1e0abc3d77d29c06331715c7
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
@@ -46,6 +53,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 9df3faa1966c0ba71f794a52ea3038547154b36b
+PODFILE CHECKSUM: a7aa163865baa95048a9522989c7bab2f27cfb17
 
 COCOAPODS: 1.11.3

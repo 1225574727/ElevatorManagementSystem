@@ -12,6 +12,7 @@ import Photos
 import MobileCoreServices
 import AVKit
 import MBProgressHUD
+import HEPhotoPicker
 
 typealias PhotoHandler = (_ videoUrl: URL?, _ resource:Any)->Void;
 
@@ -20,7 +21,7 @@ enum EMResourceType {
 	case media
 }
 
-class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationControllerDelegate,HEPhotoPickerViewControllerDelegate {
 	
 	static let shared = EMPhotoService()
 	
@@ -117,11 +118,22 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			case .authorized://已经有权限
 				EMEventAtMain {
 					self.typeAction = "photo"
+					if self.resourceType == .media {
+						let options = HEPickerOptions.init()
+						options.singleVideo = true
+						options.mediaType = .video
+						options.maxCountOfVideo = 1
+						let picker = HEPhotoPickerViewController.init(delegate: self, options: options)
+						let nav = UINavigationController.init(rootViewController: picker)
+						nav.modalPresentationStyle = .fullScreen
+						UIApplication.shared.keyWindow?.rootViewController?.present(nav, animated: true, completion: nil)
+						return
+					}
 					let photoPicker =  UIImagePickerController()
 					photoPicker.delegate = self
-			//		photoPicker.allowsEditing = true
 					photoPicker.sourceType = .photoLibrary
-					photoPicker.mediaTypes = self.resourceType == .photo ? [kUTTypeImage as String]: [kUTTypeMovie as String] //["public.image"]:["public.movie"]
+					photoPicker.mediaTypes = self.resourceType == .photo ? [kUTTypeImage as String]: [kUTTypeMovie as String]
+					photoPicker.modalPresentationStyle = .fullScreen
 					//在需要的地方present出来
 					UIApplication.shared.keyWindow?.rootViewController?.present(photoPicker, animated: true, completion: nil)
 					self.backgroudIdentifier = self.beginBackgroundTask()
@@ -266,11 +278,10 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			let exportSession:AVAssetExportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPresetHighestQuality)!
 			exportSession.outputURL = target
 			exportSession.outputFileType = .mp4
-//			exportSession.shouldOptimizeForNetworkUse = false
-			let composition = fixedComposition(asset: videoAsset)
-			if !composition.renderSize.equalTo(.zero) {
-				exportSession.videoComposition = composition
-			}
+//			let composition = fixedComposition(asset: videoAsset)
+//			if !composition.renderSize.equalTo(.zero) {
+//				exportSession.videoComposition = composition
+//			}
 			
 			exportSession.exportAsynchronously(completionHandler: {
 
@@ -380,6 +391,61 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			}
 		}
 		return degress
+	}
+	
+	//MARK: HEPhoto Delegate
+	func pickerController(_ picker: UIViewController, didFinishPicking selectedImages: [UIImage],selectedModel:[HEPhotoAsset]) {
+		// 实现多次累加选择时，需要把选中的模型保存起来，传给picker
+//		self.selectedModel = selectedModel
+//		self.visibleImages = selectedImages
+		if let asset = selectedModel.first?.asset {
+			PHCachingImageManager().requestAVAsset(forVideo: asset, options:nil, resultHandler: { (asset, audioMix, info)in
+
+				EMEventAtMain {
+					let rootController = UIApplication.shared.keyWindow?.rootViewController
+					guard let parent = rootController else {
+						NSLog("rootViewController is nil")
+						return
+					}
+					rootController?.dismiss(animated: false, completion: nil)
+					
+					let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+					hudMB.mode = .text
+					hudMB.label.text = "视频生成中..."
+					
+					let  avAsset = asset as? AVURLAsset
+					if let videoURL = avAsset?.url {
+						print(videoURL)
+						///将视频文件写入沙盒
+						let formatter = DateFormatter()
+						formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+						let  timeInterval  = Date().timeIntervalSince1970
+						let  timeStamp =  Int (timeInterval)
+						let newURL = tmpVideoPath + "/\(timeStamp).mp4"
+						
+						DispatchQueue.global().async {
+							self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
+								success in
+								EMEventAtMain {
+									hudMB.hide(animated: true)
+									
+									if success {
+										
+										self.handler!(URL(fileURLWithPath: newURL),self.generateVideoScreenshot(videoURL: URL(fileURLWithPath: newURL)))
+									} else {
+										print("视频生成失败！！！")
+									}
+								}
+							}
+						}
+					}
+				}
+				
+			})
+		}
+	}
+	func pickerControllerDidCancel(_ picker: UIViewController) {
+		// 取消选择后的一些操作
 	}
 	
 }
