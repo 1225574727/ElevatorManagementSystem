@@ -72,75 +72,84 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 	
 	@objc func uploadUnitWith() {
 		
-        var unitData: Data = Data()
-        
-        do {
-            //强制try! 如果文件不存在会导致APP crash
-            let handle:FileHandle = try FileHandle.init(forReadingFrom: URL(string: model.resFilePath)!)
-            handle.seek(toFileOffset: UInt64(model.uploadCount*uploadUnitSize))
-            unitData = handle.readData(ofLength: uploadUnitSize)
-            handle.closeFile()
-        } catch (let error) {
-            NSLog("FileHandle 文件失败  error\(error)")
-			/// 文件已丢失，移除任务
-            model.status = .EMUploaded
-			EMUploadManager.shared.completeTask()
-            return
-        }
+		EMReachabilityService.netWorkReachability { status in
+			print("\(status)")
+			if status == .notReachable {
+				self.model.status = .EMUploadFailed
+			} else {
+				var unitData: Data = Data()
+				let path = tmpVideoPath + "/" + self.model.videoName
+				print("文件-\(path)---\(FileManager.default.fileExists(atPath: path) ? "存在" : "不存在")")
+				do {
+					//强制try! 如果文件不存在会导致APP crash
+					let handle:FileHandle = try FileHandle.init(forReadingFrom: URL(string: path)!)
+					handle.seek(toFileOffset: UInt64(self.model.uploadCount*uploadUnitSize))
+					unitData = handle.readData(ofLength: uploadUnitSize)
+					handle.closeFile()
+				} catch (let error) {
+					NSLog("FileHandle 文件失败  error\(error)")
+					/// 文件已丢失，移除任务
+					self.model.status = .EMUploaded
+					EMUploadManager.shared.completeTask()
+					EMUploadManager.shared.saveTasks()
+					return
+				}
+						
+				let params = self.uploadParams()
+				let keys = params.keys;
+				var requestPath = uploadFileUrl + "?"
+				// 使用query进行参数上传
+				for key in keys {
+					requestPath = requestPath + "\(key)=\(params[key]!)&"
+				}
+				/// -----Alamofire-------
+		//		let upLoadRequest = Alamofire.AF.upload(unitData, to: requestPath)
+		//		let upLoadRequest = AF.upload(multipartFormData: { formData in
+		//			formData.append(unitData, withName: "file", fileName: "\(unitData.MD5().hexString()).tmp", mimeType: "application/octet-stream")
+		//		}, to: requestPath)
+		//		upLoadRequest.response { [weak self] data in
+		//			guard let self = self else {
+		//				return
+		//			}
+		//			//上传结束后其他操作
+		//			self.dealResponse(data)
+		//		}
+		//		upLoadRequest.uploadProgress { [weak self] (progress) in
+		//			guard let self = self else {
+		//				return
+		//			}
+		//			// 上传进度
+		//			self.dealProgress()
+		//		}
+				/// -----URLRequest-------
+				var request = URLRequest(url: URL(string: requestPath)!)
+				request.httpMethod = "POST"
+				/// 请求头设置
+				let contentType = "multipart/form-data; boundary=\(EMBoundary)"
+				request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+				var uploadData: Data = Data.init()
+						
+				// 数据之前要用 --分隔线 来隔开 ，否则后台会解析失败
+				uploadData.append("--\(EMBoundary)\r\n".data(using: .utf8)!)
 				
-		let params = uploadParams()
-		let keys = params.keys;
-		var requestPath = uploadFileUrl + "?"
-		// 使用query进行参数上传
-		for key in keys {
-			requestPath = requestPath + "\(key)=\(params[key]!)&"
+				let formatter = DateFormatter()
+				formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+				let  timeInterval  = Date().timeIntervalSince1970
+				let  timeStamp =  Int (timeInterval)
+				uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(timeStamp).tmp\"\r\n".data(using: .utf8)!) //multipartFile
+				// 文件类型
+				uploadData.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+				// 添加文件主体
+				uploadData.append(unitData)
+				uploadData.append("\r\n--\(EMBoundary)".data(using: .utf8)!)
+				
+				request.httpBody = uploadData
+				self.backgroundTask = self.backUploadSession.uploadTask(withStreamedRequest: request)
+				self.backgroundTask.resume()
+				NSLog("切片\(self.model.uploadCount)开始上传 ,总切片 \(self.model.totalCount)个")
+
+			}
 		}
-		/// -----Alamofire-------
-//		let upLoadRequest = Alamofire.AF.upload(unitData, to: requestPath)
-//		let upLoadRequest = AF.upload(multipartFormData: { formData in
-//			formData.append(unitData, withName: "file", fileName: "\(unitData.MD5().hexString()).tmp", mimeType: "application/octet-stream")
-//		}, to: requestPath)
-//		upLoadRequest.response { [weak self] data in
-//			guard let self = self else {
-//				return
-//			}
-//			//上传结束后其他操作
-//			self.dealResponse(data)
-//		}
-//		upLoadRequest.uploadProgress { [weak self] (progress) in
-//			guard let self = self else {
-//				return
-//			}
-//			// 上传进度
-//			self.dealProgress()
-//		}
-		/// -----URLRequest-------
-		var request = URLRequest(url: URL(string: requestPath)!)
-		request.httpMethod = "POST"
-		/// 请求头设置
-		let contentType = "multipart/form-data; boundary=\(EMBoundary)"
-		request.setValue(contentType, forHTTPHeaderField: "Content-Type")
-		var uploadData: Data = Data.init()
-				
-		// 数据之前要用 --分隔线 来隔开 ，否则后台会解析失败
-		uploadData.append("--\(EMBoundary)\r\n".data(using: .utf8)!)
-		
-		let formatter = DateFormatter()
-		formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-		let  timeInterval  = Date().timeIntervalSince1970
-		let  timeStamp =  Int (timeInterval)
-		uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(timeStamp).tmp\"\r\n".data(using: .utf8)!) //multipartFile
-		// 文件类型
-		uploadData.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
-		// 添加文件主体
-		uploadData.append(unitData)
-		uploadData.append("\r\n--\(EMBoundary)".data(using: .utf8)!)
-		
-		request.httpBody = uploadData
-		
-		backgroundTask = backUploadSession.uploadTask(withStreamedRequest: request)
-		backgroundTask.resume()
-		NSLog("切片\(model.uploadCount)开始上传 ,总切片 \(model.totalCount)个")
 	}
 	
 	func uploadParams() -> Dictionary<String, Any> {

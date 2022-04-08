@@ -7,7 +7,7 @@
 
 import Foundation
 
-let tmpVideoPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as String + "/tmpVideo"
+let tmpVideoPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String + "/tmpVideo"
 
 //文件操作类
 class FileOperation {

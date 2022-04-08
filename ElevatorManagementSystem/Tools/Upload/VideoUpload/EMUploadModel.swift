@@ -66,14 +66,14 @@ class EMUploadModel: NSObject {
 	/// 已上传片数
 	var uploadCount:Int = 0
 	
-	init(name:String, videoName:String, token:String, path:String, timer:String) {
+	init(name:String, videoName:String, token:String, timer:String) {
 		self.name = name
 		self.videoName = videoName
 		self.token = token
-		self.resFilePath = path
+		self.resFilePath = tmpVideoPath + "/" + videoName
 		self.uploadTimer = timer
 		
-		let totalSize = fileSizeAt(path)
+		let totalSize = fileSizeAt(self.resFilePath)
 		let totalCount = Int(UInt(totalSize))/uploadUnitSize + (Int(UInt(totalSize))%uploadUnitSize == 0 ? 0 : 1)
 		self.totalSize = totalSize
 		self.totalCount = totalCount
@@ -81,6 +81,6 @@ class EMUploadModel: NSObject {
 	
 	func toJson() -> [String: Any] {
 		
-        return ["name":name!, "videoName":videoName!, "token":token!, "resFilePath":resFilePath!, "uploadTimer":uploadTimer!, "uploadCount":uploadCount,"totalCount":totalCount,"totalSize":totalSize,"progress":progress]
+        return ["name":name!, "videoName":videoName!, "token":token!, "uploadTimer":uploadTimer!, "uploadCount":uploadCount,"totalCount":totalCount,"totalSize":totalSize,"progress":progress]
 	}
 }

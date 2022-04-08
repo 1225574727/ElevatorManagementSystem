@@ -443,7 +443,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 			
 			if (model?.code == "200") {
 				
-				if let videoUrl = self.videoURL?.absoluteString, let pathExtension = self.videoURL?.pathExtension {
+				if let videoUrl = self.videoURL {
 					
 					//获取记录id
 					if let recordID = (model?.data as? Dictionary<String, Any>)?["orderId"] as? String {
@@ -451,10 +451,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 						formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 						let dateString = formatter.string(from: Date())
 						
-						let  timeInterval  = Date().timeIntervalSince1970
-						let  timeStamp =  Int (timeInterval)
-						
-						let videoUploadModel = EMUploadModel.init(name:self.equipmentName!,  videoName:"\(timeStamp).\(pathExtension)", token: recordID, path: videoUrl, timer: dateString)
+						let videoUploadModel = EMUploadModel.init(name:self.equipmentName!,  videoName:"\(videoUrl.lastPathComponent)", token: recordID, timer: dateString)
 						EMUploadManager.shared.addTarget(videoUploadModel)
 					}
 					

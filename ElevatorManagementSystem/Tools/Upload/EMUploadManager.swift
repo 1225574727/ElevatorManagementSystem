@@ -35,6 +35,7 @@ class EMUploadManager : NSObject {
 		
 		if let cmodel = tasks.first {
 			if (cmodel.status == .EMUploaded) {
+				print("======移除数据\(cmodel.toJson())")
 				tasks.removeFirst()
 				if tasks.count >= 1 {
 					loadingModel = tasks.first!
@@ -67,10 +68,11 @@ class EMUploadManager : NSObject {
 			
 				rel.append(model.toJson())
 			}
-			
+			print("======保存数据\(rel)")
 			EMUserDefault.set(rel, forKey: "EMVideoUploadTasks")
 			EMUserDefault.synchronize()
 		} else {
+			print("======保存数据为空")
 			EMUserDefault.set([], forKey: "EMVideoUploadTasks")
 			EMUserDefault.synchronize()
 		}
@@ -79,9 +81,11 @@ class EMUploadManager : NSObject {
 	func loadCacheTasks() {
 		
 		if let cacheData = EMUserDefault.object(forKey: "EMVideoUploadTasks") {
+			print("======缓存数据---\(cacheData)")
 			for dict in cacheData as! Array<Dictionary<String, Any>> {
-				let model = EMUploadModel(name:dict["name"] as! String, videoName: dict["videoName"] as! String, token: dict["token"] as! String, path: dict["resFilePath"] as! String, timer: dict["uploadTimer"] as! String)
+				let model = EMUploadModel(name:dict["name"] as! String, videoName: dict["videoName"] as! String, token: dict["token"] as! String, timer: dict["uploadTimer"] as! String)
 				model.uploadCount = dict["uploadCount"] as! Int
+
 				self.addTarget(model)
 			}
 		}
