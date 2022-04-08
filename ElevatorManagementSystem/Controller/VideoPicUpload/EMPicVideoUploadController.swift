@@ -64,6 +64,17 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
         self.automaticallyAdjustsScrollViewInsets = false
         setupUI()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+	}
+	
     
     /// private
     private func setupUI() {

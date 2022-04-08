@@ -28,7 +28,10 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 	var typeAction: String = ""
 	
 	var backgroudIdentifier:UIBackgroundTaskIdentifier?
-		
+	
+	var zipTimer: Timer?
+	var copySession: AVAssetExportSession?
+	var hudMB: MBProgressHUD = MBProgressHUD()
 	// Make sure the class has only one instance
 	// Should not init or copy outside
 	private override init() {
@@ -179,15 +182,15 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 					self.handler!(videoURL, self.generateVideoScreenshot(videoURL: videoURL))
 					return
 				}
-				let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+				hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
 				hudMB.mode = .text
-				hudMB.label.text = "视频生成中..."
+				hudMB.label.text = "\(EMLocalizable("upload_video_zip"))..."
 				
 				DispatchQueue.global().async {
 					self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
 						success in
 						EMEventAtMain {
-							hudMB.hide(animated: true)
+							self.hudMB.hide(animated: true)
 						}
 						if success {
 							EMEventAtMain {
@@ -275,7 +278,8 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			try! audioTrack.insertTimeRange(timeRange, of: assetAudio, at: .zero)
 			try! videoTrack.insertTimeRange(timeRange, of: assetVideo, at: .zero)
 
-			let exportSession:AVAssetExportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPresetHighestQuality)!
+			
+			let exportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPresetHighestQuality)!
 			exportSession.outputURL = target
 			exportSession.outputFileType = .mp4
 			let composition = fixedComposition(asset: videoAsset)
@@ -284,11 +288,23 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 			}
 			
 			exportSession.exportAsynchronously(completionHandler: {
-
+				
 				print("code:",exportSession.status.rawValue)
 				print("exportSessionError...",exportSession.error)
 				relhandler(exportSession.status == .completed)
+				self.copySession = nil
+				self.zipTimer?.fireDate = Date.distantFuture
 			})
+			self.copySession = exportSession
+			EMEventAtMain {
+				if self.zipTimer == nil {
+					self.zipTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.zipProgress), userInfo: nil, repeats: true)
+					RunLoop.main.add(self.zipTimer!, forMode: .common)
+	//				self.zipTimer?.fire()
+				} else {
+					self.zipTimer?.fireDate = Date.distantPast
+				}
+			}
 		} else {
 			relhandler(false)
 		}
@@ -414,9 +430,9 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 					}
 					rootController?.dismiss(animated: false, completion: nil)
 
-					let hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
-					hudMB.mode = .text
-					hudMB.label.text = "视频生成中..."
+					self.hudMB = MBProgressHUD.showAdded(to: parent.view, animated: true)
+					self.hudMB.mode = .text
+					self.hudMB.label.text = "\(EMLocalizable("upload_video_zip"))..."
 
 					let  avAsset = asset as? AVURLAsset
 					if let videoURL = avAsset?.url {
@@ -432,7 +448,7 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 							self.copySourceToCache(sourceURL: videoURL, target: URL(fileURLWithPath: newURL)) {
 								success in
 								EMEventAtMain {
-									hudMB.hide(animated: true)
+									self.hudMB.hide(animated: true)
 
 									if success {
 
@@ -453,6 +469,16 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		// 取消选择后的一些操作
 	}
 	
+	@objc func zipProgress() {
+		
+		if let tmpSession = copySession {
+//			hudMB.progress = tmpSession.progress
+//			print("视频生成中\(tmpSession.progress)...")
+//			return
+			let progress = tmpSession.progress * 100
+			hudMB.label.text = "\(EMLocalizable("upload_video_zip"))\(String(format: "%.0f", Float(progress)))%..."
+		}
+	}
 }
 
 

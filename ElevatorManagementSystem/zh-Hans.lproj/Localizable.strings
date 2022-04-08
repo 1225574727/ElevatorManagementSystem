@@ -78,6 +78,7 @@
 "upload_submit_success" = "电梯信息上传成功";
 "upload_submit_failure" = "电梯信息上传失败";
 "upload_image_message" = "图片上传中...";
+"upload_video_zip" = "视频生成中";
 
 "upload_btn_title" = "上传";
 "upload_list_title" = "上传列表";

@@ -70,6 +70,7 @@
 "upload_submit_success" = "elevator info submit success!";
 "upload_submit_failure" = "elevator info submit failure!";
 "upload_image_message" = "images uploading...";
+"upload_video_zip" = "video generation";
 
 "record_type" = "Inspection Record";
 "record_session" = "Inspection Record";
