@@ -54,9 +54,9 @@ class EMUploadListCell: UITableViewCell {
 				statusButton.setTitleColor(UIColor.B3, for: .normal)
 				statusButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
 				statusButton.backgroundColor = UIColor.clear
-				cancelBtn.isEnabled = false
-				cancelBtn.setTitleColor(UIColor.lightGray, for: .normal)
-				cancelBtn.borderColor = UIColor.lightGray
+//				cancelBtn.isEnabled = false
+//				cancelBtn.setTitleColor(UIColor.lightGray, for: .normal)
+//				cancelBtn.borderColor = UIColor.lightGray
 				break
 			case .waiting:
 				statusButton.setTitle(EMLocalizable("upload_list_status_waitting"), for: .normal)
@@ -374,6 +374,9 @@ class EMUploadListController: EMBaseViewController,UITableViewDataSource,UITable
 				let arrIndex = indexPath.section + indexPath.row
 				EMUploadManager.shared.tasks.remove(at: arrIndex)
 				EMUploadManager.shared.saveTasks()
+				if cell.status == .loading {
+					EMUploadManager.shared.service.model = EMUploadModel(name: "", videoName: "", token: "", timer: "")
+				}
 				
 				if arrIndex == 0 && EMUploadManager.shared.tasks.count > 0{
 					EMUploadManager.shared.continueTask()

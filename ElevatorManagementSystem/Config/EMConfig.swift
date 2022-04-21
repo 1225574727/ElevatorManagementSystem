@@ -9,7 +9,9 @@ import Foundation
 import UIKit
 import AVFoundation
 
-let PCDBaseURL = "http://39.100.152.16:5100/elevator-app"
+// 生产 http://tiantianteam.com:5100/elevator-app
+// 测试-强 http://39.100.152.16:5100/elevator-app
+let PCDBaseURL = "http://tiantianteam.com:5100/elevator-app"
 
 //设备屏幕尺寸
 let currentMode_width = (UIScreen.main.currentMode?.size.width ?? 375)

@@ -51,6 +51,8 @@
 "manage_eidt_cancel" = "取消";
 "manage_eidt_save" = "保存";
 "manage_remark" = "注：灰色为不可修改项";
+"manage_create_success" = "电梯创建成功";
+"manage_create_failure" = "电梯创建失败";
 
 "choose_elevator_title" = "选择电梯";
 "choose_record_title" = "选择记录";
@@ -78,7 +80,7 @@
 "upload_submit_success" = "电梯信息上传成功";
 "upload_submit_failure" = "电梯信息上传失败";
 "upload_image_message" = "图片上传中...";
-"upload_video_zip" = "视频生成中";
+"upload_video_zip" = "视频转存中";
 
 "upload_btn_title" = "上传";
 "upload_list_title" = "上传列表";

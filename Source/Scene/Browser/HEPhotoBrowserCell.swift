@@ -71,7 +71,7 @@ class HEPhotoBrowserCell: UICollectionViewCell {
             options.isNetworkAccessAllowed = true
             options.deliveryMode = .automatic
             PHImageManager.default().requestPlayerItem(forVideo:asset, options: options, resultHandler: { playerItem, info in
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     guard self.playerLayer == nil else { return }
                     
                     let player = AVPlayer(playerItem: playerItem)

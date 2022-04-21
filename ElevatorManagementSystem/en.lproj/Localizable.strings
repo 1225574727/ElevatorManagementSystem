@@ -52,6 +52,8 @@
 "manage_eidt_save" = "Save";
 "manage_eidt_cancel" = "Cancel";
 "manage_remark" = "Non-editable Fields in Grey.";
+"manage_create_success" = "Elevator create success";
+"manage_create_failure" = "Elevator create failure";
 
 "choose_elevator_title" = "Select an Equipment";
 "choose_record_title" = "Select an Inspection Record";
@@ -70,7 +72,7 @@
 "upload_submit_success" = "elevator info submit success!";
 "upload_submit_failure" = "elevator info submit failure!";
 "upload_image_message" = "images uploading...";
-"upload_video_zip" = "video generation";
+"upload_video_zip" = "video archived";
 
 "record_type" = "Inspection Record";
 "record_session" = "Inspection Record";

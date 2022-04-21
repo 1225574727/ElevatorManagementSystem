@@ -267,47 +267,76 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		}
 		
 		let videoAsset = AVURLAsset(url:sourceURL)
-		let composition:AVMutableComposition = AVMutableComposition()
-
-		let videoTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
-		let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
-
-		if let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first , let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first {
-			let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
-
-			try! audioTrack.insertTimeRange(timeRange, of: assetAudio, at: .zero)
-			try! videoTrack.insertTimeRange(timeRange, of: assetVideo, at: .zero)
-
-			
-			let exportSession = AVAssetExportSession(asset: composition, presetName:AVAssetExportPresetHighestQuality)!
-			exportSession.outputURL = target
-			exportSession.outputFileType = .mp4
-			let composition = fixedComposition(asset: videoAsset)
-			if !composition.renderSize.equalTo(.zero) {
-				exportSession.videoComposition = composition
-			}
-			
-			exportSession.exportAsynchronously(completionHandler: {
-				
-				print("code:",exportSession.status.rawValue)
-				print("exportSessionError...",exportSession.error)
-				relhandler(exportSession.status == .completed)
-				self.copySession = nil
-				self.zipTimer?.fireDate = Date.distantFuture
-			})
-			self.copySession = exportSession
-			EMEventAtMain {
-				if self.zipTimer == nil {
-					self.zipTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.zipProgress), userInfo: nil, repeats: true)
-					RunLoop.main.add(self.zipTimer!, forMode: .common)
-	//				self.zipTimer?.fire()
-				} else {
-					self.zipTimer?.fireDate = Date.distantPast
-				}
-			}
-		} else {
-			relhandler(false)
+		
+		let exportSession = AVAssetExportSession(asset: videoAsset, presetName:AVAssetExportPresetHighestQuality)!
+		exportSession.outputURL = target
+		exportSession.outputFileType = .mp4
+		let composition = fixedComposition(asset: videoAsset)
+		if !composition.renderSize.equalTo(.zero) {
+			exportSession.videoComposition = composition
 		}
+		
+		exportSession.exportAsynchronously(completionHandler: {
+			
+			print("code:",exportSession.status.rawValue)
+			print("exportSessionError...",exportSession.error)
+			relhandler(exportSession.status == .completed)
+			self.copySession = nil
+			self.zipTimer?.fireDate = Date.distantFuture
+		})
+		self.copySession = exportSession
+		EMEventAtMain {
+			if self.zipTimer == nil {
+				self.zipTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.zipProgress), userInfo: nil, repeats: true)
+				RunLoop.main.add(self.zipTimer!, forMode: .common)
+//				self.zipTimer?.fire()
+			} else {
+				self.zipTimer?.fireDate = Date.distantPast
+			}
+		}
+
+//		let composition:AVMutableComposition = AVMutableComposition()
+//
+//		let videoTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
+//		let audioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+//
+//		if  let assetVideo:AVAssetTrack =  videoAsset.tracks(withMediaType: .video).first {
+//			let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
+//
+//			if let assetAudio:AVAssetTrack =  videoAsset.tracks(withMediaType: .audio).first {
+//				try! audioTrack.insertTimeRange(timeRange, of: assetAudio, at: .zero)
+//			}
+//			try! videoTrack.insertTimeRange(timeRange, of: assetVideo, at: .zero)
+//
+//			let exportSession = AVAssetExportSession(asset: videoAsset, presetName:AVAssetExportPresetHighestQuality)!
+//			exportSession.outputURL = target
+//			exportSession.outputFileType = .mp4
+//			let composition = fixedComposition(asset: videoAsset)
+//			if !composition.renderSize.equalTo(.zero) {
+//				exportSession.videoComposition = composition
+//			}
+//
+//			exportSession.exportAsynchronously(completionHandler: {
+//
+//				print("code:",exportSession.status.rawValue)
+//				print("exportSessionError...",exportSession.error)
+//				relhandler(exportSession.status == .completed)
+//				self.copySession = nil
+//				self.zipTimer?.fireDate = Date.distantFuture
+//			})
+//			self.copySession = exportSession
+//			EMEventAtMain {
+//				if self.zipTimer == nil {
+//					self.zipTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.zipProgress), userInfo: nil, repeats: true)
+//					RunLoop.main.add(self.zipTimer!, forMode: .common)
+//	//				self.zipTimer?.fire()
+//				} else {
+//					self.zipTimer?.fireDate = Date.distantPast
+//				}
+//			}
+//		} else {
+//			relhandler(false)
+//		}
 	}
 	
 	@objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {

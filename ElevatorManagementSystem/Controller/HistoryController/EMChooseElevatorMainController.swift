@@ -36,10 +36,10 @@ class EMChooseElevatorMainController: EMBaseViewController {
         self.title = EMLocalizable("choose_elevator_title")
         
         self.view.addSubview(tableView)
-        tableView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+		tableView.snp.makeConstraints { (make) in
+			make.top.equalToSuperview().offset(NavigationBarHeight + 6)
+			make.left.right.bottom.equalToSuperview()
         }
-        
         
         fetchEquipmentListData()
     }

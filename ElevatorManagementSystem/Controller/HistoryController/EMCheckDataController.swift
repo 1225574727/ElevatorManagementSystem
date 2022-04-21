@@ -40,6 +40,13 @@ class EMCheckDataController: EMBaseViewController {
         fetchData()
     
     }
+	
+	override func viewWillLayoutSubviews() {
+		super.viewWillLayoutSubviews()
+		tableView.snp.updateConstraints { make in
+			make.edges.equalToSuperview()
+		}
+	}
     
     func fetchData() {
         

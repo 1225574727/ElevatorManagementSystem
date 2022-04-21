@@ -392,7 +392,13 @@ class EMCreateController: EMBaseViewController,UITableViewDataSource,UITableView
 
 				self.navigationController?.popViewController(animated: true)
 			}
-			SVProgressHUD.showSuccess(withStatus:model?.msg)
+			var relMsg = EMLocalizable("manage_create_failure")
+			if let msg = model?.msg {
+				if msg == "success" {
+					relMsg = EMLocalizable("manage_create_success")
+				}
+			}
+			SVProgressHUD.showSuccess(withStatus:relMsg)
 		}
 	}
 }
