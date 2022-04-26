@@ -264,6 +264,13 @@ class EMPicVideoUploadCell: UITableViewCell {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+
+	deinit {
+		print("cell 释放-\(self.reuseIdentifier!)")
+		if currentPictureMap.count > 0 {
+			currentPictureMap.removeAll()
+		}
+	}
 	
 }
 

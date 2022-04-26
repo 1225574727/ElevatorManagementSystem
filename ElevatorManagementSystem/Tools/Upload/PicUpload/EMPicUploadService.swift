@@ -40,9 +40,13 @@ class EMPicUploadService {
 			
 			if let data = image.pngData() {
 				
+				let formatter = DateFormatter()
+				formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+				let  timeInterval  = Date().timeIntervalSince1970
+				print("item - info === \(timeInterval)")
 				uploadData.append("--\(EMBoundary)\r\n".data(using: .utf8)!)
 				//filename必须要有文件后缀，否则后端报错！！！
-				uploadData.append("Content-Disposition: form-data; name=\"multipartFile\"; filename=\"\(data.MD5().hexString()).jpeg\"\r\n".data(using: .utf8)!) //multipartFile
+				uploadData.append("Content-Disposition: form-data; name=\"multipartFile\"; filename=\"\(timeInterval).jpeg\"\r\n".data(using: .utf8)!) //multipartFile
 				// 文件类型 万能类型 application/octet-stream、image/png
 				//添加流前需要使用\r\n\r\n换行并空一行！！！
 				uploadData.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)

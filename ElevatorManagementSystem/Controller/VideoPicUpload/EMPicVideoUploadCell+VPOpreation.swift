@@ -49,10 +49,13 @@ extension EMPicVideoUploadCell {
     
     //拍摄图片
     func shootingPicture() {
-        EMPhotoService.shared.showBottomAlert(resourceType: .photo) { _, image in
+        EMPhotoService.shared.showBottomAlert(resourceType: .photo) { [weak self] _, image in
             
+			guard let self = self else {
+				return
+			}
+			
             let imageViewCount = self.contentView.subviews.count - 1
-            
             
             guard imageViewCount > 0 else {
                 return
