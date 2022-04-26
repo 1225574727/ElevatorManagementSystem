@@ -17,32 +17,18 @@ class EMBaseViewController: UIViewController {
         super.viewDidLoad()
 		self.view.backgroundColor = UIColor.colorFormHex(0xffffff)
         hideBackButtonTitle()
-		languageUpdate()
-		
-		let appSettings = EMLanguageSetting.shared
-		appSettings.observableLaunguage.onSet { [self] (oldValue, newValue) in
-			languageUpdate()
-		}
-    }
+//		languageUpdate()
+	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		self.navigationController?.navigationBar.isHidden = false
 	}
 	
-	func languageUpdate() {
-		
-	}
-	
-	@objc func changeLanguage () {
-		
-		if EMLanguageSetting.shared.language == .Chinese {
-			EMLanguageSetting.shared.language = .English
-		} else {
-			EMLanguageSetting.shared.language = .Chinese
-		}
-		EMLanguageSetting.saveLanguageSetting()
-	}
+//	func languageUpdate() {
+//
+//	}
+
     
     func showActivity() {
         hudMB = MBProgressHUD.showAdded(to: self.view, animated: true)

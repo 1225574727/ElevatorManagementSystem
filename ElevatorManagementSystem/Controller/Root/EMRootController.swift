@@ -27,6 +27,11 @@ class EMRootController: EMBaseViewController {
 		// 初始化pickerView
 		EMPickerService.shared.setup()
 		
+		let appSettings = EMLanguageSetting.shared
+		appSettings.observableLaunguage.onSet { [self] (oldValue, newValue) in
+			languageUpdate()
+		}
+
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +40,7 @@ class EMRootController: EMBaseViewController {
 	}
 	
 	
-	override func languageUpdate() {
+	func languageUpdate() {
 		navLab.text = EMLocalizable("root_manage")
 		managerLab.text = EMLocalizable("root_manage")
 		uploadLab.text = EMLocalizable("root_upload")
@@ -72,11 +77,17 @@ class EMRootController: EMBaseViewController {
 //		perform(#selector(addTimer), with: nil, afterDelay: 1)
 //	}
 	
-	@IBAction override func changeLanguage() {
+	@IBAction func changeLanguage() {
 		
 		EMAlertService.showAlertForLanguage { index in
 			if index == 1 {
-				super.changeLanguage()
+				if EMLanguageSetting.shared.language == .Chinese {
+					EMLanguageSetting.shared.language = .English
+				} else {
+					EMLanguageSetting.shared.language = .Chinese
+				}
+				EMLanguageSetting.saveLanguageSetting()
+				
 				self.setChangeBtnText()
 			}
 		}

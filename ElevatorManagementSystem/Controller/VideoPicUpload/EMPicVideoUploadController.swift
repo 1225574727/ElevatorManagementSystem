@@ -75,6 +75,10 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 	}
 	
+	deinit {
+		print("deinit")
+	}
+	
     
     /// private
     private func setupUI() {
