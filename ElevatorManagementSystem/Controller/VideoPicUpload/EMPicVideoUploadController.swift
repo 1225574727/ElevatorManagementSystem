@@ -75,9 +75,9 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 	}
 	
-	deinit {
-		print("deinit")
-	}
+//	deinit {
+//		print("deinit")
+//	}
 	
     
     /// private
@@ -198,7 +198,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
                         return
                     }
                     
-                    self.imageArray = dataArray
+					self.imageArray = dataArray
 					self.changeSubmitButtonStatus()
                 }
                 return cell
@@ -487,6 +487,7 @@ class EMPicVideoUploadController: EMBaseViewController,UITableViewDataSource,UIT
 //						self.navigationController?.popViewController(animated: true)
 //					}
 					EMAlertService.showAlertForUpload(type: .EMAlertUploadSuccess) { index in
+						
 						if (index == 0) {
 							self.navigationController?.popViewController(animated: true)
 						} else {

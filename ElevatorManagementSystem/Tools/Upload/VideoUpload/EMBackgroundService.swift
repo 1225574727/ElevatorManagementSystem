@@ -239,6 +239,17 @@ class EMBackgroundService: NSObject,URLSessionTaskDelegate,URLSessionDataDelegat
 				if let identifer = self.backgroudIdentifier {
 					self.endBackgroundTask(taskID: identifer)
 				}
+				let json = JSON(self.response!)
+				print("服务端返回结果--> \(json)")
+				let status = json["data"]["status"];
+				if status == "3" {
+					
+					self.completeHandler?(.error(NSError(domain: "com.emsystem.compoundFail", code: -1001, userInfo: ["data":"视频合成失败"])))
+					self.model.uploadCount = 0;
+					self.model.status = .EMUploadFailed
+					EMUploadManager.shared.continueTask()
+					return;
+				}
 
 				// 如何获取data中后台返回的信息
 				self.model.status = .EMUploaded

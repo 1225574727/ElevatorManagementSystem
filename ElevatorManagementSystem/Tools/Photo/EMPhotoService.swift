@@ -153,7 +153,8 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		
 		if (info.keys.contains(UIImagePickerController.InfoKey.originalImage)) {
 			
-			let image : UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+			var image : UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+			image = EMPhotoService.fixOrientation(aImage: image)
 //			image = image.compressImage(maxLength: 100*1024)
 			if "camera" == typeAction {
 				// 图片保存相册
@@ -437,6 +438,76 @@ class EMPhotoService: NSObject,UIImagePickerControllerDelegate,UINavigationContr
 		}
 		return degress
 	}
+	
+	/**
+		 照片竖拍  web显示旋转解决:图片大于2M会自动旋转90度
+		*/
+	class func fixOrientation(aImage:UIImage)->UIImage  {
+		if aImage.imageOrientation == .up {
+			return aImage
+		}
+		
+		var transform = CGAffineTransform.identity
+		 
+		switch (aImage.imageOrientation) {
+		case .down,.downMirrored:
+		transform = transform.translatedBy(x: aImage.size.width, y: aImage.size.height)
+		transform = transform.rotated(by: .pi)
+		break;
+		 
+		case .left,.leftMirrored:
+		transform = transform.translatedBy(x: aImage.size.width, y: 0)
+		transform = transform.rotated(by: .pi / 2.0)
+		break;
+			
+		case .right,.rightMirrored:
+			
+		transform = transform.translatedBy(x: 0, y: aImage.size.height)
+		transform = transform.rotated(by: -(.pi / 2.0))
+		break;
+		default:
+		break;
+		}
+		 
+		switch (aImage.imageOrientation) {
+		case .upMirrored,.downMirrored:
+			
+			transform = transform.translatedBy(x: aImage.size.width, y: 0)
+			transform = transform.scaledBy(x: -1, y: 1)
+			
+		break;
+		 
+		case .leftMirrored,.rightMirrored:
+			
+			transform = transform.translatedBy(x: aImage.size.height, y: 0)
+			transform = transform.scaledBy(x: -1, y: 1)
+			
+		break;
+		default:
+		break;
+		}
+
+		let ctx = CGContext(data: nil, width: Int(aImage.size.width), height: Int(aImage.size.height),
+							bitsPerComponent: aImage.cgImage!.bitsPerComponent, bytesPerRow: 0,
+							space: aImage.cgImage!.colorSpace!,
+							bitmapInfo: 1)!
+ 
+		ctx.concatenate(transform)
+		switch (aImage.imageOrientation) {
+		case .left,.leftMirrored,.right,.rightMirrored:
+			
+			ctx.draw(aImage.cgImage!, in: CGRect(x: 0, y: 0, width: aImage.size.height, height: aImage.size.width))
+		break;
+		 
+		default:
+			ctx.draw(aImage.cgImage!, in: CGRect(x: 0, y: 0, width: aImage.size.width, height: aImage.size.height))
+		break;
+		}
+		 
+		let cgimg = ctx.makeImage()!
+		let img = UIImage(cgImage: cgimg)
+		return img;
+}
 	
 	//MARK: HEPhoto Delegate
 	func pickerController(_ picker: UIViewController, didFinishPicking selectedImages: [UIImage],selectedModel:[HEPhotoAsset]) {
